@@ -13,7 +13,8 @@ class ArtistsGridView extends StatefulWidget {
   State<ArtistsGridView> createState() => _ArtistsGridViewState();
 }
 
-class _ArtistsGridViewState extends State<ArtistsGridView> {
+class _ArtistsGridViewState extends State<ArtistsGridView>
+    with AutomaticKeepAliveClientMixin {
   int itemCount = 10;
 
   RefreshController refreshController =
@@ -28,6 +29,8 @@ class _ArtistsGridViewState extends State<ArtistsGridView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return RefreshConfiguration(
       hideFooterWhenNotFull: true,
       footerTriggerDistance: -65,
@@ -118,4 +121,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

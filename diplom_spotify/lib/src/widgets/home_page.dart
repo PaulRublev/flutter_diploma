@@ -43,7 +43,15 @@ class _HomePageState extends State<HomePage>
       body: TabBarView(
         controller: _tabController,
         children: [
-          const ArtistsPage(title: _textArtists),
+          Navigator(
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const ArtistsPage(title: _textArtists);
+                },
+              );
+            },
+          ),
           Container(child: const Text('2')),
           Container(child: const Text('3')),
         ],
