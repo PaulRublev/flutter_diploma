@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/src/widgets/artist_about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -76,29 +77,40 @@ class _ArtistsGridViewState extends State<ArtistsGridView> {
           ),
           itemCount: itemCount,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-              clipBehavior: Clip.antiAlias,
-              height: 120,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: Image.network(
-                      'https://i.postimg.cc/1tf6qqQP/grozny.jpg',
-                      fit: BoxFit.fitWidth,
-                    ),
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const ArtistAboutPage();
+                    },
                   ),
-                  SizedBox(
-                    height: 45,
-                    child: Center(
-                      child: Text(index.toString()),
+                );
+              },
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: Image.network(
+                        'https://i.postimg.cc/1tf6qqQP/grozny.jpg',
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 45,
+                      child: Center(
+                        child: Text(index.toString()),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },

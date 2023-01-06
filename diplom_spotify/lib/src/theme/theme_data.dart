@@ -18,7 +18,12 @@ ThemeData _themeData = ThemeData.from(
 
 ThemeData darkThemeData = _themeData.copyWith(
   brightness: Brightness.dark,
+  primaryColor: _greyMiddle,
+  backgroundColor: _deepBlack,
   appBarTheme: const AppBarTheme(
+    iconTheme: IconThemeData(
+      color: _firmCol,
+    ),
     actionsIconTheme: IconThemeData(
       color: _firmCol,
     ),
