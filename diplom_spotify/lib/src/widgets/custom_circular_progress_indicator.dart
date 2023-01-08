@@ -9,7 +9,7 @@ class CustomCircularProgressIndicator extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
       ),
       child: const CircularProgressIndicator(),
     );

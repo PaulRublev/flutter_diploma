@@ -16,7 +16,6 @@ class ArtistsGridView extends StatefulWidget {
 class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
   int itemCount = 10;
-
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
