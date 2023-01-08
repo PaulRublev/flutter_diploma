@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/src/widgets/bottom_sheet_player.dart';
 import 'package:diplom_spotify/src/widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
   void _getTracks() async {
     isLoading = true;
     setState(() {});
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     tracks.addAll(List.generate(5, (index) {
       return index.toString();
     }).toList());
@@ -96,7 +97,16 @@ class _SliverTracksListState extends State<SliverTracksList> {
                             Icons.play_circle_outline_rounded,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Scaffold.of(context).showBottomSheet(
+                              (context) => const BottomSheetPlayer(),
+                            );
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   backgroundColor: const Color(0x00000000),
+                            //   builder: (context) => const BottomSheetPlayer(),
+                            // );
+                          },
                         ),
                       ),
                     ],

@@ -51,6 +51,12 @@ ThemeData darkThemeData = _themeData.copyWith(
       ),
     ),
   ),
+  sliderTheme: const SliderThemeData(
+      trackHeight: 2,
+      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5),
+      activeTrackColor: _firmCol,
+      inactiveTrackColor: _greyMiddle,
+      thumbColor: _firmCol),
   dialogBackgroundColor: _greyDeep,
   progressIndicatorTheme: const ProgressIndicatorThemeData(color: _firmCol),
 );
