@@ -6,19 +6,22 @@ class ArtistAboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: CustomScrollView(
+    return Material(
+      color: Theme.of(context).backgroundColor,
+      child: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: 250,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Ivan'),
+              title: Text(
+                'Ivan',
+                style: Theme.of(context).textTheme.headline1,
+              ),
               centerTitle: true,
               background: Image.network(
                 'https://i.postimg.cc/1tf6qqQP/grozny.jpg',
-                fit: BoxFit.cover,
+                fit: BoxFit.fitWidth,
               ),
             ),
           ),
@@ -29,12 +32,7 @@ class ArtistAboutPage extends StatelessWidget {
                 "Voluptate tempor sit reprehenderit "
                 "Reprehenderit Lorem aliqua laborum ad.Eu ullamco minim "
                 "occaecat sit magna id esse aliqua.",
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  height: 1.26,
-                ),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
           ),

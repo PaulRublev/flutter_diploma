@@ -10,10 +10,14 @@ class ArtistsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: ArtistsGridView(
-        storageKeyName: title,
+      appBar: AppBar(
+        toolbarHeight: 83,
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.headline1,
+        ),
       ),
+      body: const ArtistsGridView(),
     );
   }
 }

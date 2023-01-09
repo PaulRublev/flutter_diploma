@@ -5,9 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'custom_circular_progress_indicator.dart';
 
 class ArtistsGridView extends StatefulWidget {
-  const ArtistsGridView({super.key, required this.storageKeyName});
-
-  final String storageKeyName;
+  const ArtistsGridView({super.key});
 
   @override
   State<ArtistsGridView> createState() => _ArtistsGridViewState();
@@ -64,7 +62,6 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
         onLoading: _onLoading,
         controller: refreshController,
         child: GridView.builder(
-          key: PageStorageKey(widget.storageKeyName),
           padding: const EdgeInsets.only(
             left: 25,
             right: 25,
@@ -108,7 +105,10 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                     SizedBox(
                       height: 45,
                       child: Center(
-                        child: Text(index.toString()),
+                        child: Text(
+                          index.toString(),
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ),
                     ),
                   ],

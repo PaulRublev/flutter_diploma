@@ -54,7 +54,6 @@ class _SliverTracksListState extends State<SliverTracksList> {
                         'https://i.postimg.cc/1tf6qqQP/grozny.jpg',
                         fit: BoxFit.fill,
                         width: 65,
-                        height: 65,
                       ),
                       const SizedBox(width: 15),
                       Expanded(
@@ -66,24 +65,14 @@ class _SliverTracksListState extends State<SliverTracksList> {
                               e,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                height: 1.12,
-                              ),
+                              style: Theme.of(context).textTheme.subtitle2,
                             ),
                             const SizedBox(height: 5),
                             Text(
                               'data https://i.postimg.cc/1tf6qqQP/grozny.jpg',
                               maxLines: 1,
-                              style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.overline,
                             ),
                           ],
                         ),
@@ -91,21 +80,14 @@ class _SliverTracksListState extends State<SliverTracksList> {
                       Material(
                         child: IconButton(
                           splashRadius: 25,
-                          iconSize: 27.5,
                           padding: const EdgeInsets.all(18),
-                          icon: Icon(
-                            Icons.play_circle_outline_rounded,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+                          icon: const Icon(Icons.play_circle_outline_rounded),
                           onPressed: () {
-                            Scaffold.of(context).showBottomSheet(
-                              (context) => const BottomSheetPlayer(),
+                            showModalBottomSheet(
+                              context: context,
+                              backgroundColor: const Color(0x00000000),
+                              builder: (context) => const BottomSheetPlayer(),
                             );
-                            // showModalBottomSheet(
-                            //   context: context,
-                            //   backgroundColor: const Color(0x00000000),
-                            //   builder: (context) => const BottomSheetPlayer(),
-                            // );
                           },
                         ),
                       ),
@@ -118,17 +100,13 @@ class _SliverTracksListState extends State<SliverTracksList> {
               ? const CustomCircularProgressIndicator()
               : ElevatedButton(
                   onPressed: () => _getTracks(),
-                  child: const SizedBox(
+                  child: SizedBox(
                     height: 50,
                     width: 200,
                     child: Center(
                       child: Text(
                         'Загрузить ещё',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          height: 1.12,
-                        ),
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ),
                   ),

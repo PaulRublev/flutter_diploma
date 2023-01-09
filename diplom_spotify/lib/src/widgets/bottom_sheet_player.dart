@@ -37,7 +37,7 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                   fit: BoxFit.fill,
                 ),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Expanded(
                 child: SizedBox(
                   height: 100,
@@ -46,22 +46,12 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                     children: [
                       Text(
                         'data',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          height: 0,
-                        ),
+                        style: Theme.of(context).textTheme.overline,
                       ),
                       const Spacer(flex: 2),
                       Text(
                         'Title',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          height: 1.12,
-                        ),
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                       const Spacer(flex: 5),
                       ElevatedButton(
@@ -72,12 +62,7 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                           child: Center(
                             child: Text(
                               'В коллекцию',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                height: 1.4,
-                              ),
+                              style: Theme.of(context).textTheme.bodyText1,
                             ),
                           ),
                         ),
@@ -88,14 +73,13 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
               ),
             ],
           ),
-          SizedBox(height: 18),
+          const SizedBox(height: 18),
           Row(
             children: [
               IconButton(
+                visualDensity: VisualDensity.compact,
                 splashRadius: 1,
-                iconSize: 27.5,
-                padding: EdgeInsets.all(1),
-                color: Theme.of(context).colorScheme.secondary,
+                padding: const EdgeInsets.all(1),
                 onPressed: () {},
                 icon: const Icon(Icons.play_circle_outline_rounded),
               ),
@@ -110,7 +94,6 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                         value: sliderValue,
                         max: 180,
                         onChanged: (value) {
-                          print(value.toString());
                           sliderValue = value;
                           setState(() {});
                         },
@@ -118,27 +101,17 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                     ),
                     Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           'data',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
+                          style: Theme.of(context).textTheme.overline,
                         ),
-                        Spacer(flex: 10),
+                        const Spacer(flex: 10),
                         Text(
                           'data',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
+                          style: Theme.of(context).textTheme.overline,
                         ),
-                        Spacer(),
+                        const Spacer(),
                       ],
                     ),
                   ],
