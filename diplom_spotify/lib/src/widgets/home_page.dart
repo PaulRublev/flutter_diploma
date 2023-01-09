@@ -1,4 +1,5 @@
 import 'package:diplom_spotify/src/widgets/artists_page/artists_page.dart';
+import 'package:diplom_spotify/src/widgets/search_page/search_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     _tabController.addListener(() {
+      FocusManager.instance.primaryFocus?.unfocus();
       setState(() {});
     });
     super.initState();
@@ -52,7 +54,15 @@ class _HomePageState extends State<HomePage>
               );
             },
           ),
-          Container(child: const Text('2')),
+          Navigator(
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const SearchPage();
+                },
+              );
+            },
+          ),
           Container(child: const Text('3')),
         ],
       ),
