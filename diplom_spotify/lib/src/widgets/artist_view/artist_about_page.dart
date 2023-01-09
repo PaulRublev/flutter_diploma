@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/src/widgets/sliver_tracks_list.dart';
+import 'package:diplom_spotify/src/widgets/artist_view/sliver_tracks_list.dart';
 import 'package:flutter/material.dart';
 
 class ArtistAboutPage extends StatelessWidget {

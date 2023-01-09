@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/src/widgets/artists_page.dart';
+import 'package:diplom_spotify/src/widgets/artists_page/artists_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

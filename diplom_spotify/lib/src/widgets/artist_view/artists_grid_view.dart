@@ -1,8 +1,8 @@
-import 'package:diplom_spotify/src/widgets/artist_about_page.dart';
+import 'package:diplom_spotify/src/widgets/artist_view/artist_about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'custom_circular_progress_indicator.dart';
+import '../utility_widgets/custom_circular_progress_indicator.dart';
 
 class ArtistsGridView extends StatefulWidget {
   const ArtistsGridView({super.key});

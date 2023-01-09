@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'artists_grid_view.dart';
+import '../artist_view/artists_grid_view.dart';
 
 class ArtistsPage extends StatelessWidget {
   final String title;
