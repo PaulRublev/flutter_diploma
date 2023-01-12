@@ -1,13 +1,19 @@
+import 'package:diplom_spotify/src/utils/track.dart';
 import 'package:flutter/material.dart';
+import 'package:diplom_spotify/src/utils/utils.dart' as global;
 
 class BottomSheetPlayer extends StatefulWidget {
-  const BottomSheetPlayer({super.key});
+  final Track track;
+
+  const BottomSheetPlayer({super.key, required this.track});
 
   @override
   State<BottomSheetPlayer> createState() => _BottomSheetPlayerState();
 }
 
 class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
+  static const collectionButtonText = 'Загрузить ещё';
+
   double sliderValue = 0;
 
   @override
@@ -33,7 +39,16 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Image.network(
-                  'https://i.postimg.cc/1tf6qqQP/grozny.jpg',
+                  "${global.urlPrefix}${global.pathAlbumsImageserver}${widget.track.albumId}"
+                  "${global.pathImage}${global.album170x170}${global.extension}",
+                  frameBuilder: (_, child, frame, __) {
+                    return frame == null ? const SizedBox() : child;
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Center(child: Text('NO IMAGE')),
+                    );
+                  },
                   fit: BoxFit.fill,
                 ),
               ),
@@ -45,12 +60,12 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'data',
+                        widget.track.albumName ?? '',
                         style: Theme.of(context).textTheme.overline,
                       ),
                       const Spacer(flex: 2),
                       Text(
-                        'Title',
+                        widget.track.name ?? '',
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                       const Spacer(flex: 5),
@@ -61,7 +76,7 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                           width: 120,
                           child: Center(
                             child: Text(
-                              'В коллекцию',
+                              collectionButtonText,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                           ),

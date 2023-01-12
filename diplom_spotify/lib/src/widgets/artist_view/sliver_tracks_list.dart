@@ -112,7 +112,9 @@ class _SliverTracksListState extends State<SliverTracksList> {
                             showModalBottomSheet(
                               context: context,
                               backgroundColor: const Color(0x00000000),
-                              builder: (context) => const BottomSheetPlayer(),
+                              builder: (context) => BottomSheetPlayer(
+                                track: track,
+                              ),
                             );
                           },
                         ),
