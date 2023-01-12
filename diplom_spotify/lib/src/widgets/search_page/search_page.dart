@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../artist_view/artists_grid_view.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String title;
+
+  const SearchPage({super.key, required this.title});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -29,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
                 filled: true,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 label: Text(
-                  'Поиск',
+                  widget.title,
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 prefixIcon: Icon(

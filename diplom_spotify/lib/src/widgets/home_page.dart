@@ -1,4 +1,5 @@
 import 'package:diplom_spotify/src/widgets/artists_page/artists_page.dart';
+import 'package:diplom_spotify/src/widgets/collection_page/collection_page.dart';
 import 'package:diplom_spotify/src/widgets/search_page/search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 2);
     _tabController.addListener(() {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {});
@@ -58,12 +59,20 @@ class _HomePageState extends State<HomePage>
             onGenerateRoute: (settings) {
               return MaterialPageRoute(
                 builder: (context) {
-                  return const SearchPage();
+                  return const SearchPage(title: _textSearch);
                 },
               );
             },
           ),
-          Container(child: const Text('3')),
+          Navigator(
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const CollectionPage(title: _textCollection);
+                },
+              );
+            },
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
