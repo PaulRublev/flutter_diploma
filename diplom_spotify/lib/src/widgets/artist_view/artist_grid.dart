@@ -13,10 +13,6 @@ class ArtistGrid extends StatefulWidget {
 }
 
 class _ArtistGridState extends State<ArtistGrid> {
-  static const pathImageserver = '/imageserver/v2/artists/';
-  static const pathImage = '/images/';
-  static const extension = '.jpg';
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,8 +20,7 @@ class _ArtistGridState extends State<ArtistGrid> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              //TODO params
-              return const ArtistAboutPage();
+              return ArtistAboutPage(artist: widget.artist);
             },
           ),
         );
@@ -42,8 +37,8 @@ class _ArtistGridState extends State<ArtistGrid> {
           children: [
             Expanded(
               child: Image.network(
-                "${global.urlPrefix}$pathImageserver${widget.artist.id}"
-                "$pathImage${global.artist150x100}$extension",
+                "${global.urlPrefix}${global.pathImageserver}${widget.artist.id}"
+                "${global.pathImage}${global.artist150x100}${global.extension}",
                 fit: BoxFit.fitWidth,
               ),
             ),

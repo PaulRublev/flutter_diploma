@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 
 const urlPrefix = 'https://api.napster.com';
 const apiKey = 'apikey=ZThhYzkwNDItODczNC00MWZlLTgxODUtZWExNDQ2YTYyNGY0';
+const pathImageserver = '/imageserver/v2/artists/';
+const pathImage = '/images/';
+const extension = '.jpg';
 const artist70x47 = '70x47';
 const artist150x100 = '150x100';
 const artist356x237 = '356x237';
