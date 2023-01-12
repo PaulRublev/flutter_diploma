@@ -37,7 +37,7 @@ class _ArtistGridState extends State<ArtistGrid> {
           children: [
             Expanded(
               child: Image.network(
-                "${global.urlPrefix}${global.pathImageserver}${widget.artist.id}"
+                "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
                 "${global.pathImage}${global.artist150x100}${global.extension}",
                 fit: BoxFit.fitWidth,
               ),

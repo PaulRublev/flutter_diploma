@@ -34,12 +34,12 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
               ),
               centerTitle: true,
               background: Image.network(
-                "${global.urlPrefix}${global.pathImageserver}${widget.artist.id}"
+                "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
                 "${global.pathImage}${global.artist356x237}${global.extension}",
                 frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                   return frame == null
                       ? Image.network(
-                          "${global.urlPrefix}${global.pathImageserver}${widget.artist.id}"
+                          "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
                           "${global.pathImage}${global.artist150x100}${global.extension}",
                           fit: BoxFit.fitWidth,
                         )
@@ -58,7 +58,9 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
               ),
             ),
           ),
-          const SliverTracksList(),
+          SliverTracksList(
+            artistId: widget.artist.id ?? '',
+          ),
         ],
       ),
     );

@@ -15,10 +15,6 @@ class ArtistsGridView extends StatefulWidget {
 
 class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
-  static const artistsTop = '/v2.2/artists/top';
-  static const limit = 'limit=10';
-  static const textArtists = 'artists';
-
   int _offset = 0;
   late Future<bool> _getTop;
   final List<Artist> artists = [];
@@ -29,9 +25,9 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
     final offset = _offset == 0 ? '' : '&offset=$_offset';
     _offset += 10;
     final url = Uri.parse(
-        '${global.urlPrefix}$artistsTop?${global.apiKey}&$limit$offset');
+        '${global.urlPrefix}${global.artistsTop}?${global.apiKey}&${global.artistsLimit}$offset');
     var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
-    List<dynamic> data = rawData[textArtists];
+    List<dynamic> data = rawData[global.textArtists];
     artists.addAll(data.map((artist) => Artist.fromJson(artist)));
     refreshController.loadComplete();
     return true;

@@ -1,34 +1,44 @@
+import 'package:diplom_spotify/src/utils/track.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/bottom_sheet_player.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:diplom_spotify/src/utils/utils.dart' as global;
 
 class SliverTracksList extends StatefulWidget {
-  const SliverTracksList({super.key});
+  final String artistId;
+
+  const SliverTracksList({super.key, required this.artistId});
 
   @override
   State<SliverTracksList> createState() => _SliverTracksListState();
 }
 
 class _SliverTracksListState extends State<SliverTracksList> {
+  static const loadButtonText = 'Загрузить ещё';
+
   bool isLoading = true;
+  int _offset = 0;
+  final List<Track> tracks = [];
 
-  final List<String> tracks = [];
-
-  void _getTracks() async {
+  Future<bool> _getTracksTop() async {
     isLoading = true;
     setState(() {});
-    await Future.delayed(const Duration(seconds: 1));
-    tracks.addAll(List.generate(5, (index) {
-      return index.toString();
-    }).toList());
+    final offset = _offset == 0 ? '' : '&offset=$_offset';
+    _offset += 5;
+    final url = Uri.parse(
+        '${global.urlPrefix}${global.artists}${widget.artistId}${global.tracksTop}?${global.apiKey}&${global.tracksLimit}$offset');
+    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
+    List<dynamic> data = rawData[global.textTracks];
+    tracks.addAll(data.map((artist) => Track.fromJson(artist)));
     isLoading = false;
     setState(() {});
+    return true;
   }
 
   @override
   void initState() {
     super.initState();
-    _getTracks();
+    _getTracksTop();
   }
 
   @override
@@ -36,7 +46,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
     return SliverList(
       delegate: SliverChildListDelegate([
         ...tracks
-            .map((e) => Container(
+            .map((track) => Container(
                   height: 65,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
@@ -51,8 +61,24 @@ class _SliverTracksListState extends State<SliverTracksList> {
                   child: Row(
                     children: [
                       Image.network(
-                        'https://i.postimg.cc/1tf6qqQP/grozny.jpg',
-                        fit: BoxFit.fill,
+                        "${global.urlPrefix}${global.pathAlbumsImageserver}${track.albumId}"
+                        "${global.pathImage}${global.album70x70}${global.extension}",
+                        frameBuilder: (_, child, frame, __) {
+                          return frame == null
+                              ? const SizedBox(
+                                  height: 65,
+                                  width: 65,
+                                )
+                              : child;
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return const SizedBox(
+                            height: 65,
+                            width: 65,
+                            child: Center(child: Text('NO IMAGE')),
+                          );
+                        },
+                        fit: BoxFit.contain,
                         width: 65,
                       ),
                       const SizedBox(width: 15),
@@ -62,14 +88,14 @@ class _SliverTracksListState extends State<SliverTracksList> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              e,
+                              track.name ?? '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              'data https://i.postimg.cc/1tf6qqQP/grozny.jpg',
+                              track.albumName ?? '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.overline,
@@ -99,13 +125,13 @@ class _SliverTracksListState extends State<SliverTracksList> {
           child: isLoading
               ? const CustomCircularProgressIndicator()
               : ElevatedButton(
-                  onPressed: () => _getTracks(),
+                  onPressed: () => _getTracksTop(),
                   child: SizedBox(
                     height: 50,
                     width: 200,
                     child: Center(
                       child: Text(
-                        'Загрузить ещё',
+                        loadButtonText,
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ),
