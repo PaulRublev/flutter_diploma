@@ -72,10 +72,11 @@ class _SliverTracksListState extends State<SliverTracksList> {
                               : child;
                         },
                         errorBuilder: (context, error, stackTrace) {
-                          return const SizedBox(
+                          return Container(
                             height: 65,
                             width: 65,
-                            child: Center(child: Text('NO IMAGE')),
+                            color: Theme.of(context).colorScheme.primary,
+                            child: const Center(child: Text('NO IMAGE')),
                           );
                         },
                         fit: BoxFit.contain,

@@ -12,7 +12,7 @@ class BottomSheetPlayer extends StatefulWidget {
 }
 
 class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
-  static const collectionButtonText = 'Загрузить ещё';
+  static const collectionButtonText = 'В коллекцию';
 
   double sliderValue = 0;
 
@@ -37,6 +37,7 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                 width: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
+                  color: Theme.of(context).colorScheme.background,
                 ),
                 child: Image.network(
                   "${global.urlPrefix}${global.pathAlbumsImageserver}${widget.track.albumId}"
@@ -46,7 +47,11 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
-                      child: Center(child: Text('NO IMAGE')),
+                      child: Center(
+                          child: Text(
+                        'NO IMAGE',
+                        style: TextStyle(color: Colors.red),
+                      )),
                     );
                   },
                   fit: BoxFit.fill,
