@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.diplom_spotify">
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="diplom_spotify"
         android:name="${applicationName}"

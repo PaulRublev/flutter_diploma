@@ -1,20 +1,14 @@
 import 'package:diplom_spotify/src/utils/track.dart';
+import 'package:diplom_spotify/src/widgets/utility_widgets/simple_player.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
 
-class BottomSheetPlayer extends StatefulWidget {
+class BottomSheetPlayer extends StatelessWidget {
+  static const collectionButtonText = 'В коллекцию';
+
   final Track track;
 
   const BottomSheetPlayer({super.key, required this.track});
-
-  @override
-  State<BottomSheetPlayer> createState() => _BottomSheetPlayerState();
-}
-
-class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
-  static const collectionButtonText = 'В коллекцию';
-
-  double sliderValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +34,7 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                   color: Theme.of(context).colorScheme.background,
                 ),
                 child: Image.network(
-                  "${global.urlPrefix}${global.pathAlbumsImageserver}${widget.track.albumId}"
+                  "${global.urlPrefix}${global.pathAlbumsImageserver}${track.albumId}"
                   "${global.pathImage}${global.album170x170}${global.extension}",
                   frameBuilder: (_, child, frame, __) {
                     return frame == null ? const SizedBox() : child;
@@ -65,12 +59,12 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.track.albumName ?? '',
+                        track.albumName ?? '',
                         style: Theme.of(context).textTheme.overline,
                       ),
                       const Spacer(flex: 2),
                       Text(
-                        widget.track.name ?? '',
+                        track.name ?? '',
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                       const Spacer(flex: 5),
@@ -94,51 +88,7 @@ class _BottomSheetPlayerState extends State<BottomSheetPlayer> {
             ],
           ),
           const SizedBox(height: 18),
-          Row(
-            children: [
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                splashRadius: 1,
-                padding: const EdgeInsets.all(1),
-                onPressed: () {},
-                icon: const Icon(Icons.play_circle_outline_rounded),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                      child: Slider(
-                        divisions: 180,
-                        value: sliderValue,
-                        max: 180,
-                        onChanged: (value) {
-                          sliderValue = value;
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const Spacer(),
-                        Text(
-                          'data',
-                          style: Theme.of(context).textTheme.overline,
-                        ),
-                        const Spacer(flex: 10),
-                        Text(
-                          'data',
-                          style: Theme.of(context).textTheme.overline,
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          SimplePlayer(track: track),
         ],
       ),
     );
