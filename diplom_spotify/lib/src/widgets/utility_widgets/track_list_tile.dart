@@ -53,14 +53,14 @@ class TrackListTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  track.name ?? '',
+                  track.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  track.albumName ?? '',
+                  track.albumName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.overline,

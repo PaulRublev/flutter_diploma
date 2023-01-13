@@ -16,7 +16,7 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
   @override
   Widget build(BuildContext context) {
     String artistAbout = '';
-    for (var paragraph in widget.artist.blurbs!) {
+    for (var paragraph in widget.artist.blurbs) {
       artistAbout += '$paragraph\n\n';
     }
 
@@ -29,7 +29,7 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                widget.artist.name ?? '',
+                widget.artist.name,
                 style: Theme.of(context).textTheme.headline1,
               ),
               centerTitle: true,
@@ -71,7 +71,7 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
             ),
           ),
           SliverTracksList(
-            artistId: widget.artist.id ?? '',
+            artistId: widget.artist.id,
           ),
         ],
       ),

@@ -20,7 +20,7 @@ class _SimplePlayerState extends State<SimplePlayer> {
     super.initState();
     _audioPlayer = AudioPlayer();
     _audioPlayer.setAudioSource(AudioSource.uri(
-      Uri.parse(widget.track.previewURL ?? ''),
+      Uri.parse(widget.track.previewURL),
     ));
   }
 

@@ -60,12 +60,12 @@ class BottomSheetPlayer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        track.albumName ?? '',
+                        track.albumName,
                         style: Theme.of(context).textTheme.overline,
                       ),
                       const Spacer(flex: 2),
                       Text(
-                        track.name ?? '',
+                        track.name,
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                       const Spacer(flex: 5),

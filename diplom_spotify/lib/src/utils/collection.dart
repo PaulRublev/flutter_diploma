@@ -5,7 +5,7 @@ class Collection with ChangeNotifier {
   final Map<String, Track> tracks = {};
 
   void add(Track track) {
-    tracks.addAll({track.id ?? '': track});
+    tracks.addAll({track.id: track});
     notifyListeners();
   }
 

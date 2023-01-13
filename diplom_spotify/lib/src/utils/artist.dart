@@ -1,19 +1,19 @@
 class Artist {
-  final String? id;
-  final String? name;
-  final List<dynamic>? blurbs;
+  final String id;
+  final String name;
+  final List<dynamic> blurbs;
 
   Artist({
-    this.name,
-    this.blurbs,
-    this.id,
+    required this.name,
+    required this.blurbs,
+    required this.id,
   });
 
   Artist.fromJson(Map<String, dynamic> json)
       : this(
-          id: json['id'],
-          name: json['name'],
-          blurbs: json['blurbs'],
+          id: json['id'] ?? '',
+          name: json['name'] ?? '',
+          blurbs: json['blurbs'] ?? [],
         );
 
   @override

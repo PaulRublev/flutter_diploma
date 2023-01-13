@@ -52,7 +52,7 @@ class _ArtistGridState extends State<ArtistGrid> {
               height: 45,
               child: Center(
                 child: Text(
-                  widget.artist.name ?? '',
+                  widget.artist.name,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
