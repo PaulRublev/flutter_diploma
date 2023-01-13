@@ -41,11 +41,10 @@ class BottomSheetPlayer extends StatelessWidget {
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
-                      child: Center(
-                          child: Text(
+                      child: Text(
                         'NO IMAGE',
                         style: TextStyle(color: Colors.red),
-                      )),
+                      ),
                     );
                   },
                   fit: BoxFit.fill,
