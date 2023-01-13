@@ -7,7 +7,9 @@ import 'package:diplom_spotify/src/utils/utils.dart' as global;
 import '../utility_widgets/custom_circular_progress_indicator.dart';
 
 class ArtistsGridView extends StatefulWidget {
-  const ArtistsGridView({super.key});
+  final String? search;
+
+  const ArtistsGridView({super.key, this.search});
 
   @override
   State<ArtistsGridView> createState() => _ArtistsGridViewState();
@@ -15,18 +17,33 @@ class ArtistsGridView extends StatefulWidget {
 
 class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
+  static const searchText = 'searchText';
+
   int _offset = 0;
-  late Future<bool> _getTop;
+  late Future<bool> _request;
   final List<Artist> artists = [];
+  final String urlTop = "${global.urlPrefix}${global.artistsTop}?"
+      "${global.apiKey}&${global.artistsLimit}";
+  final String urlSearch = "${global.urlPrefix}${global.artistsSearch}?"
+      "${global.apiKey}&${global.queryText}=$searchText&${global.searchLimit}";
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
-  Future<bool> _getArtistsTop() async {
+  Future<bool> _getArtists() async {
     final offset = _offset == 0 ? '' : '&offset=$_offset';
     _offset += 10;
-    final url = Uri.parse(
-        '${global.urlPrefix}${global.artistsTop}?${global.apiKey}&${global.artistsLimit}$offset');
+    var uri = '';
+    if (widget.search != null) {
+      uri = urlSearch.replaceFirst(searchText, widget.search ?? '');
+    } else {
+      uri = urlTop;
+    }
+    final url = Uri.parse('$uri$offset');
     var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
+    if (widget.search != null) {
+      rawData =
+          rawData[global.searchText][global.dataText] as Map<String, dynamic>;
+    }
     List<dynamic> data = rawData[global.textArtists];
     artists.addAll(data.map((artist) => Artist.fromJson(artist)));
     refreshController.loadComplete();
@@ -36,7 +53,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   @override
   void initState() {
     super.initState();
-    _getTop = _getArtistsTop();
+    _request = _getArtists();
   }
 
   @override
@@ -44,7 +61,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
     super.build(context);
 
     return FutureBuilder(
-        future: _getTop,
+        future: _request,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -91,7 +108,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                     enablePullUp: true,
                     enablePullDown: false,
                     onLoading: () async {
-                      await _getArtistsTop();
+                      await _getArtists();
                       if (mounted) setState(() {});
                     },
                     controller: refreshController,

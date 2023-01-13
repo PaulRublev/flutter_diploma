@@ -1,5 +1,5 @@
 import 'package:diplom_spotify/src/utils/track.dart';
-import 'package:diplom_spotify/src/widgets/utility_widgets/bottom_sheet_player.dart';
+import 'package:diplom_spotify/src/widgets/player/bottom_sheet_player.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;

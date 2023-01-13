@@ -1,5 +1,5 @@
 import 'package:diplom_spotify/src/utils/track.dart';
-import 'package:diplom_spotify/src/widgets/utility_widgets/simple_player.dart';
+import 'package:diplom_spotify/src/widgets/player/simple_player.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
 

@@ -13,6 +13,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController editingController = TextEditingController();
+  // var search = '';
+  // final ValueNotifier<String> searchNotifier = ValueNotifier('');
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,10 @@ class _SearchPageState extends State<SearchPage> {
               style: Theme.of(context).textTheme.headline2,
               autocorrect: false,
               onEditingComplete: () {
+                setState(() {
+                  // search = editingController.value.text;
+                  // searchNotifier.value = search;
+                });
                 FocusManager.instance.primaryFocus?.unfocus();
               },
               cursorColor: Theme.of(context).colorScheme.onBackground,
@@ -54,7 +60,12 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
-      body: const ArtistsGridView(),
+      body: editingController.value.text != ''
+          ? ArtistsGridView(
+              key: UniqueKey(),
+              search: editingController.value.text,
+            )
+          : const SizedBox(),
     );
   }
 }
