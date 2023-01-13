@@ -14,7 +14,9 @@ class TrackListTile extends StatelessWidget {
       height: 65,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
+        color: track.date == 0
+            ? Theme.of(context).colorScheme.background
+            : Theme.of(context).dialogBackgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
       margin: const EdgeInsets.only(
@@ -40,7 +42,7 @@ class TrackListTile extends StatelessWidget {
                 height: 65,
                 width: 65,
                 color: Theme.of(context).colorScheme.primary,
-                child: const Center(child: Text('NO IMAGE')),
+                child: const Center(child: Text(global.noImageText)),
               );
             },
             fit: BoxFit.contain,
@@ -69,6 +71,9 @@ class TrackListTile extends StatelessWidget {
             ),
           ),
           Material(
+            color: track.date == 0
+                ? Theme.of(context).colorScheme.background
+                : Theme.of(context).dialogBackgroundColor,
             child: IconButton(
               splashRadius: 25,
               padding: const EdgeInsets.all(18),

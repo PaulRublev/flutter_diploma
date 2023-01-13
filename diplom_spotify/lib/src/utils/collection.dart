@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class Collection with ChangeNotifier {
   final Map<String, Track> tracks = {};
+  bool isAscending = false;
 
   void add(Track track) {
     tracks.addAll({track.id: track});
@@ -11,6 +12,11 @@ class Collection with ChangeNotifier {
 
   void remove(String trackId) {
     tracks.remove(trackId);
+    notifyListeners();
+  }
+
+  void changeSortDirection() {
+    isAscending = !isAscending;
     notifyListeners();
   }
 }

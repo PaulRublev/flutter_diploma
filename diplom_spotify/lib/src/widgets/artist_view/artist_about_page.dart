@@ -44,7 +44,8 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               color: Theme.of(context).colorScheme.primary,
-                              child: const Center(child: Text('NO IMAGE')),
+                              child:
+                                  const Center(child: Text(global.noImageText)),
                             );
                           },
                           fit: BoxFit.fitWidth,
@@ -54,7 +55,7 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: Theme.of(context).colorScheme.primary,
-                    child: const Center(child: Text('NO IMAGE')),
+                    child: const Center(child: Text(global.noImageText)),
                   );
                 },
                 fit: BoxFit.fitWidth,

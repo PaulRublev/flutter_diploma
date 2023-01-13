@@ -44,7 +44,7 @@ class BottomSheetPlayer extends StatelessWidget {
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
                       child: Text(
-                        'NO IMAGE',
+                        global.noImageText,
                         style: TextStyle(color: Colors.red),
                       ),
                     );
@@ -58,37 +58,53 @@ class BottomSheetPlayer extends StatelessWidget {
                   height: 100,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        track.albumName,
-                        style: Theme.of(context).textTheme.overline,
+                      SizedBox(
+                        height: 30,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              track.albumName,
+                              style: Theme.of(context).textTheme.overline,
+                            ),
+                            const Spacer(),
+                            Text(
+                              track.name,
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                          ],
+                        ),
                       ),
-                      const Spacer(flex: 2),
-                      Text(
-                        track.name,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                      const Spacer(flex: 5),
-                      Consumer<Collection>(builder: (context, value, _) {
-                        final isInCollection =
-                            value.tracks.containsKey(track.id);
-                        return isInCollection
-                            ? const SizedBox(height: 48)
-                            : ElevatedButton(
-                                onPressed: () => value.add(track),
-                                child: SizedBox(
-                                  height: 30,
-                                  width: 120,
-                                  child: Center(
-                                    child: Text(
-                                      collectionButtonText,
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
+                      const Spacer(),
+                      Consumer<Collection>(
+                        builder: (context, value, _) {
+                          final isInCollection =
+                              value.tracks.containsKey(track.id);
+                          return isInCollection
+                              ? const SizedBox(height: 48)
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    track.date =
+                                        DateTime.now().millisecondsSinceEpoch;
+                                    value.add(track);
+                                  },
+                                  child: SizedBox(
+                                    height: 30,
+                                    width: 120,
+                                    child: Center(
+                                      child: Text(
+                                        collectionButtonText,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                      }),
+                                );
+                        },
+                      ),
                     ],
                   ),
                 ),

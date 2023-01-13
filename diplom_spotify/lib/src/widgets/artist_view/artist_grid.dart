@@ -42,7 +42,7 @@ class _ArtistGridState extends State<ArtistGrid> {
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: Theme.of(context).colorScheme.primary,
-                    child: const Center(child: Text('NO IMAGE')),
+                    child: const Center(child: Text(global.noImageText)),
                   );
                 },
                 fit: BoxFit.fitWidth,

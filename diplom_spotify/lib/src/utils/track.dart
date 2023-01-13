@@ -4,7 +4,7 @@ class Track {
   final String albumName;
   final String albumId;
   final String previewURL;
-  String date = '';
+  int date = 0;
 
   Track({
     required this.name,

@@ -28,6 +28,7 @@ const album170x170 = '170x170';
 const album200x200 = '200x200';
 const album300x300 = '300x300';
 const album500x500 = '500x500';
+const noImageText = 'NO IMAGE';
 
 dynamic httpGetAndDecode(Uri uri) async {
   final response = await http.get(uri);
