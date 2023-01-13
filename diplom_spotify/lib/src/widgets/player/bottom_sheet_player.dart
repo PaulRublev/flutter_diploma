@@ -1,7 +1,9 @@
+import 'package:diplom_spotify/src/utils/collection.dart';
 import 'package:diplom_spotify/src/utils/track.dart';
 import 'package:diplom_spotify/src/widgets/player/simple_player.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
+import 'package:provider/provider.dart';
 
 class BottomSheetPlayer extends StatelessWidget {
   static const collectionButtonText = 'В коллекцию';
@@ -67,19 +69,26 @@ class BottomSheetPlayer extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                       const Spacer(flex: 5),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: SizedBox(
-                          height: 30,
-                          width: 120,
-                          child: Center(
-                            child: Text(
-                              collectionButtonText,
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Consumer<Collection>(builder: (context, value, _) {
+                        final isInCollection =
+                            value.tracks.containsKey(track.id);
+                        return isInCollection
+                            ? const SizedBox(height: 48)
+                            : ElevatedButton(
+                                onPressed: () => value.add(track),
+                                child: SizedBox(
+                                  height: 30,
+                                  width: 120,
+                                  child: Center(
+                                    child: Text(
+                                      collectionButtonText,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                  ),
+                                ),
+                              );
+                      }),
                     ],
                   ),
                 ),
