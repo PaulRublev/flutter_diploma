@@ -39,13 +39,13 @@ class _ArtistGridState extends State<ArtistGrid> {
               child: Image.network(
                 "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
                 "${global.pathImage}${global.artist150x100}${global.extension}",
+                fit: BoxFit.fitWidth,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: Theme.of(context).colorScheme.primary,
                     child: const Center(child: Text(global.noImageText)),
                   );
                 },
-                fit: BoxFit.fitWidth,
               ),
             ),
             SizedBox(

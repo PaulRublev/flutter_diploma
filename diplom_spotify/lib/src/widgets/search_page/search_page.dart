@@ -1,6 +1,5 @@
+import 'package:diplom_spotify/src/widgets/artist_view/artists_grid_view.dart';
 import 'package:flutter/material.dart';
-
-import '../artist_view/artists_grid_view.dart';
 
 class SearchPage extends StatefulWidget {
   final String title;
@@ -60,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
               key: UniqueKey(),
               search: editingController.value.text,
             )
-          : const SizedBox(),
+          : Container(),
     );
   }
 }

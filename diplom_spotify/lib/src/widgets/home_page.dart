@@ -18,15 +18,9 @@ class _HomePageState extends State<HomePage>
   static const String _textSearch = 'Поиск';
   static const String _textCollection = 'Коллекция';
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _tabController.index = index;
-    });
-  }
-
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 2);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     _tabController.addListener(() {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {});
@@ -44,6 +38,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
           Navigator(
@@ -94,5 +89,11 @@ class _HomePageState extends State<HomePage>
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _tabController.index = index;
+    });
   }
 }

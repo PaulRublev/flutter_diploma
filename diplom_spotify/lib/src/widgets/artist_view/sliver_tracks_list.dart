@@ -20,21 +20,6 @@ class _SliverTracksListState extends State<SliverTracksList> {
   int _offset = 0;
   final List<Track> tracks = [];
 
-  Future<bool> _getTracksTop() async {
-    isLoading = true;
-    setState(() {});
-    final offset = _offset == 0 ? '' : '&offset=$_offset';
-    _offset += 5;
-    final url = Uri.parse(
-        '${global.urlPrefix}${global.artists}${widget.artistId}${global.tracksTop}?${global.apiKey}&${global.tracksLimit}$offset');
-    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
-    List<dynamic> data = rawData[global.textTracks];
-    tracks.addAll(data.map((artist) => Track.fromJson(artist)));
-    isLoading = false;
-    setState(() {});
-    return true;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -66,5 +51,20 @@ class _SliverTracksListState extends State<SliverTracksList> {
         const SizedBox(height: 60),
       ]),
     );
+  }
+
+  Future<bool> _getTracksTop() async {
+    isLoading = true;
+    setState(() {});
+    final offset = _offset == 0 ? '' : '&offset=$_offset';
+    _offset += 5;
+    final url = Uri.parse(
+        '${global.urlPrefix}${global.artists}${widget.artistId}${global.tracksTop}?${global.apiKey}&${global.tracksLimit}$offset');
+    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
+    List<dynamic> data = rawData[global.textTracks];
+    tracks.addAll(data.map((artist) => Track.fromJson(artist)));
+    isLoading = false;
+    setState(() {});
+    return true;
   }
 }

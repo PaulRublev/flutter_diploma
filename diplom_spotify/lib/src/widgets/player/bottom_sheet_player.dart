@@ -39,7 +39,7 @@ class BottomSheetPlayer extends StatelessWidget {
                   "${global.urlPrefix}${global.pathAlbumsImageserver}${track.albumId}"
                   "${global.pathImage}${global.album170x170}${global.extension}",
                   frameBuilder: (_, child, frame, __) {
-                    return frame == null ? const SizedBox() : child;
+                    return frame == null ? Container() : child;
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
@@ -67,11 +67,13 @@ class BottomSheetPlayer extends StatelessWidget {
                           children: [
                             Text(
                               track.albumName,
+                              maxLines: 1,
                               style: Theme.of(context).textTheme.overline,
                             ),
                             const Spacer(),
                             Text(
                               track.name,
+                              maxLines: 1,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ],

@@ -13,13 +13,18 @@ class ArtistAboutPage extends StatefulWidget {
 }
 
 class _ArtistAboutPageState extends State<ArtistAboutPage> {
+  late String artistAbout;
+
   @override
-  Widget build(BuildContext context) {
-    String artistAbout = '';
+  void initState() {
+    super.initState();
     for (var paragraph in widget.artist.blurbs) {
       artistAbout += '$paragraph\n\n';
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).backgroundColor,
       child: CustomScrollView(
@@ -36,11 +41,13 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
               background: Image.network(
                 "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
                 "${global.pathImage}${global.artist356x237}${global.extension}",
+                fit: BoxFit.fitWidth,
                 frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                   return frame == null
                       ? Image.network(
                           "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
                           "${global.pathImage}${global.artist150x100}${global.extension}",
+                          fit: BoxFit.fitWidth,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               color: Theme.of(context).colorScheme.primary,
@@ -48,7 +55,6 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
                                   const Center(child: Text(global.noImageText)),
                             );
                           },
-                          fit: BoxFit.fitWidth,
                         )
                       : child;
                 },
@@ -58,7 +64,6 @@ class _ArtistAboutPageState extends State<ArtistAboutPage> {
                     child: const Center(child: Text(global.noImageText)),
                   );
                 },
-                fit: BoxFit.fitWidth,
               ),
             ),
           ),

@@ -1,10 +1,9 @@
 import 'package:diplom_spotify/src/widgets/artist_view/artist_grid.dart';
+import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:diplom_spotify/src/utils/artist.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
-
-import '../utility_widgets/custom_circular_progress_indicator.dart';
 
 class ArtistsGridView extends StatefulWidget {
   final String? search;
@@ -28,27 +27,6 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
       "${global.apiKey}&${global.queryText}=$searchText&${global.searchLimit}";
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
-
-  Future<bool> _getArtists() async {
-    final offset = _offset == 0 ? '' : '&offset=$_offset';
-    _offset += 10;
-    var uri = '';
-    if (widget.search != null) {
-      uri = urlSearch.replaceFirst(searchText, widget.search ?? '');
-    } else {
-      uri = urlTop;
-    }
-    final url = Uri.parse('$uri$offset');
-    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
-    if (widget.search != null) {
-      rawData =
-          rawData[global.searchText][global.dataText] as Map<String, dynamic>;
-    }
-    List<dynamic> data = rawData[global.textArtists];
-    artists.addAll(data.map((artist) => Artist.fromJson(artist)));
-    refreshController.loadComplete();
-    return true;
-  }
 
   @override
   void initState() {
@@ -143,4 +121,25 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
 
   @override
   bool get wantKeepAlive => true;
+
+  Future<bool> _getArtists() async {
+    final offset = _offset == 0 ? '' : '&offset=$_offset';
+    _offset += 10;
+    var uri = '';
+    if (widget.search != null) {
+      uri = urlSearch.replaceFirst(searchText, widget.search ?? '');
+    } else {
+      uri = urlTop;
+    }
+    final url = Uri.parse('$uri$offset');
+    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
+    if (widget.search != null) {
+      rawData =
+          rawData[global.searchText][global.dataText] as Map<String, dynamic>;
+    }
+    List<dynamic> data = rawData[global.textArtists];
+    artists.addAll(data.map((artist) => Artist.fromJson(artist)));
+    refreshController.loadComplete();
+    return true;
+  }
 }
