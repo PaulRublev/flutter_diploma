@@ -13,7 +13,7 @@ class ArtistAboutPage extends StatefulWidget {
 }
 
 class _ArtistAboutPageState extends State<ArtistAboutPage> {
-  late String artistAbout;
+  String artistAbout = '';
 
   @override
   void initState() {

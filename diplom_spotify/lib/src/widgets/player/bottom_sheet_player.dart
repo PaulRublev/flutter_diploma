@@ -61,7 +61,7 @@ class BottomSheetPlayer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 35,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -85,7 +85,7 @@ class BottomSheetPlayer extends StatelessWidget {
                           final isInCollection =
                               value.tracks.containsKey(track.id);
                           return isInCollection
-                              ? const SizedBox(height: 48)
+                              ? Container()
                               : ElevatedButton(
                                   onPressed: () {
                                     track.date =

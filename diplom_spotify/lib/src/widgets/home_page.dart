@@ -20,7 +20,12 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: 0,
+      animationDuration: const Duration(milliseconds: 1),
+    );
     _tabController.addListener(() {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {});

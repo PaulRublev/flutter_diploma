@@ -82,6 +82,7 @@ class TrackListTile extends StatelessWidget {
                 showModalBottomSheet(
                   context: context,
                   backgroundColor: const Color(0x00000000),
+                  useRootNavigator: true,
                   builder: (context) => BottomSheetPlayer(
                     track: track,
                   ),
