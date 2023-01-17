@@ -1,9 +1,8 @@
-import 'package:diplom_spotify/src/utils/collection.dart';
-import 'package:diplom_spotify/src/utils/track.dart';
 import 'package:diplom_spotify/src/widgets/player/simple_player.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
-import 'package:provider/provider.dart';
+import 'package:module_business/module_business.dart';
+import 'package:module_model/module_model.dart';
 
 class BottomSheetPlayer extends StatelessWidget {
   static const collectionButtonText = 'В коллекцию';
@@ -80,31 +79,42 @@ class BottomSheetPlayer extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      Consumer<Collection>(
-                        builder: (context, value, _) {
-                          final isInCollection =
-                              value.tracks.containsKey(track.id);
-                          return isInCollection
-                              ? Container()
-                              : ElevatedButton(
-                                  onPressed: () {
-                                    track.date =
-                                        DateTime.now().millisecondsSinceEpoch;
-                                    value.add(track);
-                                  },
-                                  child: SizedBox(
-                                    height: 30,
-                                    width: 120,
-                                    child: Center(
-                                      child: Text(
-                                        collectionButtonText,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
+                      StreamBuilder<List<Track>>(
+                        stream: BlocFactory.instance.mainBloc.firebaseService
+                            .streamTracks(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.active) {
+                            return Container();
+                          } else {
+                            if (snapshot.hasError) return Container();
+                            if (snapshot.hasData) {
+                              final isInCollection =
+                                  snapshot.data!.contains(track);
+                              return isInCollection
+                                  ? Container()
+                                  : ElevatedButton(
+                                      onPressed: () {
+                                        BlocFactory
+                                            .instance.mainBloc.firebaseService
+                                            .addTrack(track);
+                                      },
+                                      child: SizedBox(
+                                        height: 30,
+                                        width: 120,
+                                        child: Center(
+                                          child: Text(
+                                            collectionButtonText,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
+                                    );
+                            }
+                            return Container();
+                          }
                         },
                       ),
                     ],

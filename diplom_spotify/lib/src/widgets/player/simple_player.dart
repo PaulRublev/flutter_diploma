@@ -1,6 +1,6 @@
-import 'package:diplom_spotify/src/utils/track.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:module_model/module_model.dart';
 
 class SimplePlayer extends StatefulWidget {
   final Track track;

@@ -31,7 +31,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  module_business:
+    path: packages/module_business
+  module_model:
+    path: packages/module_model
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,6 +43,8 @@ dependencies:
   http: ^0.13.5
   just_audio: ^0.9.31
   provider: ^6.0.5
+  firebase_core: ^2.4.1
+  cloud_firestore: ^4.3.1
 
 dev_dependencies:
   flutter_test:

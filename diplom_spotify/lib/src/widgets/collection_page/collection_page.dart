@@ -1,7 +1,7 @@
-import 'package:diplom_spotify/src/utils/collection.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:module_business/module_business.dart';
+import 'package:module_model/module_model.dart';
 
 class CollectionPage extends StatelessWidget {
   final String title;
@@ -20,8 +20,7 @@ class CollectionPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Provider.of<Collection>(context, listen: false)
-                  .changeSortDirection();
+              // todo change sort direction
             },
             icon: const Icon(Icons.sort_rounded),
           ),
@@ -31,20 +30,25 @@ class CollectionPage extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         child: Padding(
           padding: const EdgeInsets.only(top: 15),
-          child: Consumer<Collection>(
-            builder: (context, value, child) {
-              var tracks = value.tracks.values.toList();
-              if (value.isAscending) {
-                tracks.sort((a, b) => a.date.compareTo(b.date));
+          child: StreamBuilder<List<Track>>(
+            stream:
+                BlocFactory.instance.mainBloc.firebaseService.streamTracks(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.active) {
+                return Container();
               } else {
-                tracks.sort((a, b) => b.date.compareTo(a.date));
+                if (snapshot.hasError) {
+                  return Container();
+                }
+                return !snapshot.hasData
+                    ? Container()
+                    : ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return TrackListTile(track: snapshot.data![index]);
+                        },
+                      );
               }
-              return ListView.builder(
-                itemCount: tracks.length,
-                itemBuilder: (context, index) {
-                  return TrackListTile(track: tracks[index]);
-                },
-              );
             },
           ),
         ),

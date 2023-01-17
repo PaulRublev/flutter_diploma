@@ -4,7 +4,6 @@ class Track {
   final String albumName;
   final String albumId;
   final String previewURL;
-  int date = 0;
 
   Track({
     required this.name,
@@ -23,9 +22,27 @@ class Track {
           previewURL: json['previewURL'] ?? '',
         );
 
+  Map<String, Object?> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'albumName': albumName,
+      'albumId': albumId,
+      'previewURL': previewURL,
+    };
+  }
+
   @override
   String toString() {
     return "id: $id\nname: $name\nalbumName: $albumName\nalbumId: $albumId\n"
-        "previewURL: $previewURL\ndate: $date\n";
+        "previewURL: $previewURL\n";
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Track && id == other.id;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, albumId, albumName, previewURL);
 }

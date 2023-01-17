@@ -1,10 +1,8 @@
-import 'package:diplom_spotify/src/utils/collection.dart';
-import 'package:diplom_spotify/src/utils/track.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
-import 'package:provider/provider.dart';
+import 'package:module_model/module_model.dart';
 
 class SliverTracksList extends StatefulWidget {
   final String artistId;
@@ -30,31 +28,29 @@ class _SliverTracksListState extends State<SliverTracksList> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Collection>(builder: (context, value, _) {
-      return SliverList(
-        delegate: SliverChildListDelegate([
-          ...tracks.map((track) => TrackListTile(track: track)).toList(),
-          Center(
-            child: isLoading
-                ? const CustomCircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: () => _getTracksTop(),
-                    child: SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: Center(
-                        child: Text(
-                          loadButtonText,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        ...tracks.map((track) => TrackListTile(track: track)).toList(),
+        Center(
+          child: isLoading
+              ? const CustomCircularProgressIndicator()
+              : ElevatedButton(
+                  onPressed: () => _getTracksTop(),
+                  child: SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: Center(
+                      child: Text(
+                        loadButtonText,
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ),
                   ),
-          ),
-          const SizedBox(height: 60),
-        ]),
-      );
-    });
+                ),
+        ),
+        const SizedBox(height: 60),
+      ]),
+    );
   }
 
   Future<bool> _getTracksTop() async {
