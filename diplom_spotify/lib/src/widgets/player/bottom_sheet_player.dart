@@ -85,14 +85,28 @@ class BottomSheetPlayer extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState !=
                               ConnectionState.active) {
-                            return Container();
+                            return Container(
+                              color: Colors.red,
+                              height: 20,
+                              width: 20,
+                            );
                           } else {
-                            if (snapshot.hasError) return Container();
+                            if (snapshot.hasError)
+                              return Container(
+                                color: Colors.grey,
+                                height: 20,
+                                width: 20,
+                                child: Text(snapshot.error.toString()),
+                              );
                             if (snapshot.hasData) {
                               final isInCollection =
                                   snapshot.data!.contains(track);
                               return isInCollection
-                                  ? Container()
+                                  ? Container(
+                                      color: Colors.green,
+                                      height: 20,
+                                      width: 20,
+                                    )
                                   : ElevatedButton(
                                       onPressed: () {
                                         BlocFactory

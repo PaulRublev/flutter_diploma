@@ -5,7 +5,7 @@ abstract class FirebaseService {
 
   Future firebaseInit();
 
-  Stream<List<Track>> streamTracks();
+  Stream<List<Track>> streamTracks({bool? isDescendent});
 
   void addTrack(Track track);
 

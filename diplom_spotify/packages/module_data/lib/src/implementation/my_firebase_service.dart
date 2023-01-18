@@ -5,14 +5,14 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class MyFirebaseService implements FirebaseService {
-  late final CollectionReference<Track> _tracks;
+  late final CollectionReference<TrackDb> _tracks;
 
   @override
   void referenceInit() {
     _tracks =
-        FirebaseFirestore.instance.collection('tracks').withConverter<Track>(
+        FirebaseFirestore.instance.collection('tracks').withConverter<TrackDb>(
               fromFirestore: (snapshot, options) =>
-                  Track.fromJson(snapshot.data() ?? {}),
+                  TrackDb.fromJson(snapshot.data() ?? {}),
               toFirestore: (track, options) => track.toJson(),
             );
   }
@@ -25,18 +25,26 @@ class MyFirebaseService implements FirebaseService {
   }
 
   @override
-  Stream<List<Track>> streamTracks() {
+  Stream<List<Track>> streamTracks({bool? isDescendent}) {
     return _tracks
+        .orderBy('dateTime', descending: isDescendent ?? true)
         .snapshots()
         .map(
-          (event) => event.docs.map((e) => e.data()).toList(),
+          (event) => event.docs.map((e) {
+            return e.data().track;
+          }).toList(),
         )
         .asBroadcastStream();
   }
 
   @override
   void addTrack(Track track) {
-    _tracks.doc(track.id.toString().toLowerCase()).set(track);
+    _tracks.doc(track.id.toLowerCase()).set(
+          TrackDb(
+            track: track,
+            dateTime: DateTime.now(),
+          ),
+        );
   }
 
   @override
