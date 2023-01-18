@@ -3,16 +3,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:module_data/firebase_options.dart';
 import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class MyFirebaseService implements FirebaseService {
-  late final CollectionReference<TrackDb> _tracks;
+  late final CollectionReference<TrackId> _tracks;
 
   @override
   void referenceInit() {
     _tracks =
-        FirebaseFirestore.instance.collection('tracks').withConverter<TrackDb>(
+        FirebaseFirestore.instance.collection('tracks').withConverter<TrackId>(
               fromFirestore: (snapshot, options) =>
-                  TrackDb.fromJson(snapshot.data() ?? {}),
+                  TrackId.fromJson(snapshot.data() ?? {}),
               toFirestore: (track, options) => track.toJson(),
             );
   }
@@ -25,24 +27,40 @@ class MyFirebaseService implements FirebaseService {
   }
 
   @override
-  Stream<List<Track>> streamTracks({bool? isDescendent}) {
+  Stream<List<TrackId>> streamTrackIds() {
     return _tracks
-        .orderBy('dateTime', descending: isDescendent ?? true)
+        .orderBy('duration', descending: true)
         .snapshots()
         .map(
           (event) => event.docs.map((e) {
-            return e.data().track;
+            return e.data();
           }).toList(),
         )
         .asBroadcastStream();
   }
 
   @override
-  void addTrack(Track track) {
-    _tracks.doc(track.id.toLowerCase()).set(
-          TrackDb(
-            track: track,
-            dateTime: DateTime.now(),
+  Stream<Future<List<Track>>> streamTracks() {
+    return streamTrackIds().map((event) async {
+      final trackIdsString =
+          event.toString().replaceAll(RegExp(r'([\[\]\s])'), '');
+      if (trackIdsString == '') {
+        return [];
+      }
+      final uri = "https://api.napster.com/v2.2/tracks/$trackIdsString"
+          "?apikey=ZThhYzkwNDItODczNC00MWZlLTgxODUtZWExNDQ2YTYyNGY0";
+      print(uri);
+
+      return await _getTracklist(uri);
+    });
+  }
+
+  @override
+  void addTrack(String trackId) {
+    _tracks.doc(trackId.toLowerCase()).set(
+          TrackId(
+            id: trackId,
+            duration: DateTime.now().millisecondsSinceEpoch,
           ),
         );
   }
@@ -51,4 +69,16 @@ class MyFirebaseService implements FirebaseService {
   void removeTrack(String trackId) {
     _tracks.doc(trackId.toLowerCase()).delete();
   }
+}
+
+Future<List<Track>> _getTracklist(String uri) async {
+  final url = Uri.parse(uri);
+  var rawData = await httpGetAndDecode(url) as Map<String, dynamic>;
+  List<dynamic> data = rawData['tracks'];
+  return data.map((artist) => Track.fromJson(artist)).toList();
+}
+
+dynamic httpGetAndDecode(Uri uri) async {
+  final response = await http.get(uri);
+  return json.decode(response.body);
 }

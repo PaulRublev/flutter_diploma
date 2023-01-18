@@ -79,14 +79,14 @@ class BottomSheetPlayer extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      StreamBuilder<List<Track>>(
+                      StreamBuilder<Future<List<Track>>>(
                         stream: BlocFactory.instance.mainBloc.firebaseService
                             .streamTracks(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState !=
                               ConnectionState.active) {
                             return Container(
-                              color: Colors.red,
+                              color: Colors.redAccent,
                               height: 20,
                               width: 20,
                             );
@@ -99,33 +99,47 @@ class BottomSheetPlayer extends StatelessWidget {
                                 child: Text(snapshot.error.toString()),
                               );
                             if (snapshot.hasData) {
-                              final isInCollection =
-                                  snapshot.data!.contains(track);
-                              return isInCollection
-                                  ? Container(
-                                      color: Colors.green,
+                              return FutureBuilder(
+                                future: snapshot.data,
+                                builder: (context, futureSnapshot) {
+                                  if (futureSnapshot.connectionState !=
+                                      ConnectionState.done) {
+                                    return Container(
+                                      color: Colors.red,
                                       height: 20,
                                       width: 20,
-                                    )
-                                  : ElevatedButton(
-                                      onPressed: () {
-                                        BlocFactory
-                                            .instance.mainBloc.firebaseService
-                                            .addTrack(track);
-                                      },
-                                      child: SizedBox(
-                                        height: 30,
-                                        width: 120,
-                                        child: Center(
-                                          child: Text(
-                                            collectionButtonText,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1,
-                                          ),
-                                        ),
-                                      ),
                                     );
+                                  } else {
+                                    final isInCollection =
+                                        futureSnapshot.data!.contains(track);
+                                    return isInCollection
+                                        ? Container(
+                                            color: Colors.green,
+                                            height: 20,
+                                            width: 20,
+                                          )
+                                        : ElevatedButton(
+                                            onPressed: () {
+                                              BlocFactory.instance.mainBloc
+                                                  .firebaseService
+                                                  .addTrack(track.id);
+                                            },
+                                            child: SizedBox(
+                                              height: 30,
+                                              width: 120,
+                                              child: Center(
+                                                child: Text(
+                                                  collectionButtonText,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                  }
+                                },
+                              );
                             }
                             return Container();
                           }

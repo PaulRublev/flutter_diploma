@@ -14,7 +14,7 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage>
     with AutomaticKeepAliveClientMixin {
-  bool isDescendent = true;
+  ValueNotifier<bool> isDescendentNotifier = ValueNotifier(true);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,7 @@ class _CollectionPageState extends State<CollectionPage>
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                isDescendent = !isDescendent;
-              });
+              isDescendentNotifier.value = !isDescendentNotifier.value;
             },
             icon: const Icon(Icons.sort_rounded),
           ),
@@ -42,7 +40,7 @@ class _CollectionPageState extends State<CollectionPage>
         color: Theme.of(context).colorScheme.background,
         child: Padding(
           padding: const EdgeInsets.only(top: 15),
-          child: StreamBuilder<List<Track>>(
+          child: StreamBuilder<Future<List<Track>>>(
             stream:
                 BlocFactory.instance.mainBloc.firebaseService.streamTracks(),
             builder: (context, snapshot) {
@@ -56,14 +54,41 @@ class _CollectionPageState extends State<CollectionPage>
                     width: 20,
                   );
                 } else {
-                  var tracks = snapshot.data ?? [];
-                  if (!isDescendent) {
-                    tracks = tracks.reversed.toList();
-                  }
-                  return ListView.builder(
-                    itemCount: tracks.length,
-                    itemBuilder: (context, index) {
-                      return TrackListTile(track: tracks[index]);
+                  return FutureBuilder(
+                    future: snapshot.data,
+                    builder: (context, futureSnapshot) {
+                      if (futureSnapshot.connectionState !=
+                          ConnectionState.done) {
+                        return Container();
+                      } else {
+                        if (futureSnapshot.hasError ||
+                            !futureSnapshot.hasData) {
+                          return Container(
+                            color: Colors.green,
+                            height: 20,
+                            width: 20,
+                          );
+                        } else {
+                          return ValueListenableBuilder(
+                            valueListenable: isDescendentNotifier,
+                            builder: (context, value, child) {
+                              var tracks = futureSnapshot.data ?? [];
+                              if (!value) {
+                                tracks = tracks.reversed.toList();
+                              }
+                              return ListView.builder(
+                                itemCount: tracks.length,
+                                itemBuilder: (context, index) {
+                                  return TrackListTile(
+                                    track: tracks[index],
+                                    isFavorite: true,
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        }
+                      }
                     },
                   );
                 }
@@ -73,6 +98,12 @@ class _CollectionPageState extends State<CollectionPage>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    isDescendentNotifier.dispose();
+    super.dispose();
   }
 
   @override
