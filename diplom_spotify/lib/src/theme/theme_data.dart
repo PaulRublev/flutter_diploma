@@ -68,7 +68,7 @@ ThemeData _themeData = ThemeData.from(
     subtitle1: TextStyle(
       fontSize: 17,
       fontWeight: FontWeight.w600,
-      height: 0.99,
+      height: 1.20,
     ),
   ),
 );
@@ -99,6 +99,17 @@ ThemeData darkThemeData = _themeData.copyWith(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: _firmCol,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.horizontal(
+          left: Radius.circular(25),
+          right: Radius.circular(25),
+        ),
+      ),
+    ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      side: const BorderSide(color: _firmCol),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.horizontal(
           left: Radius.circular(25),

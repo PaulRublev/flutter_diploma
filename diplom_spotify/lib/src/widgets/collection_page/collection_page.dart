@@ -1,6 +1,7 @@
 import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:module_business/module_business.dart';
 import 'package:provider/provider.dart';
 
 class CollectionPage extends StatefulWidget {
@@ -38,30 +39,37 @@ class _CollectionPageState extends State<CollectionPage>
       ),
       body: Material(
         color: Theme.of(context).colorScheme.background,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: Consumer<FavoriteTracksNotifier>(
-            builder: (context, favoriteTracks, child) {
-              return ValueListenableBuilder(
-                valueListenable: isDescendentNotifier,
-                builder: (context, value, child) {
-                  var tracks = favoriteTracks.tracks;
-                  if (!value) {
-                    tracks = tracks.reversed.toList();
-                  }
-                  return ListView.builder(
-                    itemCount: tracks.length,
-                    itemBuilder: (context, index) {
-                      return TrackListTile(
-                        track: tracks[index],
+        child: Consumer<FavoriteTracksNotifier>(
+          builder: (context, favoriteTracks, child) {
+            return ValueListenableBuilder(
+              valueListenable: isDescendentNotifier,
+              builder: (context, value, child) {
+                var tracks = favoriteTracks.tracks;
+                if (!value) {
+                  tracks = tracks.reversed.toList();
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.only(top: 15),
+                  itemCount: tracks.length,
+                  itemBuilder: (context, index) {
+                    final track = tracks[index];
+                    return Dismissible(
+                      key: Key(track.id),
+                      confirmDismiss: (direction) => _dialogBuilder(context),
+                      onDismissed: (direction) {
+                        BlocFactory.instance.mainBloc.firebaseService
+                            .removeTrack(track.id);
+                      },
+                      child: TrackListTile(
+                        track: track,
                         isFavorite: true,
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
     );
@@ -75,4 +83,60 @@ class _CollectionPageState extends State<CollectionPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  Future<bool?> _dialogBuilder(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return LayoutBuilder(builder: (context, constraints) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            actionsPadding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            insetPadding:
+                const EdgeInsets.symmetric(horizontal: 45, vertical: 200),
+            title: Text(
+              'Вы уверены, что хотите удалить трек?',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            actions: <Widget>[
+              OutlinedButton(
+                child: SizedBox(
+                  height: 30,
+                  width: constraints.maxWidth / 5,
+                  child: Center(
+                    child: Text(
+                      'Да',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              OutlinedButton(
+                child: SizedBox(
+                  height: 30,
+                  width: constraints.maxWidth / 5,
+                  child: Center(
+                    child: Text(
+                      'Нет',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        });
+      },
+    );
+  }
 }
