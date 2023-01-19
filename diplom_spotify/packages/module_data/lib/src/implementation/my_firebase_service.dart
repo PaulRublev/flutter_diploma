@@ -47,9 +47,9 @@ class MyFirebaseService implements FirebaseService {
       if (trackIdsString == '') {
         return [];
       }
+      // todo string to const
       final uri = "https://api.napster.com/v2.2/tracks/$trackIdsString"
           "?apikey=ZThhYzkwNDItODczNC00MWZlLTgxODUtZWExNDQ2YTYyNGY0";
-      print(uri);
 
       return await _getTracklist(uri);
     });

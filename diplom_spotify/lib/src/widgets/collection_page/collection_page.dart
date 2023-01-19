@@ -1,7 +1,7 @@
+import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:module_business/module_business.dart';
-import 'package:module_model/module_model.dart';
+import 'package:provider/provider.dart';
 
 class CollectionPage extends StatefulWidget {
   final String title;
@@ -40,59 +40,26 @@ class _CollectionPageState extends State<CollectionPage>
         color: Theme.of(context).colorScheme.background,
         child: Padding(
           padding: const EdgeInsets.only(top: 15),
-          child: StreamBuilder<Future<List<Track>>>(
-            stream:
-                BlocFactory.instance.mainBloc.firebaseService.streamTracks(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.active) {
-                return Container();
-              } else {
-                if (snapshot.hasError || !snapshot.hasData) {
-                  return Container(
-                    color: Colors.green,
-                    height: 20,
-                    width: 20,
-                  );
-                } else {
-                  return FutureBuilder(
-                    future: snapshot.data,
-                    builder: (context, futureSnapshot) {
-                      if (futureSnapshot.connectionState !=
-                          ConnectionState.done) {
-                        return Container();
-                      } else {
-                        if (futureSnapshot.hasError ||
-                            !futureSnapshot.hasData) {
-                          return Container(
-                            color: Colors.green,
-                            height: 20,
-                            width: 20,
-                          );
-                        } else {
-                          return ValueListenableBuilder(
-                            valueListenable: isDescendentNotifier,
-                            builder: (context, value, child) {
-                              var tracks = futureSnapshot.data ?? [];
-                              if (!value) {
-                                tracks = tracks.reversed.toList();
-                              }
-                              return ListView.builder(
-                                itemCount: tracks.length,
-                                itemBuilder: (context, index) {
-                                  return TrackListTile(
-                                    track: tracks[index],
-                                    isFavorite: true,
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        }
-                      }
+          child: Consumer<FavoriteTracksNotifier>(
+            builder: (context, favoriteTracks, child) {
+              return ValueListenableBuilder(
+                valueListenable: isDescendentNotifier,
+                builder: (context, value, child) {
+                  var tracks = favoriteTracks.tracks;
+                  if (!value) {
+                    tracks = tracks.reversed.toList();
+                  }
+                  return ListView.builder(
+                    itemCount: tracks.length,
+                    itemBuilder: (context, index) {
+                      return TrackListTile(
+                        track: tracks[index],
+                        isFavorite: true,
+                      );
                     },
                   );
-                }
-              }
+                },
+              );
             },
           ),
         ),

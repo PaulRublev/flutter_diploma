@@ -1,8 +1,10 @@
+import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
 import 'package:diplom_spotify/src/widgets/player/simple_player.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
+import 'package:provider/provider.dart';
 
 class BottomSheetPlayer extends StatelessWidget {
   static const collectionButtonText = 'В коллекцию';
@@ -79,70 +81,31 @@ class BottomSheetPlayer extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      StreamBuilder<Future<List<Track>>>(
-                        stream: BlocFactory.instance.mainBloc.firebaseService
-                            .streamTracks(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState !=
-                              ConnectionState.active) {
-                            return Container(
-                              color: Colors.redAccent,
-                              height: 20,
-                              width: 20,
-                            );
-                          } else {
-                            if (snapshot.hasError)
-                              return Container(
-                                color: Colors.grey,
-                                height: 20,
-                                width: 20,
-                                child: Text(snapshot.error.toString()),
-                              );
-                            if (snapshot.hasData) {
-                              return FutureBuilder(
-                                future: snapshot.data,
-                                builder: (context, futureSnapshot) {
-                                  if (futureSnapshot.connectionState !=
-                                      ConnectionState.done) {
-                                    return Container(
-                                      color: Colors.red,
-                                      height: 20,
-                                      width: 20,
-                                    );
-                                  } else {
-                                    final isInCollection =
-                                        futureSnapshot.data!.contains(track);
-                                    return isInCollection
-                                        ? Container(
-                                            color: Colors.green,
-                                            height: 20,
-                                            width: 20,
-                                          )
-                                        : ElevatedButton(
-                                            onPressed: () {
-                                              BlocFactory.instance.mainBloc
-                                                  .firebaseService
-                                                  .addTrack(track.id);
-                                            },
-                                            child: SizedBox(
-                                              height: 30,
-                                              width: 120,
-                                              child: Center(
-                                                child: Text(
-                                                  collectionButtonText,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                  }
-                                },
-                              );
-                            }
-                            return Container();
-                          }
+                      Consumer<FavoriteTracksNotifier>(
+                        builder: (context, favoriteTracks, child) {
+                          final isInCollection =
+                              favoriteTracks.tracks.contains(track);
+                          return isInCollection
+                              ? Container()
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    BlocFactory
+                                        .instance.mainBloc.firebaseService
+                                        .addTrack(track.id);
+                                  },
+                                  child: SizedBox(
+                                    height: 30,
+                                    width: 120,
+                                    child: Center(
+                                      child: Text(
+                                        collectionButtonText,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      ),
+                                    ),
+                                  ),
+                                );
                         },
                       ),
                     ],
