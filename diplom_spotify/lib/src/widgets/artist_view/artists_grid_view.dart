@@ -1,9 +1,9 @@
+import 'package:diplom_spotify/src/utils/artists_network_service.dart';
 import 'package:diplom_spotify/src/widgets/artist_view/artist_grid.dart';
 import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:diplom_spotify/src/utils/utils.dart' as global;
 
 class ArtistsGridView extends StatefulWidget {
   final String? search;
@@ -16,22 +16,18 @@ class ArtistsGridView extends StatefulWidget {
 
 class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
-  static const searchText = 'searchText';
-
-  int _offset = 0;
   late Future<List<Artist>> _request;
   final List<Artist> artists = [];
-  final String urlTop = "${global.urlPrefix}${global.artistsTop}?"
-      "${global.apiKey}&${global.artistsLimit}";
-  final String urlSearch = "${global.urlPrefix}${global.artistsSearch}?"
-      "${global.apiKey}&${global.queryText}=$searchText&${global.searchLimit}";
+  final ArtistsNetworkService artistsService = ArtistsNetworkService();
+
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    _request = _getArtists();
+    artistsService.initialize(widget.search);
+    _request = artistsService.getArtists();
   }
 
   @override
@@ -99,7 +95,8 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                     enablePullUp: true,
                     enablePullDown: false,
                     onLoading: () async {
-                      artists.addAll(await _getArtists());
+                      artists.addAll(await artistsService.getArtists());
+                      refreshController.loadComplete();
                       if (mounted) setState(() {});
                     },
                     controller: refreshController,
@@ -135,24 +132,4 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
 
   @override
   bool get wantKeepAlive => true;
-
-  Future<List<Artist>> _getArtists() async {
-    final offset = _offset == 0 ? '' : '&offset=$_offset';
-    _offset += 10;
-    var uri = '';
-    if (widget.search != null) {
-      uri = urlSearch.replaceFirst(searchText, widget.search ?? '');
-    } else {
-      uri = urlTop;
-    }
-    final url = Uri.parse('$uri$offset');
-    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
-    if (widget.search != null) {
-      rawData =
-          rawData[global.searchText][global.dataText] as Map<String, dynamic>;
-    }
-    List<dynamic> data = rawData[global.textArtists];
-    refreshController.loadComplete();
-    return data.map((artist) => Artist.fromJson(artist)).toList();
-  }
 }
