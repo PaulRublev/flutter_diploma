@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:diplom_spotify/src/widgets/artist_view/artists_grid_view.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController editingController = TextEditingController();
+  Timer? _debounce;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +47,8 @@ class _SearchPageState extends State<SearchPage> {
               ),
               style: Theme.of(context).textTheme.headline2,
               autocorrect: false,
+              onChanged: (value) => _onSearchChanged(value),
               onEditingComplete: () {
-                setState(() {});
                 FocusManager.instance.primaryFocus?.unfocus();
               },
               cursorColor: Theme.of(context).colorScheme.onBackground,
@@ -61,5 +64,18 @@ class _SearchPageState extends State<SearchPage> {
             )
           : Container(),
     );
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      setState(() {});
+    });
   }
 }
