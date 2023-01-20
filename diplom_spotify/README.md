@@ -1,16 +1,30 @@
-# diplom_spotify
+# Diplom spotify
 
-A new Flutter project.
+**:notes: :guitar: An app that shows you a list of popular artists, helps you find a specific artist and their music, plays track demos, and lets you add and sort tracks in your collection. :musical_keyboard: :drum:**
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Target
+Create an application with the following features:
+- View a list of popular artists.
+- Play demo track.
+- Search for artists.
+- Adding favorite tracks to the collection.
+- Sort collection of tracks by date added.
 
-A few resources to get you started if this is your first Flutter project:
+## Description
+Data sourced from [napster.com](https://developer.napster.com/)​.
+Firebase is used to add tracks to the collection.
+The application consists of three main screens:
+1. Performers
+The top most popular performers are displayed on the screen.
+2. Search
+Search for performers.
+3. Collection
+The screen displays the tracks saved to the collection.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p align="center">
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+</p>
