@@ -19,7 +19,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   static const searchText = 'searchText';
 
   int _offset = 0;
-  late Future<bool> _request;
+  late Future<List<Artist>> _request;
   final List<Artist> artists = [];
   final String urlTop = "${global.urlPrefix}${global.artistsTop}?"
       "${global.apiKey}&${global.artistsLimit}";
@@ -53,7 +53,20 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                 return Center(
                   child: Text(snapshot.error.toString()),
                 );
-              } else if (snapshot.hasData) {
+              }
+              if (snapshot.hasData) {
+                if (artists.isEmpty) {
+                  artists.addAll(snapshot.data ?? []);
+                }
+                if (artists.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Ничего не найдено',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  );
+                }
+
                 return RefreshConfiguration(
                   hideFooterWhenNotFull: true,
                   footerTriggerDistance: -65,
@@ -86,7 +99,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                     enablePullUp: true,
                     enablePullDown: false,
                     onLoading: () async {
-                      await _getArtists();
+                      artists.addAll(await _getArtists());
                       if (mounted) setState(() {});
                     },
                     controller: refreshController,
@@ -112,6 +125,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                   ),
                 );
               }
+
               return Container();
             default:
               return Container();
@@ -122,7 +136,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   @override
   bool get wantKeepAlive => true;
 
-  Future<bool> _getArtists() async {
+  Future<List<Artist>> _getArtists() async {
     final offset = _offset == 0 ? '' : '&offset=$_offset';
     _offset += 10;
     var uri = '';
@@ -138,8 +152,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
           rawData[global.searchText][global.dataText] as Map<String, dynamic>;
     }
     List<dynamic> data = rawData[global.textArtists];
-    artists.addAll(data.map((artist) => Artist.fromJson(artist)));
     refreshController.loadComplete();
-    return true;
+    return data.map((artist) => Artist.fromJson(artist)).toList();
   }
 }
