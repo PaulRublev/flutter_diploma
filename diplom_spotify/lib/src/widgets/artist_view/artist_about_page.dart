@@ -1,7 +1,7 @@
-import 'package:diplom_spotify/src/utils/artist.dart';
 import 'package:diplom_spotify/src/widgets/artist_view/sliver_tracks_list.dart';
 import 'package:flutter/material.dart';
 import 'package:diplom_spotify/src/utils/utils.dart' as global;
+import 'package:module_model/module_model.dart';
 
 class ArtistAboutPage extends StatefulWidget {
   final Artist artist;
