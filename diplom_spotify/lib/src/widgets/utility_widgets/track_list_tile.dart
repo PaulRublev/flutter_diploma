@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diplom_spotify/src/widgets/player/bottom_sheet_player.dart';
 import 'package:flutter/material.dart';
-import 'package:diplom_spotify/src/utils/utils.dart' as global;
 import 'package:module_model/module_model.dart';
 
 class TrackListTile extends StatelessWidget {
+  static const album70x70 = '70x70';
   final Track track;
   final bool isFavorite;
 
@@ -28,27 +29,23 @@ class TrackListTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.network(
-            "${global.urlPrefix}${global.pathAlbumsImageserver}${track.albumId}"
-            "${global.pathImage}${global.album70x70}${global.extension}",
-            frameBuilder: (_, child, frame, __) {
-              return frame == null
-                  ? const SizedBox(
-                      height: 65,
-                      width: 65,
-                    )
-                  : child;
-            },
-            errorBuilder: (context, error, stackTrace) {
+          CachedNetworkImage(
+            imageUrl: "https://api.napster.com/imageserver/v2/albums/"
+                "${track.albumId}/images/$album70x70.jpg",
+            fit: BoxFit.contain,
+            width: 65,
+            placeholder: (context, url) => const SizedBox(
+              height: 65,
+              width: 65,
+            ),
+            errorWidget: (context, _, __) {
               return Container(
                 height: 65,
                 width: 65,
                 color: Theme.of(context).colorScheme.primary,
-                child: const Center(child: Text(global.noImageText)),
+                child: const Center(child: Text('NO IMAGE')),
               );
             },
-            fit: BoxFit.contain,
-            width: 65,
           ),
           const SizedBox(width: 15),
           Expanded(

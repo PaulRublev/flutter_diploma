@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diplom_spotify/src/widgets/artist_view/artist_about_page.dart';
 import 'package:flutter/material.dart';
-import 'package:diplom_spotify/src/utils/utils.dart' as global;
 import 'package:module_model/module_model.dart';
 
 class ArtistGrid extends StatefulWidget {
@@ -13,6 +13,8 @@ class ArtistGrid extends StatefulWidget {
 }
 
 class _ArtistGridState extends State<ArtistGrid> {
+  static const artist150x100 = '150x100';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,14 +38,14 @@ class _ArtistGridState extends State<ArtistGrid> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Image.network(
-                "${global.urlPrefix}${global.pathArtistsImageserver}${widget.artist.id}"
-                "${global.pathImage}${global.artist150x100}${global.extension}",
+              child: CachedNetworkImage(
+                imageUrl: "https://api.napster.com/imageserver/v2/artists/"
+                    "${widget.artist.id}/images/$artist150x100.jpg",
                 fit: BoxFit.fitWidth,
-                errorBuilder: (context, error, stackTrace) {
+                errorWidget: (context, _, __) {
                   return Container(
                     color: Theme.of(context).colorScheme.primary,
-                    child: const Center(child: Text(global.noImageText)),
+                    child: const Center(child: Text('NO IMAGE')),
                   );
                 },
               ),

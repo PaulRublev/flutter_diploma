@@ -1,12 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
 import 'package:diplom_spotify/src/widgets/player/simple_player.dart';
 import 'package:flutter/material.dart';
-import 'package:diplom_spotify/src/utils/utils.dart' as global;
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 import 'package:provider/provider.dart';
 
 class BottomSheetPlayer extends StatelessWidget {
+  static const album70x70 = '70x70';
+  static const album170x170 = '170x170';
   static const collectionButtonText = 'В коллекцию';
 
   final Track track;
@@ -36,21 +38,22 @@ class BottomSheetPlayer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: Theme.of(context).colorScheme.background,
                 ),
-                child: Image.network(
-                  "${global.urlPrefix}${global.pathAlbumsImageserver}${track.albumId}"
-                  "${global.pathImage}${global.album170x170}${global.extension}",
-                  frameBuilder: (_, child, frame, __) {
-                    return frame == null ? Container() : child;
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Center(
-                      child: Text(
-                        global.noImageText,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
-                  },
+                child: CachedNetworkImage(
+                  imageUrl: "https://api.napster.com/imageserver/v2/albums/"
+                      "${track.albumId}/images/$album170x170.jpg",
                   fit: BoxFit.fill,
+                  placeholder: (context, url) => CachedNetworkImage(
+                    imageUrl: "https://api.napster.com/imageserver/v2/albums/"
+                        "${track.albumId}/images/$album70x70.jpg",
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => Container(),
+                    errorWidget: (context, _, __) {
+                      return const Center(child: Text('NO IMAGE'));
+                    },
+                  ),
+                  errorWidget: (context, _, __) {
+                    return const Center(child: Text('NO IMAGE'));
+                  },
                 ),
               ),
               const SizedBox(width: 15),
