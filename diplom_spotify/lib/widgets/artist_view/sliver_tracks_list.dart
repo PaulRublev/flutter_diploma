@@ -1,6 +1,7 @@
 import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 
 class SliverTracksList extends StatefulWidget {
@@ -13,16 +14,16 @@ class SliverTracksList extends StatefulWidget {
 }
 
 class _SliverTracksListState extends State<SliverTracksList> {
-  static const loadButtonText = 'Загрузить ещё';
-
   bool isLoading = true;
-  int _offset = 0;
   final List<Track> tracks = [];
+  final artistsService = BlocFactory.instance.mainBloc.networkService;
 
   @override
   void initState() {
     super.initState();
-    _getTracksTop();
+    BlocFactory.instance.refreshNetworkService();
+    artistsService.initialize();
+    getTracks();
   }
 
   @override
@@ -34,13 +35,13 @@ class _SliverTracksListState extends State<SliverTracksList> {
           child: isLoading
               ? const CustomCircularProgressIndicator()
               : ElevatedButton(
-                  onPressed: () => _getTracksTop(),
+                  onPressed: () => getTracks(),
                   child: SizedBox(
                     height: 50,
                     width: 200,
                     child: Center(
                       child: Text(
-                        loadButtonText,
+                        'Загрузить ещё',
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ),
@@ -52,18 +53,11 @@ class _SliverTracksListState extends State<SliverTracksList> {
     );
   }
 
-  Future<bool> _getTracksTop() async {
+  void getTracks() async {
     isLoading = true;
     setState(() {});
-    final offset = _offset == 0 ? '' : '&offset=$_offset';
-    _offset += 5;
-    final url = Uri.parse(
-        '${global.urlPrefix}${global.artists}${widget.artistId}${global.tracksTop}?${global.apiKey}&${global.tracksLimit}$offset');
-    var rawData = await global.httpGetAndDecode(url) as Map<String, dynamic>;
-    List<dynamic> data = rawData[global.textTracks];
-    tracks.addAll(data.map((artist) => Track.fromJson(artist)));
+    tracks.addAll(await artistsService.getTracksTop(widget.artistId));
     isLoading = false;
     setState(() {});
-    return true;
   }
 }

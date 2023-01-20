@@ -1,7 +1,7 @@
-import 'package:diplom_spotify/utils/artists_network_service.dart';
 import 'package:diplom_spotify/widgets/artist_view/artist_grid.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -18,7 +18,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
   late Future<List<Artist>> _request;
   final List<Artist> artists = [];
-  final ArtistsNetworkService artistsService = ArtistsNetworkService();
+  final artistsService = BlocFactory.instance.mainBloc.networkService;
 
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -26,8 +26,9 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   @override
   void initState() {
     super.initState();
-    artistsService.initialize(widget.search);
-    _request = artistsService.getArtists();
+    BlocFactory.instance.refreshNetworkService();
+    artistsService.initialize();
+    _request = artistsService.getArtists(widget.search);
   }
 
   @override
@@ -95,7 +96,8 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                     enablePullUp: true,
                     enablePullDown: false,
                     onLoading: () async {
-                      artists.addAll(await artistsService.getArtists());
+                      artists.addAll(
+                          await artistsService.getArtists(widget.search));
                       refreshController.loadComplete();
                       if (mounted) setState(() {});
                     },

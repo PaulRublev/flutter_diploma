@@ -10,6 +10,11 @@ class BlocFactory {
     ServiceProvider.instance.initialize();
     mainBloc = MainBloc(
       firebaseService: ServiceProvider.instance.get<FirebaseService>(),
+      networkService: ServiceProvider.instance.get<NetworkService>(),
     );
+  }
+
+  void refreshNetworkService() {
+    mainBloc.networkService = ServiceProvider.instance.get<NetworkService>();
   }
 }

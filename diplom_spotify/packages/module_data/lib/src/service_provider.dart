@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'api/firebase_service.dart';
-import 'implementation/my_firebase_service.dart';
+import 'package:module_data/module_data.dart';
+import 'package:module_data/src/implementation/my_firebase_service.dart';
+import 'package:module_data/src/implementation/network_service_implementation.dart';
 
 class ServiceProvider {
   static final _getIt = GetIt.I;
@@ -12,6 +13,9 @@ class ServiceProvider {
   void initialize() {
     _getIt.registerLazySingleton<FirebaseService>(
       () => MyFirebaseService(),
+    );
+    _getIt.registerFactory<NetworkService>(
+      () => NetworkServiceImplementation(),
     );
   }
 }
