@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+const _deepBlack = Color(0xff181818);
+const _blackMatte = Color(0xff343434);
+const _brightWhite = Color(0xffFFFFFF);
+const _firmCol = Color(0xff8D6CEA);
+const _greyMiddle = Color(0xff999999);
+const _greyDeep = Color(0xff525252);
+
 ThemeData _themeData = ThemeData.from(
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
@@ -131,10 +138,3 @@ ThemeData darkThemeData = _themeData.copyWith(
     color: _firmCol,
   ),
 );
-
-const _deepBlack = Color(0xff181818);
-const _blackMatte = Color(0xff343434);
-const _brightWhite = Color(0xffFFFFFF);
-const _firmCol = Color(0xff8D6CEA);
-const _greyMiddle = Color(0xff999999);
-const _greyDeep = Color(0xff525252);

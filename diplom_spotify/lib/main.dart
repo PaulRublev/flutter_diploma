@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/widgets/utility_widgets/app.dart';
+import 'package:diplom_spotify/widgets/app.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
 
