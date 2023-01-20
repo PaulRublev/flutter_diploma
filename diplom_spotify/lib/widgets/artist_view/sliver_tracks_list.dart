@@ -1,7 +1,6 @@
-import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
-import 'package:diplom_spotify/src/widgets/utility_widgets/track_list_tile.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:diplom_spotify/src/utils/utils.dart' as global;
 import 'package:module_model/module_model.dart';
 
 class SliverTracksList extends StatefulWidget {

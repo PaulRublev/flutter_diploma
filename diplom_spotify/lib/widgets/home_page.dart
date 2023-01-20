@@ -1,6 +1,6 @@
-import 'package:diplom_spotify/src/widgets/artists_page/artists_page.dart';
-import 'package:diplom_spotify/src/widgets/collection_page/collection_page.dart';
-import 'package:diplom_spotify/src/widgets/search_page/search_page.dart';
+import 'package:diplom_spotify/widgets/artists_page/artists_page.dart';
+import 'package:diplom_spotify/widgets/collection_page/collection_page.dart';
+import 'package:diplom_spotify/widgets/search_page/search_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

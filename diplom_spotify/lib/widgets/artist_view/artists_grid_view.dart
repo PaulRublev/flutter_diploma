@@ -1,6 +1,6 @@
-import 'package:diplom_spotify/src/utils/artists_network_service.dart';
-import 'package:diplom_spotify/src/widgets/artist_view/artist_grid.dart';
-import 'package:diplom_spotify/src/widgets/utility_widgets/custom_circular_progress_indicator.dart';
+import 'package:diplom_spotify/utils/artists_network_service.dart';
+import 'package:diplom_spotify/widgets/artist_view/artist_grid.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/src/utils/get_and_decode.dart';
+import 'package:diplom_spotify/utils/get_and_decode.dart';
 import 'package:module_model/module_model.dart';
 
 class ArtistsNetworkService {

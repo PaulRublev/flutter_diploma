@@ -1,5 +1,5 @@
-import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
-import 'package:diplom_spotify/src/widgets/utility_widgets/track_list_tile.dart';
+import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
 import 'package:provider/provider.dart';

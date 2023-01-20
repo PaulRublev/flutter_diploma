@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:diplom_spotify/src/widgets/player/bottom_sheet_player.dart';
+import 'package:diplom_spotify/widgets/player/bottom_sheet_player.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
 class TrackListTile extends StatelessWidget {
-  static const album70x70 = '70x70';
   final Track track;
   final bool isFavorite;
 
@@ -31,7 +30,7 @@ class TrackListTile extends StatelessWidget {
         children: [
           CachedNetworkImage(
             imageUrl: "https://api.napster.com/imageserver/v2/albums/"
-                "${track.albumId}/images/$album70x70.jpg",
+                "${track.albumId}/images/70x70.jpg",
             fit: BoxFit.contain,
             width: 65,
             placeholder: (context, url) => const SizedBox(

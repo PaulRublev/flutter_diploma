@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:diplom_spotify/src/widgets/artist_view/artists_grid_view.dart';
+import 'package:diplom_spotify/widgets/artist_view/artists_grid_view.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {

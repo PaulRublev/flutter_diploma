@@ -1,6 +1,6 @@
-import 'package:diplom_spotify/src/theme/theme_data.dart';
-import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
-import 'package:diplom_spotify/src/widgets/home_page.dart';
+import 'package:diplom_spotify/theme/theme_data.dart';
+import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
+import 'package:diplom_spotify/widgets/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:module_business/module_business.dart';

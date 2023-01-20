@@ -1,16 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:diplom_spotify/src/utils/favorite_tracks_notifier.dart';
-import 'package:diplom_spotify/src/widgets/player/simple_player.dart';
+import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
+import 'package:diplom_spotify/widgets/player/simple_player.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 import 'package:provider/provider.dart';
 
 class BottomSheetPlayer extends StatelessWidget {
-  static const album70x70 = '70x70';
-  static const album170x170 = '170x170';
-  static const collectionButtonText = 'В коллекцию';
-
   final Track track;
 
   const BottomSheetPlayer({super.key, required this.track});
@@ -40,11 +36,11 @@ class BottomSheetPlayer extends StatelessWidget {
                 ),
                 child: CachedNetworkImage(
                   imageUrl: "https://api.napster.com/imageserver/v2/albums/"
-                      "${track.albumId}/images/$album170x170.jpg",
+                      "${track.albumId}/images/170x170.jpg",
                   fit: BoxFit.fill,
                   placeholder: (context, url) => CachedNetworkImage(
                     imageUrl: "https://api.napster.com/imageserver/v2/albums/"
-                        "${track.albumId}/images/$album70x70.jpg",
+                        "${track.albumId}/images/70x70.jpg",
                     fit: BoxFit.fill,
                     placeholder: (context, url) => Container(),
                     errorWidget: (context, _, __) {
@@ -101,7 +97,7 @@ class BottomSheetPlayer extends StatelessWidget {
                                     width: 120,
                                     child: Center(
                                       child: Text(
-                                        collectionButtonText,
+                                        'В коллекцию',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText1,
