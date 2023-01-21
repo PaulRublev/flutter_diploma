@@ -6,6 +6,8 @@ class CustomCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
+      width: 50,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         shape: BoxShape.circle,

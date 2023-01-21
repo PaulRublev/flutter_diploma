@@ -31,22 +31,40 @@ class _SliverTracksListState extends State<SliverTracksList> {
     return SliverList(
       delegate: SliverChildListDelegate([
         ...tracks.map((track) => TrackListTile(track: track)).toList(),
-        Center(
-          child: isLoading
-              ? const CustomCircularProgressIndicator()
-              : ElevatedButton(
-                  onPressed: () => getTracks(),
-                  child: SizedBox(
-                    height: 50,
-                    width: 200,
-                    child: Center(
-                      child: Text(
-                        'Загрузить ещё',
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ),
-                  ),
+        Stack(
+          children: [
+            Center(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: 50,
+                width: isLoading ? 50 : 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Theme.of(context).colorScheme.background,
                 ),
+                child: isLoading
+                    ? Container()
+                    : ElevatedButton(
+                        onPressed: () => getTracks(),
+                        child: SizedBox(
+                          height: 50,
+                          width: 200,
+                          child: Center(
+                            child: Text(
+                              'Загрузить ещё',
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+            Center(
+              child: isLoading
+                  ? const CustomCircularProgressIndicator()
+                  : Container(),
+            ),
+          ],
         ),
         const SizedBox(height: 60),
       ]),
@@ -55,9 +73,9 @@ class _SliverTracksListState extends State<SliverTracksList> {
 
   void getTracks() async {
     isLoading = true;
-    setState(() {});
+    if (mounted) setState(() {});
     tracks.addAll(await artistsService.getTracksTop(widget.artistId));
     isLoading = false;
-    setState(() {});
+    if (mounted) setState(() {});
   }
 }
