@@ -5,19 +5,18 @@ import 'package:module_model/module_model.dart';
 
 class FavoriteTracksNotifier extends ChangeNotifier {
   List<Track> tracks = [];
-  final Stream<Future<List<Track>>> stream;
-  late StreamSubscription subscription;
+  bool isInitialize = false;
+  late StreamSubscription _subscription;
 
-  FavoriteTracksNotifier(this.stream) {
-    subscription = stream.listen((event) {
-      event.then((value) {
-        tracks = value;
-        notifyListeners();
-      });
+  FavoriteTracksNotifier(stream) {
+    _subscription = stream.listen((event) {
+      tracks = event;
+      isInitialize = true;
+      notifyListeners();
     });
   }
 
   void cancelSubscription() {
-    subscription.cancel();
+    _subscription.cancel();
   }
 }

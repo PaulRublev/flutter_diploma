@@ -7,8 +7,6 @@ abstract class FirebaseService {
 
   Stream<List<TrackId>> streamTrackIds();
 
-  Stream<Future<List<Track>>> streamTracks();
-
   void addTrack(String trackId);
 
   void removeTrack(String trackId);

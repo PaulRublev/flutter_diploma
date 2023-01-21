@@ -47,8 +47,41 @@ class NetworkServiceImplementation implements NetworkService {
     return data.map((artist) => Track.fromJson(artist)).toList();
   }
 
+  @override
+  Stream<List<Track>> streamTracks(Stream stream) {
+    final resultStream = _streamFromStream(_streamFutureTracks(stream));
+    return resultStream;
+  }
+
+  Stream<Future<List<Track>>> _streamFutureTracks(Stream stream) {
+    return stream.map((event) async {
+      final trackIdsString =
+          event.toString().replaceAll(RegExp(r'([\[\]\s])'), '');
+      if (trackIdsString == '') {
+        return [];
+      }
+      final uri = "https://api.napster.com/v2.2/tracks/$trackIdsString"
+          "?apikey=ZThhYzkwNDItODczNC00MWZlLTgxODUtZWExNDQ2YTYyNGY0";
+
+      return _getTracklist(uri);
+    });
+  }
+
+  Future<List<Track>> _getTracklist(String uri) async {
+    final url = Uri.parse(uri);
+    var rawData = await _httpGetAndDecode(url) as Map<String, dynamic>;
+    List<dynamic> data = rawData['tracks'];
+    return data.map((artist) => Track.fromJson(artist)).toList();
+  }
+
   dynamic _httpGetAndDecode(Uri uri) async {
     final response = await http.get(uri);
     return json.decode(response.body);
+  }
+
+  Stream<T> _streamFromStream<T>(Stream<Future<T>> futures) async* {
+    await for (final chunk in futures) {
+      yield await chunk;
+    }
   }
 }

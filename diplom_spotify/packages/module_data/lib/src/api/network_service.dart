@@ -6,4 +6,6 @@ abstract class NetworkService {
   Future<List<Artist>> getArtists(String? searchValue);
 
   Future<List<Track>> getTracksTop(String artistId);
+
+  Stream<List<Track>> streamTracks(Stream stream);
 }

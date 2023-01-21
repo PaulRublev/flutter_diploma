@@ -35,7 +35,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
           children: [
             Center(
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 600),
                 height: 50,
                 width: isLoading ? 50 : 200,
                 decoration: BoxDecoration(
