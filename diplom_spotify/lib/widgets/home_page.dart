@@ -46,23 +46,29 @@ class _HomePageState extends State<HomePage>
         physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
-          Navigator(
-            onGenerateRoute: (settings) {
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const ArtistsPage(title: _textArtists);
-                },
-              );
-            },
+          HeroControllerScope(
+            controller: MaterialApp.createMaterialHeroController(),
+            child: Navigator(
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return const ArtistsPage(title: _textArtists);
+                  },
+                );
+              },
+            ),
           ),
-          Navigator(
-            onGenerateRoute: (settings) {
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const SearchPage(title: _textSearch);
-                },
-              );
-            },
+          HeroControllerScope(
+            controller: MaterialApp.createMaterialHeroController(),
+            child: Navigator(
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return const SearchPage(title: _textSearch);
+                  },
+                );
+              },
+            ),
           ),
           Navigator(
             onGenerateRoute: (settings) {

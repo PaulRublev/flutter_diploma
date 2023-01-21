@@ -17,6 +17,7 @@ class _ArtistGridState extends State<ArtistGrid> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
@@ -25,39 +26,42 @@ class _ArtistGridState extends State<ArtistGrid> {
           ),
         );
       },
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        height: 120,
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: CachedNetworkImage(
-                imageUrl: "https://api.napster.com/imageserver/v2/artists/"
-                    "${widget.artist.id}/images/150x100.jpg",
-                fit: BoxFit.fitWidth,
-                errorWidget: (context, _, __) {
-                  return Container(
-                    color: Theme.of(context).colorScheme.primary,
-                    child: const Center(child: Text('NO IMAGE')),
-                  );
-                },
-              ),
-            ),
-            SizedBox(
-              height: 45,
-              child: Center(
-                child: Text(
-                  widget.artist.name,
-                  style: Theme.of(context).textTheme.bodyText1,
+      child: Hero(
+        tag: widget.artist.id,
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          height: 120,
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: CachedNetworkImage(
+                  imageUrl: "https://api.napster.com/imageserver/v2/artists/"
+                      "${widget.artist.id}/images/150x100.jpg",
+                  fit: BoxFit.fitWidth,
+                  errorWidget: (context, _, __) {
+                    return Container(
+                      color: Theme.of(context).colorScheme.primary,
+                      child: const Center(child: Text('NO IMAGE')),
+                    );
+                  },
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 45,
+                child: Center(
+                  child: Text(
+                    widget.artist.name,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
