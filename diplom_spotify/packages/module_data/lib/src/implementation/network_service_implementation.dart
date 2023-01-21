@@ -19,7 +19,6 @@ class NetworkServiceImplementation implements NetworkService {
         "apikey=ZThhYzkwNDItODczNC00MWZlLTgxODUtZWExNDQ2YTYyNGY0&query="
         "$searchValue&per_type_limit=10";
     final offset = _offset == 0 ? '' : '&offset=$_offset';
-    _offset += 10;
     var uri = '';
     if (searchValue != null) {
       uri = urlSearch;
@@ -32,18 +31,19 @@ class NetworkServiceImplementation implements NetworkService {
       rawData = rawData['search']['data'] as Map<String, dynamic>;
     }
     List<dynamic> data = rawData['artists'];
+    _offset += 10;
     return data.map((artist) => Artist.fromJson(artist)).toList();
   }
 
   @override
   Future<List<Track>> getTracksTop(String artistId) async {
     final offset = _offset == 0 ? '' : '&offset=$_offset';
-    _offset += 5;
     final url = Uri.parse("https://api.napster.com/v2.2/artists/$artistId"
         "/tracks/top?apikey=ZThhYzkwNDItODczNC00MWZlLTgxODUtZWExNDQ2YTYyNGY0&"
         "limit=5$offset");
     var rawData = await _httpGetAndDecode(url) as Map<String, dynamic>;
     List<dynamic> data = rawData['tracks'];
+    _offset += 5;
     return data.map((artist) => Track.fromJson(artist)).toList();
   }
 

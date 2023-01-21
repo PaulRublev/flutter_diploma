@@ -74,6 +74,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
   void getTracks() async {
     isLoading = true;
     if (mounted) setState(() {});
+    // todo try/catch
     tracks.addAll(await artistsService.getTracksTop(widget.artistId));
     isLoading = false;
     if (mounted) setState(() {});

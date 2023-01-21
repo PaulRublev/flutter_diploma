@@ -8,7 +8,8 @@ class FavoriteTracksNotifier extends ChangeNotifier {
   bool isInitialize = false;
   late StreamSubscription _subscription;
 
-  FavoriteTracksNotifier(stream) {
+  FavoriteTracksNotifier(Stream<List<Track>> stream) {
+    // todo try/catch
     _subscription = stream.listen((event) {
       tracks = event;
       isInitialize = true;

@@ -1,4 +1,6 @@
-import 'package:diplom_spotify/widgets/artist_view/artist_grid.dart';
+import 'dart:async';
+
+import 'package:diplom_spotify/widgets/artist_view/custom_refresher.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
@@ -18,8 +20,8 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
   late Future<List<Artist>> _request;
   final List<Artist> artists = [];
-  final artistsService = BlocFactory.instance.mainBloc.networkService;
-
+  final networkService = BlocFactory.instance.mainBloc.networkService;
+  Timer? reloadTimer;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
@@ -27,8 +29,8 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   void initState() {
     super.initState();
     BlocFactory.instance.refreshNetworkService();
-    artistsService.initialize();
-    _request = artistsService.getArtists(widget.search);
+    networkService.initialize();
+    _request = networkService.getArtists(widget.search);
   }
 
   @override
@@ -36,102 +38,85 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
     super.build(context);
 
     return FutureBuilder(
-        future: _request,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              return const Align(
-                alignment: Alignment.topCenter,
-                child: CustomCircularProgressIndicator(),
+      future: _request,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+          case ConnectionState.active:
+            return const Align(
+              alignment: Alignment.topCenter,
+              child: CustomCircularProgressIndicator(),
+            );
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(snapshot.error.toString()),
+                    IconButton(
+                      onPressed: () {
+                        networkService.initialize();
+                        _request = networkService.getArtists(widget.search);
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.refresh),
+                    ),
+                  ],
+                ),
               );
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
+            }
+            if (snapshot.hasData) {
+              if (artists.isEmpty) {
+                artists.addAll(snapshot.data ?? []);
               }
-              if (snapshot.hasData) {
-                if (artists.isEmpty) {
-                  artists.addAll(snapshot.data ?? []);
-                }
-                if (artists.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'Ничего не найдено',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  );
-                }
-
-                return RefreshConfiguration(
-                  hideFooterWhenNotFull: true,
-                  footerTriggerDistance: -65,
-                  bottomHitBoundary: 0,
-                  maxUnderScrollExtent: 100,
-                  child: SmartRefresher(
-                    footer: CustomFooter(
-                      loadStyle: LoadStyle.ShowWhenLoading,
-                      builder: (BuildContext context, LoadStatus? mode) {
-                        Widget body;
-                        switch (mode) {
-                          case LoadStatus.idle:
-                          case LoadStatus.canLoading:
-                          case LoadStatus.loading:
-                            body = const CustomCircularProgressIndicator();
-                            break;
-                          case LoadStatus.failed:
-                            body = const Text("Load Failed!Click retry!");
-                            break;
-                          default:
-                            body = const Text("No more Data");
-                        }
-
-                        return SizedBox(
-                          height: 60.0,
-                          child: Center(child: body),
-                        );
-                      },
-                    ),
-                    enablePullUp: true,
-                    enablePullDown: false,
-                    onLoading: () async {
-                      artists.addAll(
-                          await artistsService.getArtists(widget.search));
-                      refreshController.loadComplete();
-                      if (mounted) setState(() {});
-                    },
-                    controller: refreshController,
-                    child: GridView.builder(
-                      padding: const EdgeInsets.only(
-                        left: 25,
-                        right: 25,
-                        top: 15,
-                        bottom: 10,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15,
-                        childAspectRatio: 1.3,
-                      ),
-                      itemCount: artists.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ArtistGrid(artist: artists[index]);
-                      },
-                    ),
+              if (artists.isEmpty) {
+                return Center(
+                  child: Text(
+                    'Ничего не найдено',
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 );
               }
 
-              return Container();
-            default:
-              return Container();
-          }
-        });
+              return CustomRefresher(
+                onLoading: _loading,
+                refreshController: refreshController,
+                artists: artists,
+              );
+            }
+
+            return Container();
+          default:
+            return Container();
+        }
+      },
+    );
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  void _loading() async {
+    if (refreshController.footerStatus == LoadStatus.loading) {
+      if (reloadTimer?.isActive ?? false) {
+        reloadTimer?.cancel();
+      }
+      reloadTimer = Timer(
+        const Duration(seconds: 5),
+        () {
+          setState(() {
+            _loading();
+          });
+        },
+      );
+    }
+    // todo try/catch
+    artists.addAll(await networkService.getArtists(widget.search));
+    if (reloadTimer?.isActive ?? false) {
+      reloadTimer?.cancel();
+    }
+    refreshController.loadComplete();
+    if (mounted) setState(() {});
+  }
 }
