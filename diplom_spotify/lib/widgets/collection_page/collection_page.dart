@@ -1,4 +1,5 @@
 import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
+import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/collection_page/custom_dialog.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,9 @@ class _CollectionPageState extends State<CollectionPage>
                       key: Key(track.id),
                       confirmDismiss: (direction) => _dialogBuilder(context),
                       onDismissed: (direction) {
+                        final player =
+                            Provider.of<Player>(context, listen: false);
+                        player.stopIfDeleted(track.previewURL);
                         BlocFactory.instance.mainBloc.firebaseService
                             .removeTrack(track.id);
                       },

@@ -1,4 +1,5 @@
 import 'package:diplom_spotify/widgets/player/bottom_sheet_player.dart';
+import 'package:diplom_spotify/widgets/player/player_button.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
@@ -64,15 +65,17 @@ class TrackListTile extends StatelessWidget {
                 ],
               ),
             ),
-            Material(
-              color: !isFavorite
-                  ? Theme.of(context).colorScheme.background
-                  : Theme.of(context).dialogBackgroundColor,
-              child: IconButton(
-                splashRadius: 25,
-                padding: const EdgeInsets.all(18),
-                icon: const Icon(Icons.play_circle_outline_rounded),
-                onPressed: () {},
+            Padding(
+              padding: const EdgeInsets.only(right: 18),
+              child: Material(
+                color: !isFavorite
+                    ? Theme.of(context).colorScheme.background
+                    : Theme.of(context).dialogBackgroundColor,
+                child: SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: PlayerButton(trackUri: track.previewURL),
+                ),
               ),
             ),
           ],

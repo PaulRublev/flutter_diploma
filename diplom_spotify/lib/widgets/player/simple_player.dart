@@ -1,8 +1,9 @@
+import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/player/custom_slider.dart';
 import 'package:diplom_spotify/widgets/player/player_button.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:module_model/module_model.dart';
+import 'package:provider/provider.dart';
 
 class SimplePlayer extends StatefulWidget {
   final Track track;
@@ -14,55 +15,41 @@ class SimplePlayer extends StatefulWidget {
 }
 
 class _SimplePlayerState extends State<SimplePlayer> {
-  double sliderValue = 0;
-  late AudioPlayer _audioPlayer;
+  late Player player;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer();
-    _audioPlayer.setAudioSource(AudioSource.uri(
-      Uri.parse(widget.track.previewURL),
-    ));
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
+    player = Provider.of<Player>(context, listen: false);
+    player.initialize();
+    if (widget.track.previewURL != player.trackUri) {
+      player.setTrackUri(widget.track.previewURL);
+      player.audioPlayer?.play();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<PlayerState>(
-      stream: _audioPlayer.playerStateStream,
-      builder: (context, snapshot) {
-        final playerState = snapshot.data;
-        return Row(
-          children: [
-            SizedBox(
-              height: 27.5,
-              width: 27.5,
-              child: PlayerButton(
-                audioPlayer: _audioPlayer,
-                playerState: playerState,
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder<Duration?>(
-                stream: _audioPlayer.positionStream,
-                builder: (context, snapshot) {
-                  final currentDuration = snapshot.data;
-                  return CustomSlider(
-                    audioPlayer: _audioPlayer,
-                    currentDuration: currentDuration,
-                  );
-                },
-              ),
-            ),
-          ],
-        );
-      },
+    return Row(
+      children: [
+        SizedBox(
+          height: 27.5,
+          width: 27.5,
+          child: PlayerButton(trackUri: widget.track.previewURL),
+        ),
+        Expanded(
+          child: StreamBuilder<Duration?>(
+            stream: player.audioPlayer?.positionStream,
+            builder: (context, snapshot) {
+              final currentDuration = snapshot.data;
+              return CustomSlider(
+                audioPlayer: player.audioPlayer,
+                currentDuration: currentDuration,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

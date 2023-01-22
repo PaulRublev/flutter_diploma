@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:diplom_spotify/theme/theme_data.dart';
 import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
+import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,12 +27,17 @@ class App extends StatelessWidget {
     return ChangeNotifierProvider<FavoriteTracksNotifier>(
       create: (context) => FavoriteTracksNotifier(stream),
       builder: (context, _) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Spotifier',
-          theme: themeData,
-          home: const HomePage(),
-        );
+        return Provider<Player>(
+            create: (context) => Player(),
+            dispose: (context, value) => value.dispose(),
+            builder: (context, _) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Spotifier',
+                theme: themeData,
+                home: const HomePage(),
+              );
+            });
       },
     );
   }
