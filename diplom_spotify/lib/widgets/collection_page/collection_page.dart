@@ -1,4 +1,5 @@
 import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
+import 'package:diplom_spotify/widgets/collection_page/custom_dialog.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
@@ -23,7 +24,6 @@ class _CollectionPageState extends State<CollectionPage>
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 83,
         title: Text(
           widget.title,
           style: Theme.of(context).textTheme.headline1,
@@ -87,55 +87,8 @@ class _CollectionPageState extends State<CollectionPage>
   Future<bool?> _dialogBuilder(BuildContext context) {
     return showDialog<bool>(
       context: context,
-      builder: (BuildContext context) {
-        return LayoutBuilder(builder: (context, constraints) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            actionsPadding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
-            actionsAlignment: MainAxisAlignment.spaceBetween,
-            insetPadding:
-                const EdgeInsets.symmetric(horizontal: 45, vertical: 200),
-            title: Text(
-              'Вы уверены, что хотите удалить трек?',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            actions: <Widget>[
-              OutlinedButton(
-                child: SizedBox(
-                  height: 30,
-                  width: constraints.maxWidth / 5,
-                  child: Center(
-                    child: Text(
-                      'Да',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-              ),
-              OutlinedButton(
-                child: SizedBox(
-                  height: 30,
-                  width: constraints.maxWidth / 5,
-                  child: Center(
-                    child: Text(
-                      'Нет',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-            ],
-          );
-        });
+      builder: (context) {
+        return const CustomDialog();
       },
     );
   }

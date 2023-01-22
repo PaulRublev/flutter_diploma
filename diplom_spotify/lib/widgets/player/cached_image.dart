@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
@@ -17,23 +17,7 @@ class CachedImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).colorScheme.background,
       ),
-      child: CachedNetworkImage(
-        imageUrl: "https://api.napster.com/imageserver/v2/albums/"
-            "${track.albumId}/images/170x170.jpg",
-        fit: BoxFit.fill,
-        placeholder: (context, url) => CachedNetworkImage(
-          imageUrl: "https://api.napster.com/imageserver/v2/albums/"
-              "${track.albumId}/images/70x70.jpg",
-          fit: BoxFit.fill,
-          placeholder: (context, url) => Container(),
-          errorWidget: (context, _, __) {
-            return const Center(child: Text('NO IMAGE'));
-          },
-        ),
-        errorWidget: (context, _, __) {
-          return const Center(child: Text('NO IMAGE'));
-        },
-      ),
+      child: CustomCachedImage.album170x170(albumId: track.albumId),
     );
   }
 }

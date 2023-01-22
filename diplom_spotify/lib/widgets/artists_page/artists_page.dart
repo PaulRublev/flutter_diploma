@@ -10,7 +10,6 @@ class ArtistsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 83,
         title: Text(
           title,
           style: Theme.of(context).textTheme.headline1,

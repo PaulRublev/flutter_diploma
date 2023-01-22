@@ -20,7 +20,6 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 83,
         title: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10),
           constraints: const BoxConstraints(maxHeight: 36),

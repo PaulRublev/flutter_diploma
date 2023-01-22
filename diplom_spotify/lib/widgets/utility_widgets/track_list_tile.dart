@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diplom_spotify/widgets/player/bottom_sheet_player.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
@@ -28,23 +28,10 @@ class TrackListTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CachedNetworkImage(
-            imageUrl: "https://api.napster.com/imageserver/v2/albums/"
-                "${track.albumId}/images/70x70.jpg",
-            fit: BoxFit.contain,
+          SizedBox(
+            height: 65,
             width: 65,
-            placeholder: (context, url) => const SizedBox(
-              height: 65,
-              width: 65,
-            ),
-            errorWidget: (context, _, __) {
-              return Container(
-                height: 65,
-                width: 65,
-                color: Theme.of(context).colorScheme.primary,
-                child: const Center(child: Text('NO IMAGE')),
-              );
-            },
+            child: CustomCachedImage.album70x70(albumId: track.albumId),
           ),
           const SizedBox(width: 15),
           Expanded(
