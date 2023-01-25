@@ -13,7 +13,7 @@ class FavoriteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FavoriteTracksNotifier>(
       builder: (context, favoriteTracks, child) {
-        if (!favoriteTracks.isInitialize) return Container();
+        if (favoriteTracks.subscription == null) return Container();
         final isInCollection = favoriteTracks.tracks.contains(track);
         return SizedBox(
           height: 30,
