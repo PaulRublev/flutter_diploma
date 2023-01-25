@@ -1,5 +1,5 @@
 import 'package:diplom_spotify/utils/player.dart';
-import 'package:diplom_spotify/widgets/player/custom_slider.dart';
+import 'package:diplom_spotify/widgets/player/bottom_sheet_player_control.dart';
 import 'package:diplom_spotify/widgets/player/player_button.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
@@ -42,7 +42,7 @@ class _SimplePlayerState extends State<SimplePlayer> {
             stream: player.audioPlayer?.positionStream,
             builder: (context, snapshot) {
               final currentDuration = snapshot.data;
-              return CustomSlider(
+              return BottomSheetPlayerControl(
                 audioPlayer: player.audioPlayer,
                 currentDuration: currentDuration,
               );

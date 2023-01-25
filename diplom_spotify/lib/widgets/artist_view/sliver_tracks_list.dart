@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
@@ -59,7 +59,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
             ),
             Center(
               child: isLoading
-                  ? const CustomCircularProgressIndicator()
+                  ? const StyledCircularProgressIndicator()
                   : Container(),
             ),
           ],

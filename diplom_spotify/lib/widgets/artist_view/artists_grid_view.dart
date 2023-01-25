@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:diplom_spotify/widgets/artist_view/custom_refresher.dart';
-import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
+import 'package:diplom_spotify/widgets/artist_view/refresher.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
@@ -43,7 +43,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
           case ConnectionState.active:
             return const Align(
               alignment: Alignment.topCenter,
-              child: CustomCircularProgressIndicator(),
+              child: StyledCircularProgressIndicator(),
             );
           case ConnectionState.done:
             if (snapshot.hasError) {
@@ -77,7 +77,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                 );
               }
 
-              return CustomRefresher(
+              return Refresher(
                 onLoading: _onLoading,
                 refreshController: refreshController,
                 artists: artists,

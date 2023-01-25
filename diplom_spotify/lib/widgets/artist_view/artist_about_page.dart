@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/cached_image.dart';
 import 'package:diplom_spotify/widgets/artist_view/sliver_tracks_list.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
@@ -25,7 +25,7 @@ class ArtistAboutPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline1,
                 ),
                 centerTitle: true,
-                background: CustomCachedImage.artist356x237(
+                background: CachedImage.artist356x237(
                   artistId: artist.id,
                 ),
               ),

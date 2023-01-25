@@ -1,15 +1,15 @@
 import 'package:diplom_spotify/widgets/artist_view/artist_grid.dart';
-import 'package:diplom_spotify/widgets/utility_widgets/custom_circular_progress_indicator.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CustomRefresher extends StatelessWidget {
+class Refresher extends StatelessWidget {
   final Function onLoading;
   final RefreshController refreshController;
   final List<Artist> artists;
 
-  const CustomRefresher({
+  const Refresher({
     super.key,
     required this.onLoading,
     required this.refreshController,
@@ -62,7 +62,7 @@ class CustomRefresher extends StatelessWidget {
       case LoadStatus.idle:
       case LoadStatus.canLoading:
       case LoadStatus.loading:
-        body = const CustomCircularProgressIndicator();
+        body = const StyledCircularProgressIndicator();
         break;
       case LoadStatus.failed:
         body = const Text("Load Failed!Click retry!");

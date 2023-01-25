@@ -1,5 +1,5 @@
 import 'package:diplom_spotify/utils/player.dart';
-import 'package:diplom_spotify/widgets/utility_widgets/custom_icon_button.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/styled_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class PlayerButton extends StatelessWidget {
       builder: (context, snapshot) {
         final processingState = snapshot.data?.processingState;
         if (trackUri != player.trackUri) {
-          return CustomIconButton(
+          return StyledIconButton(
             Icons.play_circle_outline_rounded,
             onPressed: () {
               player.setTrackUri(trackUri);
@@ -38,19 +38,19 @@ class PlayerButton extends StatelessWidget {
         } else if (player.audioPlayer == null || processingState == null) {
           return Container();
         } else if (!player.audioPlayer!.playing) {
-          return CustomIconButton(
+          return StyledIconButton(
             Icons.play_circle_outline_rounded,
             onPressed: () {
               player.audioPlayer!.play();
             },
           );
         } else if (processingState != ProcessingState.completed) {
-          return CustomIconButton(
+          return StyledIconButton(
             Icons.pause_circle_outline_rounded,
             onPressed: () => player.audioPlayer!.pause(),
           );
         } else {
-          return CustomIconButton(
+          return StyledIconButton(
             Icons.replay_rounded,
             onPressed: () => player.audioPlayer!.seek(
               Duration.zero,

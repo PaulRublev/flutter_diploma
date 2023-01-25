@@ -1,11 +1,11 @@
-import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
-class CachedImage extends StatelessWidget {
+class PlayerCachedImage extends StatelessWidget {
   final Track track;
 
-  const CachedImage({super.key, required this.track});
+  const PlayerCachedImage({super.key, required this.track});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CachedImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).colorScheme.background,
       ),
-      child: CustomCachedImage.album170x170(albumId: track.albumId),
+      child: CachedImage.album170x170(albumId: track.albumId),
     );
   }
 }

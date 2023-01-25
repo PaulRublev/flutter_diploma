@@ -1,6 +1,6 @@
 import 'package:diplom_spotify/widgets/player/bottom_sheet_player.dart';
 import 'package:diplom_spotify/widgets/player/player_button.dart';
-import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
@@ -41,7 +41,7 @@ class TrackListTile extends StatelessWidget {
             SizedBox(
               height: 65,
               width: 65,
-              child: CustomCachedImage.album70x70(albumId: track.albumId),
+              child: CachedImage.album70x70(albumId: track.albumId),
             ),
             const SizedBox(width: 15),
             Expanded(

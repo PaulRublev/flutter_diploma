@@ -1,8 +1,8 @@
 import 'package:diplom_spotify/widgets/collection_page/dialog_button.dart';
 import 'package:flutter/material.dart';
 
-class CustomDialog extends StatelessWidget {
-  const CustomDialog({super.key});
+class DeleteDialog extends StatelessWidget {
+  const DeleteDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

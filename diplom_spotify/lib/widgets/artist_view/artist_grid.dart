@@ -1,5 +1,5 @@
 import 'package:diplom_spotify/widgets/artist_view/artist_about_page.dart';
-import 'package:diplom_spotify/widgets/utility_widgets/custom_cached_image.dart';
+import 'package:diplom_spotify/widgets/utility_widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
@@ -34,7 +34,7 @@ class ArtistGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                child: CustomCachedImage.artist150x100(
+                child: CachedImage.artist150x100(
                   artistId: artist.id,
                 ),
               ),

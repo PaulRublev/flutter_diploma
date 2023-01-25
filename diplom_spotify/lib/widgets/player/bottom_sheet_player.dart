@@ -1,4 +1,4 @@
-import 'package:diplom_spotify/widgets/player/cached_image.dart';
+import 'package:diplom_spotify/widgets/player/player_cached_image.dart';
 import 'package:diplom_spotify/widgets/player/favorite_button.dart';
 import 'package:diplom_spotify/widgets/player/simple_player.dart';
 import 'package:diplom_spotify/widgets/player/track_info.dart';
@@ -25,7 +25,7 @@ class BottomSheetPlayer extends StatelessWidget {
         children: [
           Row(
             children: [
-              CachedImage(track: track),
+              PlayerCachedImage(track: track),
               const SizedBox(width: 15),
               Expanded(
                 child: SizedBox(
