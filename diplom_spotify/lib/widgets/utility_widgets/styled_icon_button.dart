@@ -13,7 +13,7 @@ class StyledIconButton extends StatelessWidget {
       visualDensity: VisualDensity.compact,
       splashRadius: 15,
       padding: const EdgeInsets.all(1),
-      onPressed: () => onPressed(),
+      onPressed: onPressed,
     );
   }
 }

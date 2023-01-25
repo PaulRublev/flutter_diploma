@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
 class TrackInfo extends StatelessWidget {
-  final Track track;
+  final NapsterTrack track;
 
   const TrackInfo({super.key, required this.track});
 

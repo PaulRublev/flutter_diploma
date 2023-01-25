@@ -20,7 +20,7 @@ class App extends StatelessWidget {
     ]);
     final networkService = BlocFactory.instance.mainBloc.networkService;
     final firebaseService = BlocFactory.instance.mainBloc.firebaseService;
-    final Stream<List<Track>> stream = _streamFromStream(
+    final Stream<List<NapsterTrack>> stream = _streamFromStream(
         networkService.streamFutureTracks(firebaseService.streamTrackIds()));
 
     return ChangeNotifierProvider<FavoriteTracksNotifier>(

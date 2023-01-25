@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
 class BottomSheetPlayer extends StatelessWidget {
-  final Track track;
+  final NapsterTrack track;
 
   const BottomSheetPlayer({super.key, required this.track});
 

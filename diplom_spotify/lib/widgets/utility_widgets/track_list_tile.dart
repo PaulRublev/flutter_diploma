@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
 class TrackListTile extends StatelessWidget {
-  final Track track;
+  final NapsterTrack track;
   final bool isFavorite;
 
   const TrackListTile(

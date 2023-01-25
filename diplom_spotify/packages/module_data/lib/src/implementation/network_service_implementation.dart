@@ -14,15 +14,16 @@ class NetworkServiceImplementation implements NetworkService {
   }
 
   @override
-  Future<List<Track>> getTracksTop(String artistId, int offset) async {
+  Future<List<NapsterTrack>> getTracksTop(String artistId, int offset) async {
     final uri = NapsterApi.artistTopTracks(offset, artistId);
     final rawData = await _httpGetAndDecode(uri) as Map<String, dynamic>;
     List<dynamic> data = rawData['tracks'];
-    return data.map((artist) => Track.fromJson(artist)).toList();
+    return data.map((artist) => NapsterTrack.fromJson(artist)).toList();
   }
 
   @override
-  Stream<Future<List<Track>>> streamFutureTracks(Stream<List<TrackId>> stream) {
+  Stream<Future<List<NapsterTrack>>> streamFutureTracks(
+      Stream<List<DatabaseTrack>> stream) {
     return stream.map((event) async {
       final trackIdsString = event.join(',');
       if (trackIdsString == '') {
@@ -45,11 +46,11 @@ class NetworkServiceImplementation implements NetworkService {
     return rawData['search']['data'] as Map<String, dynamic>;
   }
 
-  Future<List<Track>> _getTracklist(String trackIdsString) async {
+  Future<List<NapsterTrack>> _getTracklist(String trackIdsString) async {
     final uri = NapsterApi.tracksList(trackIdsString);
     final rawData = await _httpGetAndDecode(uri) as Map<String, dynamic>;
     List<dynamic> data = rawData['tracks'];
-    return data.map((artist) => Track.fromJson(artist)).toList();
+    return data.map((artist) => NapsterTrack.fromJson(artist)).toList();
   }
 
   dynamic _httpGetAndDecode(Uri uri) async {

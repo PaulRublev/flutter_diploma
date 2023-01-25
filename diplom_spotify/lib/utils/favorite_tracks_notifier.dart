@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
 class FavoriteTracksNotifier extends ChangeNotifier {
-  List<Track> tracks = [];
+  List<NapsterTrack> tracks = [];
   StreamSubscription? subscription;
 
-  FavoriteTracksNotifier(Stream<List<Track>> stream) {
+  FavoriteTracksNotifier(Stream<List<NapsterTrack>> stream) {
     subscription = stream.listen((event) {
       tracks = event;
       notifyListeners();

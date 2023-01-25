@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
 class PlayerCachedImage extends StatelessWidget {
-  final Track track;
+  final NapsterTrack track;
 
   const PlayerCachedImage({super.key, required this.track});
 

@@ -15,7 +15,7 @@ class SliverTracksList extends StatefulWidget {
 
 class _SliverTracksListState extends State<SliverTracksList> {
   bool isLoading = true;
-  final List<Track> tracks = [];
+  final List<NapsterTrack> tracks = [];
   final artistsService = BlocFactory.instance.mainBloc.networkService;
 
   @override

@@ -5,7 +5,7 @@ import 'package:module_model/module_model.dart';
 import 'package:provider/provider.dart';
 
 class FavoriteButton extends StatelessWidget {
-  final Track track;
+  final NapsterTrack track;
 
   const FavoriteButton({super.key, required this.track});
 

@@ -6,7 +6,7 @@ import 'package:module_model/module_model.dart';
 import 'package:provider/provider.dart';
 
 class SimplePlayer extends StatefulWidget {
-  final Track track;
+  final NapsterTrack track;
 
   const SimplePlayer({super.key, required this.track});
 

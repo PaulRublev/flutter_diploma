@@ -5,16 +5,17 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class MyFirebaseService implements FirebaseService {
-  late final CollectionReference<TrackId> _tracks;
+  late final CollectionReference<DatabaseTrack> _tracks;
 
   @override
   void referenceInit() {
-    _tracks =
-        FirebaseFirestore.instance.collection('tracks').withConverter<TrackId>(
-              fromFirestore: (snapshot, options) =>
-                  TrackId.fromJson(snapshot.data() ?? {}),
-              toFirestore: (track, options) => track.toJson(),
-            );
+    _tracks = FirebaseFirestore.instance
+        .collection('tracks')
+        .withConverter<DatabaseTrack>(
+          fromFirestore: (snapshot, options) =>
+              DatabaseTrack.fromJson(snapshot.data() ?? {}),
+          toFirestore: (track, options) => track.toJson(),
+        );
   }
 
   @override
@@ -25,9 +26,9 @@ class MyFirebaseService implements FirebaseService {
   }
 
   @override
-  Stream<List<TrackId>> streamTrackIds() {
+  Stream<List<DatabaseTrack>> streamTrackIds() {
     return _tracks
-        .orderBy('duration', descending: true)
+        .orderBy('timestamp', descending: true)
         .snapshots()
         .map(
           (event) => event.docs.map((e) {
@@ -40,9 +41,9 @@ class MyFirebaseService implements FirebaseService {
   @override
   void addTrack(String trackId) {
     _tracks.doc(trackId.toLowerCase()).set(
-          TrackId(
+          DatabaseTrack(
             id: trackId,
-            duration: DateTime.now().millisecondsSinceEpoch,
+            timestamp: DateTime.now().millisecondsSinceEpoch,
           ),
         );
   }

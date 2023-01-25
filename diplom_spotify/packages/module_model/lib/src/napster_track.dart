@@ -1,11 +1,11 @@
-class Track {
+class NapsterTrack {
   final String id;
   final String name;
   final String albumName;
   final String albumId;
   final String previewURL;
 
-  Track({
+  NapsterTrack({
     required this.name,
     required this.id,
     required this.albumName,
@@ -13,7 +13,7 @@ class Track {
     required this.previewURL,
   });
 
-  Track.fromJson(Map<String, dynamic> json)
+  NapsterTrack.fromJson(Map<String, dynamic> json)
       : this(
           id: json['id'] ?? '',
           name: json['name'] ?? '',
@@ -40,7 +40,7 @@ class Track {
 
   @override
   bool operator ==(Object other) {
-    return other is Track && id == other.id;
+    return other is NapsterTrack && id == other.id;
   }
 
   @override
