@@ -20,9 +20,8 @@ class App extends StatelessWidget {
     ]);
     final networkService = BlocFactory.instance.mainBloc.networkService;
     final firebaseService = BlocFactory.instance.mainBloc.firebaseService;
-    final Stream<List<Track>> stream = networkService.streamTracks(
-      firebaseService.streamTrackIds(),
-    );
+    final Stream<List<Track>> stream = _streamFromStream(
+        networkService.streamFutureTracks(firebaseService.streamTrackIds()));
 
     return ChangeNotifierProvider<FavoriteTracksNotifier>(
       create: (context) => FavoriteTracksNotifier(stream),
@@ -40,5 +39,11 @@ class App extends StatelessWidget {
             });
       },
     );
+  }
+
+  Stream<T> _streamFromStream<T>(Stream<Future<T>> futures) async* {
+    await for (final chunk in futures) {
+      yield await chunk;
+    }
   }
 }

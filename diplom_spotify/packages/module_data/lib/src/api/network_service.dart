@@ -1,11 +1,9 @@
 import 'package:module_model/module_model.dart';
 
 abstract class NetworkService {
-  void initialize();
+  Future<List<Artist>> getArtists(String? searchValue, int offset);
 
-  Future<List<Artist>> getArtists(String? searchValue);
+  Future<List<Track>> getTracksTop(String artistId, int offset);
 
-  Future<List<Track>> getTracksTop(String artistId);
-
-  Stream<List<Track>> streamTracks(Stream stream);
+  Stream<Future<List<Track>>> streamFutureTracks(Stream<List<TrackId>> stream);
 }

@@ -13,8 +13,4 @@ class BlocFactory {
       networkService: ServiceProvider.instance.get<NetworkService>(),
     );
   }
-
-  void refreshNetworkService() {
-    mainBloc.networkService = ServiceProvider.instance.get<NetworkService>();
-  }
 }

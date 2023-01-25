@@ -149,4 +149,7 @@ ThemeData themeData = _darkThemeData.copyWith(
     size: 27.5,
     color: _purple,
   ),
+  snackBarTheme: const SnackBarThemeData(
+    backgroundColor: _grey,
+  ),
 );

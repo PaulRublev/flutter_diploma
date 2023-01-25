@@ -14,7 +14,7 @@ class ServiceProvider {
     _getIt.registerLazySingleton<FirebaseService>(
       () => MyFirebaseService(),
     );
-    _getIt.registerFactory<NetworkService>(
+    _getIt.registerLazySingleton<NetworkService>(
       () => NetworkServiceImplementation(),
     );
   }

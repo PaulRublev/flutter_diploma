@@ -28,9 +28,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   @override
   void initState() {
     super.initState();
-    BlocFactory.instance.refreshNetworkService();
-    networkService.initialize();
-    _request = networkService.getArtists(widget.search);
+    _request = networkService.getArtists(widget.search, artists.length);
   }
 
   @override
@@ -56,8 +54,8 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
                     Text(snapshot.error.toString()),
                     IconButton(
                       onPressed: () {
-                        networkService.initialize();
-                        _request = networkService.getArtists(widget.search);
+                        _request = networkService.getArtists(
+                            widget.search, artists.length);
                         setState(() {});
                       },
                       icon: const Icon(Icons.refresh),
@@ -80,7 +78,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
               }
 
               return CustomRefresher(
-                onLoading: _loading,
+                onLoading: _onLoading,
                 refreshController: refreshController,
                 artists: artists,
               );
@@ -97,22 +95,31 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
   @override
   bool get wantKeepAlive => true;
 
-  void _loading() async {
+  void _onLoading() async {
     if (refreshController.footerStatus == LoadStatus.loading) {
-      if (reloadTimer?.isActive ?? false) {
+      if (reloadTimer?.isActive == true) {
         reloadTimer?.cancel();
       }
       reloadTimer = Timer(
         const Duration(seconds: 5),
         () {
           setState(() {
-            _loading();
+            _onLoading();
           });
         },
       );
     }
-    // todo try/catch
-    artists.addAll(await networkService.getArtists(widget.search));
+    try {
+      artists.addAll(
+          await networkService.getArtists(widget.search, artists.length));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 3),
+          content: Text('$e'),
+        ),
+      );
+    }
     if (reloadTimer?.isActive ?? false) {
       reloadTimer?.cancel();
     }

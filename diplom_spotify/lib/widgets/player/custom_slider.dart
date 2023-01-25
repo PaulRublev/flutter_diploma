@@ -17,7 +17,7 @@ class CustomSlider extends StatelessWidget {
           child: Slider(
             divisions: 180,
             value: (currentDuration?.inMilliseconds ?? 0).toDouble(),
-            max: (audioPlayer?.duration?.inMilliseconds ?? 0).toDouble() + 10,
+            max: (audioPlayer?.duration?.inMilliseconds ?? 0).toDouble() + 10.0,
             onChanged: (value) {
               audioPlayer?.seek(Duration(milliseconds: value.toInt()));
             },
@@ -27,6 +27,7 @@ class CustomSlider extends StatelessWidget {
           children: [
             const Spacer(),
             Text(
+              // todo !!
               currentDuration?.toString().substring(0, 7) ?? '-',
               style: Theme.of(context).textTheme.overline,
             ),

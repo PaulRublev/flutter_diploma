@@ -21,8 +21,6 @@ class _SliverTracksListState extends State<SliverTracksList> {
   @override
   void initState() {
     super.initState();
-    BlocFactory.instance.refreshNetworkService();
-    artistsService.initialize();
     getTracks();
   }
 
@@ -74,8 +72,17 @@ class _SliverTracksListState extends State<SliverTracksList> {
   void getTracks() async {
     isLoading = true;
     if (mounted) setState(() {});
-    // todo try/catch
-    tracks.addAll(await artistsService.getTracksTop(widget.artistId));
+    try {
+      tracks.addAll(
+          await artistsService.getTracksTop(widget.artistId, tracks.length));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 3),
+          content: Text('$e'),
+        ),
+      );
+    }
     isLoading = false;
     if (mounted) setState(() {});
   }
