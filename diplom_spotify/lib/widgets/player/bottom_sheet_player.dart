@@ -1,7 +1,7 @@
-import 'package:diplom_spotify/widgets/player/player_cached_image.dart';
-import 'package:diplom_spotify/widgets/player/favorite_button.dart';
-import 'package:diplom_spotify/widgets/player/simple_player.dart';
-import 'package:diplom_spotify/widgets/player/track_info.dart';
+import 'package:diplom_spotify/widgets/player/components/player_cached_image.dart';
+import 'package:diplom_spotify/widgets/player/components/favorite_button.dart';
+import 'package:diplom_spotify/widgets/player/components/simple_player.dart';
+import 'package:diplom_spotify/widgets/player/components/track_info.dart';
 import 'package:flutter/material.dart';
 import 'package:module_model/module_model.dart';
 
