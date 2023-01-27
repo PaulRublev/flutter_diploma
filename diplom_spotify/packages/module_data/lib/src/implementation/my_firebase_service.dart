@@ -26,7 +26,7 @@ class MyFirebaseService implements FirebaseService {
   }
 
   @override
-  Stream<List<DatabaseTrack>> streamTrackIds() {
+  Stream<List<DatabaseTrack>> streamDatabaseTracks() {
     return _tracks
         .orderBy('timestamp', descending: true)
         .snapshots()

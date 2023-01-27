@@ -4,14 +4,14 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class DummyFirebaseService implements FirebaseService {
-  List<DatabaseTrack> trackIds = [];
+  List<DatabaseTrack> databaseTracks = [];
   final StreamController<List<DatabaseTrack>> _controller = StreamController();
 
   @override
   void addTrack(String trackId) {
-    trackIds.add(DatabaseTrack(
+    databaseTracks.add(DatabaseTrack(
         id: trackId, timestamp: DateTime.now().millisecondsSinceEpoch));
-    _controller.add(trackIds);
+    _controller.add(databaseTracks);
   }
 
   @override
@@ -24,13 +24,13 @@ class DummyFirebaseService implements FirebaseService {
 
   @override
   void removeTrack(String trackId) {
-    trackIds.removeWhere((element) => element.id == trackId);
-    _controller.add(trackIds);
+    databaseTracks.removeWhere((element) => element.id == trackId);
+    _controller.add(databaseTracks);
   }
 
   @override
-  Stream<List<DatabaseTrack>> streamTrackIds() {
-    _controller.add(trackIds);
+  Stream<List<DatabaseTrack>> streamDatabaseTracks() {
+    _controller.add(databaseTracks);
     return _controller.stream;
   }
 }
