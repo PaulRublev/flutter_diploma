@@ -20,4 +20,12 @@ class Artist {
   String toString() {
     return 'id: $id\nname: $name\nblurbs: $blurbs';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Artist && id == other.id;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, blurbs);
 }

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:diplom_spotify/widgets/artist_view/artists_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:module_business/module_business.dart';
 
 class SearchPage extends StatefulWidget {
   final String title;
@@ -46,7 +48,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
               style: Theme.of(context).textTheme.headline2,
               autocorrect: false,
-              onChanged: (value) => _onSearchChanged(value),
+              onChanged: (value) => _onSearchChanged(value, context),
               onEditingComplete: () {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
@@ -56,12 +58,20 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
-      body: editingController.value.text != ''
-          ? ArtistsGridView(
-              key: UniqueKey(),
-              search: editingController.value.text,
-            )
-          : Container(),
+      body: BlocBuilder<SearchArtistsCubit, ArtistsState>(
+        buildWhen: (previous, current) =>
+            current.status != ArtistsStatus.waiting,
+        builder: (context, state) {
+          return editingController.value.text != ''
+              ? ArtistsGridView(
+                  key: Key(editingController.value.text),
+                  search: editingController.value.text,
+                  state: state,
+                  request: context.read<SearchArtistsCubit>().getArtists,
+                )
+              : Container();
+        },
+      ),
     );
   }
 
@@ -71,10 +81,10 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  void _onSearchChanged(String query) {
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
+  void _onSearchChanged(String query, BuildContext context) {
+    if (_debounce?.isActive == true) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      setState(() {});
+      context.read<SearchArtistsCubit>().setLoadingState();
     });
   }
 }

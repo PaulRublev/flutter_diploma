@@ -6,6 +6,7 @@ import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 import 'package:provider/provider.dart';
@@ -30,16 +31,23 @@ class App extends StatelessWidget {
       create: (context) => FavoriteTracksNotifier(stream),
       builder: (context, _) {
         return Provider<Player>(
-            create: (context) => Player(),
-            dispose: (context, value) => value.dispose(),
-            builder: (context, _) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Spotifier',
-                theme: themeData,
-                home: const HomePage(),
-              );
-            });
+          create: (context) => Player(),
+          dispose: (context, value) => value.dispose(),
+          builder: (context, _) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Spotifier',
+              theme: themeData,
+              home: MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (_) => ArtistsCubit()),
+                  BlocProvider(create: (_) => SearchArtistsCubit()),
+                ],
+                child: const HomePage(),
+              ),
+            );
+          },
+        );
       },
     );
   }

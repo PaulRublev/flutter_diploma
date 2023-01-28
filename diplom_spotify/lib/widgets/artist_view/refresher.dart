@@ -1,23 +1,27 @@
 import 'package:diplom_spotify/widgets/artist_view/artist_grid.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:module_model/module_model.dart';
+import 'package:module_business/module_business.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Refresher extends StatelessWidget {
-  final Function onLoading;
-  final RefreshController refreshController;
-  final List<Artist> artists;
+  final String? search;
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
+  final ArtistsState state;
+  final Function(String?) request;
 
-  const Refresher({
+  Refresher({
     super.key,
-    required this.onLoading,
-    required this.refreshController,
-    required this.artists,
+    this.search,
+    required this.state,
+    required this.request,
   });
 
   @override
   Widget build(BuildContext context) {
+    refreshController.loadComplete();
+
     return RefreshConfiguration(
       hideFooterWhenNotFull: true,
       footerTriggerDistance: -65,
@@ -30,8 +34,8 @@ class Refresher extends StatelessWidget {
         ),
         enablePullUp: true,
         enablePullDown: false,
-        onLoading: () {
-          onLoading();
+        onLoading: () async {
+          await request(search);
         },
         controller: refreshController,
         child: GridView.builder(
@@ -47,9 +51,9 @@ class Refresher extends StatelessWidget {
             crossAxisSpacing: 15,
             childAspectRatio: 1.3,
           ),
-          itemCount: artists.length,
+          itemCount: state.artists.length,
           itemBuilder: (BuildContext context, int index) {
-            return ArtistGrid(artist: artists[index]);
+            return ArtistGrid(artist: state.artists[index]);
           },
         ),
       ),

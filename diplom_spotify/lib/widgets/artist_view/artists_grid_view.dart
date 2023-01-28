@@ -1,16 +1,19 @@
-import 'dart:async';
-
 import 'package:diplom_spotify/widgets/artist_view/refresher.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
-import 'package:module_model/module_model.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ArtistsGridView extends StatefulWidget {
   final String? search;
+  final ArtistsState state;
+  final Function(String?) request;
 
-  const ArtistsGridView({super.key, this.search});
+  const ArtistsGridView({
+    super.key,
+    this.search,
+    required this.state,
+    required this.request,
+  });
 
   @override
   State<ArtistsGridView> createState() => _ArtistsGridViewState();
@@ -18,112 +21,68 @@ class ArtistsGridView extends StatefulWidget {
 
 class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
-  late Future<List<Artist>> _request;
-  final List<Artist> artists = [];
-  final networkService = BlocFactory.instance.mainBloc.networkService;
-  Timer? reloadTimer;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-
   @override
   void initState() {
     super.initState();
-    _request = networkService.getArtists(widget.search, artists.length);
+    widget.request(widget.search);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    return FutureBuilder(
-      future: _request,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-          case ConnectionState.active:
-            return const Align(
-              alignment: Alignment.topCenter,
-              child: StyledCircularProgressIndicator(),
-            );
-          case ConnectionState.done:
-            if (snapshot.hasError) {
-              return Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(snapshot.error.toString()),
-                    IconButton(
-                      onPressed: () {
-                        _request = networkService.getArtists(
-                            widget.search, artists.length);
-                        setState(() {});
-                      },
-                      icon: const Icon(Icons.refresh),
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (snapshot.hasData) {
-              if (artists.isEmpty) {
-                artists.addAll(snapshot.data ?? []);
-              }
-              if (artists.isEmpty) {
-                return Center(
-                  child: Text(
-                    'Ничего не найдено',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                );
-              }
-
-              return Refresher(
-                onLoading: _onLoading,
-                refreshController: refreshController,
-                artists: artists,
-              );
-            }
-
-            return Container();
-          default:
-            return Container();
+    switch (widget.state.status) {
+      case ArtistsStatus.failure:
+        return Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Что-то пошло не так!',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              IconButton(
+                onPressed: () {
+                  widget.request(widget.search);
+                },
+                icon: const Icon(Icons.refresh),
+              ),
+            ],
+          ),
+        );
+      case ArtistsStatus.waiting:
+      case ArtistsStatus.loading:
+        if (widget.state.artists.isEmpty) {
+          return const Align(
+            alignment: Alignment.topCenter,
+            child: StyledCircularProgressIndicator(),
+          );
+        } else {
+          return Refresher(
+            search: widget.search,
+            state: widget.state,
+            request: widget.request,
+          );
         }
-      },
-    );
+      case ArtistsStatus.success:
+        if (widget.state.artists.isEmpty) {
+          return Center(
+            child: Text(
+              'Ничего не найдено',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          );
+        }
+
+        return Refresher(
+          search: widget.search,
+          state: widget.state,
+          request: widget.request,
+        );
+      default:
+        return Container();
+    }
   }
 
   @override
   bool get wantKeepAlive => true;
-
-  void _onLoading() async {
-    if (refreshController.footerStatus == LoadStatus.loading) {
-      if (reloadTimer?.isActive == true) {
-        reloadTimer?.cancel();
-      }
-      reloadTimer = Timer(
-        const Duration(seconds: 5),
-        () {
-          setState(() {
-            _onLoading();
-          });
-        },
-      );
-    }
-    try {
-      artists.addAll(
-          await networkService.getArtists(widget.search, artists.length));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: const Duration(seconds: 3),
-          content: Text('$e'),
-        ),
-      );
-    }
-    if (reloadTimer?.isActive ?? false) {
-      reloadTimer?.cancel();
-    }
-    refreshController.loadComplete();
-    if (mounted) setState(() {});
-  }
 }
