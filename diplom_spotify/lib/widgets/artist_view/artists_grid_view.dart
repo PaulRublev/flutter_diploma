@@ -1,18 +1,17 @@
 import 'package:diplom_spotify/widgets/artist_view/refresher.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:module_business/module_business.dart';
 
 class ArtistsGridView extends StatefulWidget {
   final String? search;
   final ArtistsState state;
-  final Function(String?) request;
 
   const ArtistsGridView({
     super.key,
     this.search,
     required this.state,
-    required this.request,
   });
 
   @override
@@ -21,12 +20,6 @@ class ArtistsGridView extends StatefulWidget {
 
 class _ArtistsGridViewState extends State<ArtistsGridView>
     with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    widget.request(widget.search);
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -42,7 +35,9 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
               ),
               IconButton(
                 onPressed: () {
-                  widget.request(widget.search);
+                  context
+                      .read<ArtistsCubit>()
+                      .getInitialArtists(searchValue: widget.search);
                 },
                 icon: const Icon(Icons.refresh),
               ),
@@ -60,7 +55,6 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
           return Refresher(
             search: widget.search,
             state: widget.state,
-            request: widget.request,
           );
         }
       case ArtistsStatus.success:
@@ -76,7 +70,6 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
         return Refresher(
           search: widget.search,
           state: widget.state,
-          request: widget.request,
         );
       default:
         return Container();

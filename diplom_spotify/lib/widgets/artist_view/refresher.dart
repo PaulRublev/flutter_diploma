@@ -1,6 +1,7 @@
 import 'package:diplom_spotify/widgets/artist_view/artist_grid.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:module_business/module_business.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -9,13 +10,11 @@ class Refresher extends StatelessWidget {
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
   final ArtistsState state;
-  final Function(String?) request;
 
   Refresher({
     super.key,
     this.search,
     required this.state,
-    required this.request,
   });
 
   @override
@@ -35,7 +34,7 @@ class Refresher extends StatelessWidget {
         enablePullUp: true,
         enablePullDown: false,
         onLoading: () async {
-          await request(search);
+          await context.read<ArtistsCubit>().getArtists(searchValue: search);
         },
         controller: refreshController,
         child: GridView.builder(

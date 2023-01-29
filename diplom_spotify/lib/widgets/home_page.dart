@@ -2,6 +2,8 @@ import 'package:diplom_spotify/widgets/artists_page/artists_page.dart';
 import 'package:diplom_spotify/widgets/collection_page/collection_page.dart';
 import 'package:diplom_spotify/widgets/search_page/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:module_business/module_business.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -52,7 +54,10 @@ class _HomePageState extends State<HomePage>
               onGenerateRoute: (settings) {
                 return MaterialPageRoute(
                   builder: (context) {
-                    return const ArtistsPage(title: _textArtists);
+                    return BlocProvider<ArtistsCubit>(
+                      create: (_) => ArtistsCubit(),
+                      child: const ArtistsPage(title: _textArtists),
+                    );
                   },
                 );
               },
@@ -64,7 +69,10 @@ class _HomePageState extends State<HomePage>
               onGenerateRoute: (settings) {
                 return MaterialPageRoute(
                   builder: (context) {
-                    return const SearchPage(title: _textSearch);
+                    return BlocProvider(
+                      create: (_) => ArtistsCubit(),
+                      child: const SearchPage(title: _textSearch),
+                    );
                   },
                 );
               },

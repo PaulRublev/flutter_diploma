@@ -14,7 +14,7 @@ class NetworkServiceImplementation implements NetworkService {
   }
 
   @override
-  Future<List<NapsterTrack>> getTracksTop(String artistId, int offset) async {
+  Future<List<NapsterTrack>> getTopTracks(String artistId, int offset) async {
     final uri = NapsterApi.artistTopTracks(offset, artistId);
     final rawData = await _httpGetAndDecode(uri) as Map<String, dynamic>;
     List<dynamic> data = rawData['tracks'];

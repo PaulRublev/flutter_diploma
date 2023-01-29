@@ -58,16 +58,13 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
-      body: BlocBuilder<SearchArtistsCubit, ArtistsState>(
-        buildWhen: (previous, current) =>
-            current.status != ArtistsStatus.waiting,
+      body: BlocBuilder<ArtistsCubit, ArtistsState>(
         builder: (context, state) {
           return editingController.value.text != ''
               ? ArtistsGridView(
                   key: Key(editingController.value.text),
                   search: editingController.value.text,
                   state: state,
-                  request: context.read<SearchArtistsCubit>().getArtists,
                 )
               : Container();
         },
@@ -84,7 +81,7 @@ class _SearchPageState extends State<SearchPage> {
   void _onSearchChanged(String query, BuildContext context) {
     if (_debounce?.isActive == true) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      context.read<SearchArtistsCubit>().setLoadingState();
+      context.read<ArtistsCubit>().getInitialArtists(searchValue: query);
     });
   }
 }

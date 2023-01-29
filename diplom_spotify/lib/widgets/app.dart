@@ -41,7 +41,8 @@ class App extends StatelessWidget {
               home: MultiBlocProvider(
                 providers: [
                   BlocProvider(create: (_) => ArtistsCubit()),
-                  BlocProvider(create: (_) => SearchArtistsCubit()),
+                  BlocProvider(create: (_) => ArtistsCubit()),
+                  BlocProvider(create: (_) => TopTracksCubit()),
                 ],
                 child: const HomePage(),
               ),
