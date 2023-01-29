@@ -25,12 +25,7 @@ class NetworkServiceImplementation implements NetworkService {
   Stream<Future<List<NapsterTrack>>> streamFutureTracks(
       Stream<List<DatabaseTrack>> stream) {
     return stream.map((event) async {
-      final trackIdsString = event.join(',');
-      if (trackIdsString == '') {
-        return [];
-      }
-
-      return _getTracklist(trackIdsString);
+      return getTracklist(event);
     });
   }
 
@@ -46,7 +41,13 @@ class NetworkServiceImplementation implements NetworkService {
     return rawData['search']['data'] as Map<String, dynamic>;
   }
 
-  Future<List<NapsterTrack>> _getTracklist(String trackIdsString) async {
+  @override
+  Future<List<NapsterTrack>> getTracklist(
+      List<DatabaseTrack> databaseTracks) async {
+    final trackIdsString = databaseTracks.join(',');
+    if (trackIdsString == '') {
+      return [];
+    }
     final uri = NapsterApi.tracksList(trackIdsString);
     final rawData = await _httpGetAndDecode(uri) as Map<String, dynamic>;
     List<dynamic> data = rawData['tracks'];

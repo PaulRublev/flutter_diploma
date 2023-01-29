@@ -1,8 +1,7 @@
-import 'package:diplom_spotify/utils/favorite_tracks_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
-import 'package:provider/provider.dart';
 
 class FavoriteButton extends StatelessWidget {
   final NapsterTrack track;
@@ -11,10 +10,10 @@ class FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FavoriteTracksNotifier>(
-      builder: (context, favoriteTracks, child) {
-        if (favoriteTracks.subscription == null) return Container();
-        final isInCollection = favoriteTracks.tracks.contains(track);
+    return BlocBuilder<TracklistCubit, TracklistState>(
+      builder: (context, state) {
+        if (state.status == TracklistStatus.loading) return Container();
+        final bool isInCollection = state.tracks.contains(track);
         return SizedBox(
           height: 30,
           width: 120,
@@ -45,8 +44,7 @@ class FavoriteButton extends StatelessWidget {
                 )
               : ElevatedButton(
                   onPressed: () {
-                    BlocFactory.instance.mainBloc.firebaseService
-                        .addTrack(track.id);
+                    context.read<TracklistCubit>().addTrack(track);
                   },
                   child: Center(
                     child: Text(

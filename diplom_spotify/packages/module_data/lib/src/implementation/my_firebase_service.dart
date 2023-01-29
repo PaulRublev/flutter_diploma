@@ -26,6 +26,12 @@ class MyFirebaseService implements FirebaseService {
   }
 
   @override
+  Future<List<DatabaseTrack>> getDatabaseTracks() async {
+    final snapshot = await _tracks.get();
+    return snapshot.docs.map((e) => e.data()).toList();
+  }
+
+  @override
   Stream<List<DatabaseTrack>> streamDatabaseTracks() {
     return _tracks
         .orderBy('timestamp', descending: true)

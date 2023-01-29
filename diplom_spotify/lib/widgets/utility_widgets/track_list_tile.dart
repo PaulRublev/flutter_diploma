@@ -2,6 +2,8 @@ import 'package:diplom_spotify/widgets/player/bottom_sheet_player.dart';
 import 'package:diplom_spotify/widgets/player/player_button.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/cached_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 
 class TrackListTile extends StatelessWidget {
@@ -18,8 +20,11 @@ class TrackListTile extends StatelessWidget {
         context: context,
         backgroundColor: const Color(0x00000000),
         useRootNavigator: true,
-        builder: (context) => BottomSheetPlayer(
-          track: track,
+        builder: (_) => BlocProvider.value(
+          value: BlocProvider.of<TracklistCubit>(context),
+          child: BottomSheetPlayer(
+            track: track,
+          ),
         ),
       ),
       child: Container(

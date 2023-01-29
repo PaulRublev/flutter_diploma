@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:module_business/top_tracks/top_tracks_state.dart';
+import 'package:module_business/top_tracks_cubit/top_tracks_state.dart';
 import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 

@@ -7,4 +7,6 @@ abstract class NetworkService {
 
   Stream<Future<List<NapsterTrack>>> streamFutureTracks(
       Stream<List<DatabaseTrack>> stream);
+
+  Future<List<NapsterTrack>> getTracklist(List<DatabaseTrack> databaseTracks);
 }

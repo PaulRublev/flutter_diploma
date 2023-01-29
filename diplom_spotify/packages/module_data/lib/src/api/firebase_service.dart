@@ -5,6 +5,8 @@ abstract class FirebaseService {
 
   Future firebaseInit();
 
+  Future<List<DatabaseTrack>> getDatabaseTracks();
+
   Stream<List<DatabaseTrack>> streamDatabaseTracks();
 
   void addTrack(String trackId);

@@ -33,4 +33,9 @@ class DummyFirebaseService implements FirebaseService {
     _controller.add(databaseTracks);
     return _controller.stream;
   }
+
+  @override
+  Future<List<DatabaseTrack>> getDatabaseTracks() async {
+    return databaseTracks;
+  }
 }
