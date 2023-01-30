@@ -5,7 +5,7 @@ import 'package:module_model/module_model.dart';
 
 class TracklistCubit extends Cubit<TracklistState> {
   TracklistCubit() : super(TracklistState.loading()) {
-    getTracklist();
+    _setInitialState();
   }
 
   final _networkService = ServiceProvider.instance.get<NetworkService>();
@@ -69,5 +69,11 @@ class TracklistCubit extends Cubit<TracklistState> {
         .map((e) => tmpTracks.firstWhere((element) => element.id == e.id))
         .toList();
     return sortedTracks;
+  }
+
+  Future<void> _setInitialState() async {
+    await _firebaseService.firebaseInit();
+    _firebaseService.referenceInit();
+    getTracklist();
   }
 }
