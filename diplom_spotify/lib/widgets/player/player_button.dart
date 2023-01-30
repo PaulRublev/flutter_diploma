@@ -1,7 +1,6 @@
-import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:module_business/module_business.dart';
 import 'package:provider/provider.dart';
 
 class PlayerButton extends StatelessWidget {
@@ -12,9 +11,8 @@ class PlayerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final player = Provider.of<Player>(context, listen: true);
-    player.initialize();
 
-    return StreamBuilder<PlayerState>(
+    return StreamBuilder(
       stream: player.playerStateStream,
       builder: (context, snapshot) {
         final processingState = snapshot.data?.processingState;

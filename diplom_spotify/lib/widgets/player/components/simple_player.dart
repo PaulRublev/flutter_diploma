@@ -1,7 +1,7 @@
-import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/player/components/bottom_sheet_player_control.dart';
 import 'package:diplom_spotify/widgets/player/player_button.dart';
 import 'package:flutter/material.dart';
+import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,6 @@ class _SimplePlayerState extends State<SimplePlayer> {
   void initState() {
     super.initState();
     player = Provider.of<Player>(context, listen: false);
-    player.initialize();
     if (widget.track.previewURL != player.trackUri) {
       player.setTrackUri(widget.track.previewURL);
       player.audioPlayer?.play();

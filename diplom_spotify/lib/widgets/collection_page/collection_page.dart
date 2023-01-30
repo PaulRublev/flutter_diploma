@@ -1,4 +1,3 @@
-import 'package:diplom_spotify/utils/player.dart';
 import 'package:diplom_spotify/widgets/collection_page/delete_dialog.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';

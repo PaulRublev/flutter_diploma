@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ValueNotifier<int> _tabNotifier;
 
   static const String _textArtists = 'Исполнители';
   static const String _textSearch = 'Поиск';
@@ -28,16 +29,14 @@ class _HomePageState extends State<HomePage>
       initialIndex: 0,
       animationDuration: const Duration(milliseconds: 1),
     );
-    _tabController.addListener(() {
-      FocusManager.instance.primaryFocus?.unfocus();
-      setState(() {});
-    });
+    _tabNotifier = ValueNotifier(_tabController.index);
     super.initState();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _tabNotifier.dispose();
     super.dispose();
   }
 
@@ -89,30 +88,34 @@ class _HomePageState extends State<HomePage>
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_music_rounded),
-            label: _textArtists,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_rounded),
-            label: _textSearch,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_rounded),
-            label: _textCollection,
-          ),
-        ],
-        currentIndex: _tabController.index,
-        onTap: _onItemTapped,
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: _tabNotifier,
+        builder: (context, index, _) {
+          return BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.library_music_rounded),
+                label: _textArtists,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search_rounded),
+                label: _textSearch,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border_rounded),
+                label: _textCollection,
+              ),
+            ],
+            currentIndex: index,
+            onTap: _onItemTapped,
+          );
+        },
       ),
     );
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _tabController.index = index;
-    });
+    _tabController.index = index;
+    _tabNotifier.value = index;
   }
 }
