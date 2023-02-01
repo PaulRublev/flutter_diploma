@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
+    BlocProvider.of<TracklistCubit>(context, listen: false).getTracklist();
     _tabController = TabController(
       length: 3,
       vsync: this,

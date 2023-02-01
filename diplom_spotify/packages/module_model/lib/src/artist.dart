@@ -18,7 +18,7 @@ class Artist {
 
   @override
   String toString() {
-    return 'id: $id\nname: $name\nblurbs: $blurbs';
+    return 'id: $id\nname: $name\n';
   }
 
   @override

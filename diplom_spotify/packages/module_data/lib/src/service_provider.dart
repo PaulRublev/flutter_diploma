@@ -8,18 +8,23 @@ import 'package:module_data/src/implementation/network_service_implementation.da
 
 class ServiceProvider {
   static final _getIt = GetIt.I;
-
-  T get<T extends Object>() => _getIt.get<T>();
-
   static final instance = ServiceProvider();
+  late FirebaseService firebaseService;
+  late NetworkService networkService;
 
-  void initialize() {
-    _getIt.registerLazySingleton<FirebaseService>(
-      () => MyFirebaseService(), // FIREBASE SERVICE SWITCHER
-      // () => DummyFirebaseService(),
+  void initialize({
+    FirebaseService? firebaseService,
+    NetworkService? networkService,
+  }) {
+    _getIt.registerSingleton<FirebaseService>(
+      MyFirebaseService(), // FIREBASE SERVICE SWITCHER
+      // DummyFirebaseService(),
     );
-    _getIt.registerLazySingleton<NetworkService>(
-      () => NetworkServiceImplementation(),
+    this.firebaseService = firebaseService ?? _getIt.get<FirebaseService>();
+
+    _getIt.registerSingleton<NetworkService>(
+      NetworkServiceImplementation(),
     );
+    this.networkService = networkService ?? _getIt.get<NetworkService>();
   }
 }

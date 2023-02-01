@@ -6,7 +6,7 @@ import 'package:module_model/module_model.dart';
 class TopTracksCubit extends Cubit<TopTracksState> {
   TopTracksCubit() : super(TopTracksState.loading());
 
-  final _networkService = ServiceProvider.instance.get<NetworkService>();
+  final _networkService = ServiceProvider.instance.networkService;
 
   Future<void> getInitialTopTracks(String artistId) async {
     emit(TopTracksState.loading());

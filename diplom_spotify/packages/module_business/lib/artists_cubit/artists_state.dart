@@ -39,4 +39,7 @@ class ArtistsState {
 
   @override
   int get hashCode => Object.hash(status, artists);
+
+  @override
+  String toString() => '$status, $artists';
 }

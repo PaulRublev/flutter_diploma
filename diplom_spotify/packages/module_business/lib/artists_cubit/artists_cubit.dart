@@ -6,7 +6,7 @@ import 'package:module_model/module_model.dart';
 class ArtistsCubit extends Cubit<ArtistsState> {
   ArtistsCubit() : super(ArtistsState.loading());
 
-  final _networkService = ServiceProvider.instance.get<NetworkService>();
+  final _networkService = ServiceProvider.instance.networkService;
 
   Future<void> getInitialArtists({String? searchValue}) async {
     emit(ArtistsState.loading());

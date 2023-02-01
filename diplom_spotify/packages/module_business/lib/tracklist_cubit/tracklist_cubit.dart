@@ -4,17 +4,15 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class TracklistCubit extends Cubit<TracklistState> {
-  TracklistCubit() : super(TracklistState.loading()) {
-    _setInitialState();
-  }
+  TracklistCubit() : super(TracklistState.loading());
 
-  final _networkService = ServiceProvider.instance.get<NetworkService>();
-  final _firebaseService = ServiceProvider.instance.get<FirebaseService>();
+  final _networkService = ServiceProvider.instance.networkService;
+  final _firebaseService = ServiceProvider.instance.firebaseService;
   final List<DatabaseTrack> _databaseTracks = [];
 
   Future<void> getTracklist() async {
     try {
-      final List<NapsterTrack> tmpTracks = List.from(state.tracks);
+      final List<NapsterTrack> tmpTracks = [];
       _databaseTracks.clear();
       _databaseTracks.addAll(await _firebaseService.getDatabaseTracks().then(
         (value) {
@@ -69,11 +67,5 @@ class TracklistCubit extends Cubit<TracklistState> {
         .map((e) => tmpTracks.firstWhere((element) => element.id == e.id))
         .toList();
     return sortedTracks;
-  }
-
-  Future<void> _setInitialState() async {
-    await _firebaseService.firebaseInit();
-    _firebaseService.referenceInit();
-    getTracklist();
   }
 }

@@ -49,4 +49,9 @@ class TracklistState {
 
   @override
   int get hashCode => Object.hash(status, tracks);
+
+  @override
+  String toString() {
+    return '$status, $isDescendent, $tracks';
+  }
 }
