@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:module_business/module_business.dart';
 
 class BottomSheetPlayerControl extends StatelessWidget {
   final Duration? currentDuration;
