@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/l10n/app_localizations.dart';
 import 'package:diplom_spotify/widgets/artists_page/artists_page.dart';
 import 'package:diplom_spotify/widgets/collection_page/collection_page.dart';
 import 'package:diplom_spotify/widgets/search_page/search_page.dart';
@@ -17,9 +18,9 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
   late ValueNotifier<int> _tabNotifier;
 
-  static const String _textArtists = 'Исполнители';
-  static const String _textSearch = 'Поиск';
-  static const String _textCollection = 'Коллекция';
+  late String _textArtists;
+  late String _textSearch;
+  late String _textCollection;
 
   @override
   void initState() {
@@ -32,6 +33,14 @@ class _HomePageState extends State<HomePage>
     );
     _tabNotifier = ValueNotifier(_tabController.index);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _textArtists = AppLocalizations.of(context)!.artists;
+    _textSearch = AppLocalizations.of(context)!.search;
+    _textCollection = AppLocalizations.of(context)!.favorites;
   }
 
   @override
@@ -56,7 +65,7 @@ class _HomePageState extends State<HomePage>
                   builder: (context) {
                     return BlocProvider<ArtistsCubit>(
                       create: (_) => ArtistsCubit(),
-                      child: const ArtistsPage(title: _textArtists),
+                      child: ArtistsPage(title: _textArtists),
                     );
                   },
                 );
@@ -71,7 +80,7 @@ class _HomePageState extends State<HomePage>
                   builder: (context) {
                     return BlocProvider(
                       create: (_) => ArtistsCubit(),
-                      child: const SearchPage(title: _textSearch),
+                      child: SearchPage(title: _textSearch),
                     );
                   },
                 );
@@ -82,7 +91,7 @@ class _HomePageState extends State<HomePage>
             onGenerateRoute: (settings) {
               return MaterialPageRoute(
                 builder: (context) {
-                  return const CollectionPage(title: _textCollection);
+                  return CollectionPage(title: _textCollection);
                 },
               );
             },
@@ -93,17 +102,17 @@ class _HomePageState extends State<HomePage>
         valueListenable: _tabNotifier,
         builder: (context, index, _) {
           return BottomNavigationBar(
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.library_music_rounded),
+                icon: const Icon(Icons.library_music_rounded),
                 label: _textArtists,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search_rounded),
+                icon: const Icon(Icons.search_rounded),
                 label: _textSearch,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border_rounded),
+                icon: const Icon(Icons.favorite_border_rounded),
                 label: _textCollection,
               ),
             ],

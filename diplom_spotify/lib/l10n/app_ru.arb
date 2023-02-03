@@ -1,0 +1,15 @@
+{
+    "somethingWrong": "Что-то пошло не так!",
+    "notFounded" : "Ничего не найдено",
+    "artists" : "Исполнители",
+    "search" : "Поиск",
+    "favorites" : "Коллекция",
+    "load" : "Загрузить ещё",
+    "confirmDelete" : "Вы уверены, что хотите удалить трек?",
+    "yes" : "Да",
+    "no" : "Нет",
+    "isInFavorites" : "В коллекции",
+    "addToFavorites" : "В коллекцию",
+    
+    "language": "Russian"
+}

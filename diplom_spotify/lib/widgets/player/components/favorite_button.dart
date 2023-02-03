@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:module_business/module_business.dart';
@@ -30,7 +31,7 @@ class FavoriteButton extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'В коллекции',
+                          AppLocalizations.of(context)!.isInFavorites,
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         Icon(
@@ -48,7 +49,7 @@ class FavoriteButton extends StatelessWidget {
                   },
                   child: Center(
                     child: Text(
-                      'В коллекцию',
+                      AppLocalizations.of(context)!.addToFavorites,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),

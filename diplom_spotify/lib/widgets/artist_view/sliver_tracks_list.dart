@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/l10n/app_localizations.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/track_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
                               width: 200,
                               child: Center(
                                 child: Text(
-                                  'Загрузить ещё',
+                                  AppLocalizations.of(context)!.load,
                                   style: Theme.of(context).textTheme.subtitle2,
                                 ),
                               ),

@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/l10n/app_localizations.dart';
 import 'package:diplom_spotify/widgets/collection_page/dialog_button.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class DeleteDialog extends StatelessWidget {
           insetPadding:
               const EdgeInsets.symmetric(horizontal: 45, vertical: 200),
           title: Text(
-            'Вы уверены, что хотите удалить трек?',
+            AppLocalizations.of(context)!.confirmDelete,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle1,
           ),

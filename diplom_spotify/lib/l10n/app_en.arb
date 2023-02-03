@@ -1,0 +1,15 @@
+{
+    "somethingWrong": "Something wrong!",
+    "notFounded" : "Not founded",
+    "artists" : "Artists",
+    "search" : "Search",
+    "favorites" : "Favorites",
+    "load" : "Load more",
+    "confirmDelete" : "Are you sure you want to delete this track?",
+    "yes" : "Yes",
+    "no" : "No",
+    "isInFavorites" : "In favorites",
+    "addToFavorites" : "To favorites",
+    
+    "language": "English"
+}

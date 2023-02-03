@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DialogButton extends StatelessWidget {
@@ -18,7 +19,9 @@ class DialogButton extends StatelessWidget {
         width: maxWidth / 5,
         child: Center(
           child: Text(
-            isConfirm ? 'Да' : 'Нет',
+            isConfirm
+                ? AppLocalizations.of(context)!.yes
+                : AppLocalizations.of(context)!.no,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),

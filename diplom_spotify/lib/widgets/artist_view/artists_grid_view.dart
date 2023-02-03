@@ -1,3 +1,4 @@
+import 'package:diplom_spotify/l10n/app_localizations.dart';
 import 'package:diplom_spotify/widgets/artist_view/refresher.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/styled_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Что-то пошло не так!',
+                AppLocalizations.of(context)!.somethingWrong,
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               IconButton(
@@ -61,7 +62,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
         if (widget.state.artists.isEmpty) {
           return Center(
             child: Text(
-              'Ничего не найдено',
+              AppLocalizations.of(context)!.notFounded,
               style: Theme.of(context).textTheme.bodyText2,
             ),
           );
