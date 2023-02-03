@@ -3,46 +3,52 @@ import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 import 'package:test/test.dart';
 
-import 'mock/mock_business_layer.dart';
 import 'mock/mock_firebase_service.dart';
+import 'mock/mock_network_service.dart';
 
 void main() async {
   late TracklistCubit tracklistCubit;
-  final MockFirebaseService firebaseService =
-      MockBusinessLayer.instance.firebaseService as MockFirebaseService;
-  NapsterTrack track1 = NapsterTrack(
-    id: 'id',
+  final NapsterTrack track1 = NapsterTrack(
+    id: 'id1',
     name: 'name',
     albumName: 'albumName',
     albumId: 'albumId',
     previewURL: 'previewURL',
   );
-  NapsterTrack track2 = NapsterTrack(
+  final NapsterTrack track2 = NapsterTrack(
     id: 'id2',
     name: 'name',
     albumName: 'albumName',
     albumId: 'albumId',
     previewURL: 'previewURL',
   );
-  final List<DatabaseTrack> databaseTracks = [
-    DatabaseTrack(id: 'id', timestamp: 1)
-  ];
-  await MockBusinessLayer.instance.initialize();
+  final dbTrack1 = DatabaseTrack(id: 'id1', timestamp: 1);
+  final dbTrack2 = DatabaseTrack(id: 'id2', timestamp: 2);
 
-  group('TracklistCubit', () {
+  group('TracklistCubit - initial state: ', () {
     setUp(() {
-      tracklistCubit = TracklistCubit();
+      tracklistCubit = TracklistCubit(
+        networkService: MockNetworkService(),
+        firebaseService: MockFirebaseService(),
+      );
     });
-    test('initial state is TracklistState.loading', () {
+    test('state is TracklistState.loading', () {
       expect(tracklistCubit.state, TracklistState.loading());
     });
+  });
 
+  group('Test addTrack: ', () {
+    setUp(() {
+      tracklistCubit = TracklistCubit(
+        networkService: MockNetworkService(),
+        firebaseService: MockFirebaseService(databaseTracks: [dbTrack1]),
+      );
+    });
     blocTest(
       'emits [TracklistState.success] when addTrack',
       build: () => tracklistCubit,
       act: (cubit) => cubit.addTrack(track2),
       setUp: () async {
-        firebaseService.databaseTracks = List.from(databaseTracks);
         await tracklistCubit.getTracklist();
       },
       expect: () => [
@@ -50,40 +56,61 @@ void main() async {
             [track2, track1], tracklistCubit.state.isDescendent),
       ],
     );
+  });
 
+  group('Test removeTrack: ', () {
+    setUp(() {
+      tracklistCubit = TracklistCubit(
+        networkService: MockNetworkService(),
+        firebaseService:
+            MockFirebaseService(databaseTracks: [dbTrack1, dbTrack2]),
+      );
+    });
     blocTest(
       'emits [TracklistState.success] when removeTrack',
       build: () => tracklistCubit,
       act: (cubit) => cubit.removeTrack(track1),
       setUp: () async {
-        firebaseService.databaseTracks = List.from(databaseTracks);
-        tracklistCubit.addTrack(track2);
         await tracklistCubit.getTracklist();
       },
       expect: () => [
         TracklistState.success([track2], tracklistCubit.state.isDescendent),
       ],
     );
+  });
 
+  group('Test getTracklist: ', () {
+    setUp(() {
+      tracklistCubit = TracklistCubit(
+        networkService: MockNetworkService(),
+        firebaseService:
+            MockFirebaseService(databaseTracks: [dbTrack1, dbTrack2]),
+      );
+    });
     blocTest(
       'emits [TracklistState.success] when getTracklist',
       build: () => tracklistCubit,
       act: (cubit) async => await cubit.getTracklist(),
-      setUp: () async {
-        firebaseService.databaseTracks = List.from(databaseTracks);
-      },
       expect: () => [
-        TracklistState.success([track1], tracklistCubit.state.isDescendent),
+        TracklistState.success(
+            [track2, track1], tracklistCubit.state.isDescendent),
       ],
     );
+  });
 
+  group('Test changeSortDirection: ', () {
+    setUp(() {
+      tracklistCubit = TracklistCubit(
+        networkService: MockNetworkService(),
+        firebaseService:
+            MockFirebaseService(databaseTracks: [dbTrack1, dbTrack2]),
+      );
+    });
     blocTest(
       'emits [TracklistState.changingSortDirection, TracklistState.success] when changeSortDirection',
       build: () => tracklistCubit,
       act: (cubit) => cubit.changeSortDirection(),
       setUp: () async {
-        firebaseService.databaseTracks = List.from(databaseTracks);
-        tracklistCubit.addTrack(track2);
         await tracklistCubit.getTracklist();
       },
       expect: () => [
@@ -95,6 +122,35 @@ void main() async {
           [track1, track2],
           tracklistCubit.state.isDescendent,
         ),
+      ],
+    );
+  });
+
+  group('Test error: ', () {
+    setUp(() {
+      tracklistCubit = TracklistCubit(
+        networkService: MockNetworkService(isGetSucceeded: false),
+        firebaseService:
+            MockFirebaseService(databaseTracks: [dbTrack1, dbTrack2]),
+      );
+    });
+
+    blocTest(
+      'emits [TracklistState.failure] when getTracklist',
+      build: () => tracklistCubit,
+      act: (cubit) => cubit.getTracklist(),
+      expect: () => [
+        TracklistState.failure([], tracklistCubit.state.isDescendent),
+      ],
+    );
+
+    blocTest(
+      'emits [TracklistState.failure] when getTracklist with seed',
+      build: () => tracklistCubit,
+      act: (cubit) => cubit.getTracklist(),
+      seed: () => TracklistState.success([track1], true),
+      expect: () => [
+        TracklistState.failure([track1], tracklistCubit.state.isDescendent),
       ],
     );
   });

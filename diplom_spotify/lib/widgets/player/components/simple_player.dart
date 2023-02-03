@@ -23,7 +23,7 @@ class _SimplePlayerState extends State<SimplePlayer> {
     player = Provider.of<Player>(context, listen: false);
     if (widget.track.previewURL != player.trackUri) {
       player.setTrackUri(widget.track.previewURL);
-      player.audioPlayer?.play();
+      player.audioPlayer.play();
     }
   }
 
@@ -38,7 +38,7 @@ class _SimplePlayerState extends State<SimplePlayer> {
         ),
         Expanded(
           child: StreamBuilder<Duration?>(
-            stream: player.audioPlayer?.positionStream,
+            stream: player.audioPlayer.positionStream,
             builder: (context, snapshot) {
               final currentDuration = snapshot.data;
               return BottomSheetPlayerControl(

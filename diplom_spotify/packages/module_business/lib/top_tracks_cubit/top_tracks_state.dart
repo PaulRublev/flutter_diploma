@@ -45,4 +45,7 @@ class TopTracksState {
 
   @override
   int get hashCode => Object.hash(status, tracks);
+
+  @override
+  String toString() => '$status, $tracks';
 }

@@ -34,10 +34,11 @@ class TracklistState {
           isDescendent: isDescendent,
         );
 
-  TracklistState.failure(List<NapsterTrack> tracks)
+  TracklistState.failure(List<NapsterTrack> tracks, bool isDescendent)
       : this._(
           status: TracklistStatus.failure,
           tracks: tracks,
+          isDescendent: isDescendent,
         );
 
   @override

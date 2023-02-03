@@ -4,7 +4,11 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class MockFirebaseService implements FirebaseService {
-  List<DatabaseTrack> databaseTracks = [DatabaseTrack(id: 'id', timestamp: 1)];
+  MockFirebaseService({
+    this.databaseTracks = const [],
+  });
+
+  final List<DatabaseTrack> databaseTracks;
   final StreamController<List<DatabaseTrack>> _controller = StreamController();
 
   @override

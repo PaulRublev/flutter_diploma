@@ -21,7 +21,7 @@ class PlayerButton extends StatelessWidget {
             Icons.play_circle_outline_rounded,
             onPressed: () {
               player.setTrackUri(trackUri);
-              player.audioPlayer!.play();
+              player.audioPlayer.play();
             },
           );
         }
@@ -33,26 +33,26 @@ class PlayerButton extends StatelessWidget {
               child: const CircularProgressIndicator(strokeWidth: 3),
             ),
           );
-        } else if (player.audioPlayer == null || processingState == null) {
+        } else if (processingState == null) {
           return Container();
-        } else if (!player.audioPlayer!.playing) {
+        } else if (!player.audioPlayer.playing) {
           return StyledIconButton(
             Icons.play_circle_outline_rounded,
             onPressed: () {
-              player.audioPlayer!.play();
+              player.audioPlayer.play();
             },
           );
         } else if (processingState != ProcessingState.completed) {
           return StyledIconButton(
             Icons.pause_circle_outline_rounded,
-            onPressed: () => player.audioPlayer!.pause(),
+            onPressed: () => player.audioPlayer.pause(),
           );
         } else {
           return StyledIconButton(
             Icons.replay_rounded,
-            onPressed: () => player.audioPlayer!.seek(
+            onPressed: () => player.audioPlayer.seek(
               Duration.zero,
-              index: player.audioPlayer!.effectiveIndices?.first,
+              index: player.audioPlayer.effectiveIndices?.first,
             ),
           );
         }

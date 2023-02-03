@@ -4,14 +4,17 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class TopTracksCubit extends Cubit<TopTracksState> {
-  TopTracksCubit() : super(TopTracksState.loading());
+  TopTracksCubit({NetworkService? networkService})
+      : _networkService =
+            networkService ?? ServiceProvider.instance.networkService,
+        super(TopTracksState.loading());
 
-  final _networkService = ServiceProvider.instance.networkService;
+  final NetworkService _networkService;
 
   Future<void> getInitialTopTracks(String artistId) async {
     emit(TopTracksState.loading());
     try {
-      final List<NapsterTrack> tmpTracks = List.from(state.tracks);
+      final List<NapsterTrack> tmpTracks = [];
       tmpTracks.addAll(
           await _networkService.getTopTracks(artistId, tmpTracks.length));
       emit(TopTracksState.success(tmpTracks));

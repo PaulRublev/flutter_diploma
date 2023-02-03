@@ -3,40 +3,34 @@ import 'package:just_audio/just_audio.dart';
 export 'package:just_audio/just_audio.dart';
 
 class Player {
-  Player() {
-    initialize();
-  }
+  Player({AudioPlayer? audioPlayer})
+      : audioPlayer = audioPlayer ?? AudioPlayer();
 
-  AudioPlayer? audioPlayer;
+  final AudioPlayer audioPlayer;
   String trackUri = '';
-
-  void initialize() {
-    audioPlayer ??= AudioPlayer();
-  }
 
   void setTrackUri(String uri) {
     if (uri != trackUri) {
       trackUri = uri;
-      audioPlayer?.pause();
-      if (audioPlayer != null) {
-        audioPlayer?.setAudioSource(AudioSource.uri(
-          Uri.parse(uri),
-        ));
-      }
+      audioPlayer.pause();
+
+      audioPlayer.setAudioSource(AudioSource.uri(
+        Uri.parse(uri),
+      ));
     }
   }
 
   Stream<PlayerState>? get playerStateStream {
-    return audioPlayer?.playerStateStream.asBroadcastStream();
+    return audioPlayer.playerStateStream.asBroadcastStream();
   }
 
   void stopIfDeleted(String uri) {
     if (uri == trackUri) {
-      audioPlayer?.pause();
+      audioPlayer.pause();
     }
   }
 
   void dispose() {
-    audioPlayer?.dispose();
+    audioPlayer.dispose();
   }
 }

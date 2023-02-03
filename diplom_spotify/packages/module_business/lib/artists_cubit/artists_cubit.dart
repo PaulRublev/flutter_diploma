@@ -4,14 +4,17 @@ import 'package:module_data/module_data.dart';
 import 'package:module_model/module_model.dart';
 
 class ArtistsCubit extends Cubit<ArtistsState> {
-  ArtistsCubit() : super(ArtistsState.loading());
+  final NetworkService _networkService;
 
-  final _networkService = ServiceProvider.instance.networkService;
+  ArtistsCubit({NetworkService? networkService})
+      : _networkService =
+            networkService ?? ServiceProvider.instance.networkService,
+        super(ArtistsState.loading());
 
   Future<void> getInitialArtists({String? searchValue}) async {
     emit(ArtistsState.loading());
     try {
-      final List<Artist> tmpArtists = List.from(state.artists);
+      final List<Artist> tmpArtists = [];
       tmpArtists.addAll(await _networkService.getArtists(searchValue, 0));
       emit(ArtistsState.success(tmpArtists));
     } catch (_) {
