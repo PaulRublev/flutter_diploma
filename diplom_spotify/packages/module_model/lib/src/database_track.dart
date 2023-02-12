@@ -2,7 +2,7 @@ class DatabaseTrack {
   final String id;
   final int timestamp;
 
-  DatabaseTrack({
+  const DatabaseTrack({
     required this.id,
     required this.timestamp,
   });

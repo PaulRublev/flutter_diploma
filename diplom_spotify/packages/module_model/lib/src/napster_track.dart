@@ -5,7 +5,7 @@ class NapsterTrack {
   final String albumId;
   final String previewURL;
 
-  NapsterTrack({
+  const NapsterTrack({
     required this.name,
     required this.id,
     required this.albumName,

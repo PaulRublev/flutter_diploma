@@ -18,7 +18,7 @@ const _grey = Color(0xff999999);
 /// greyDeep
 const _greyDeep = Color(0xff525252);
 
-ThemeData _darkThemeData = ThemeData.from(
+final ThemeData _darkThemeData = ThemeData.from(
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
     primary: _black,
@@ -91,7 +91,7 @@ ThemeData _darkThemeData = ThemeData.from(
   ),
 );
 
-ThemeData themeData = _darkThemeData.copyWith(
+final ThemeData themeData = _darkThemeData.copyWith(
   brightness: Brightness.dark,
   primaryColor: _grey,
   backgroundColor: _black,

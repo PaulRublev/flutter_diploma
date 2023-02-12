@@ -8,25 +8,23 @@ class TracklistState {
   final TracklistStatus status;
   final List<NapsterTrack> tracks;
   final bool isDescendent;
-  final bool Function(dynamic e1, dynamic e2) _deepEquals =
-      const DeepCollectionEquality().equals;
 
-  TracklistState._({
+  const TracklistState._({
     this.status = TracklistStatus.loading,
     this.tracks = const <NapsterTrack>[],
     this.isDescendent = false,
   });
 
-  TracklistState.loading() : this._();
+  const TracklistState.loading() : this._();
 
-  TracklistState.success(List<NapsterTrack> tracks, bool isDescendent)
+  const TracklistState.success(List<NapsterTrack> tracks, bool isDescendent)
       : this._(
           status: TracklistStatus.success,
           tracks: tracks,
           isDescendent: isDescendent,
         );
 
-  TracklistState.changingSortDirection(
+  const TracklistState.changingSortDirection(
       List<NapsterTrack> tracks, bool isDescendent)
       : this._(
           status: TracklistStatus.changingSortDirection,
@@ -34,7 +32,7 @@ class TracklistState {
           isDescendent: isDescendent,
         );
 
-  TracklistState.failure(List<NapsterTrack> tracks, bool isDescendent)
+  const TracklistState.failure(List<NapsterTrack> tracks, bool isDescendent)
       : this._(
           status: TracklistStatus.failure,
           tracks: tracks,
@@ -46,7 +44,7 @@ class TracklistState {
       other is TracklistState &&
       runtimeType == other.runtimeType &&
       status == other.status &&
-      _deepEquals(tracks, other.tracks);
+      const DeepCollectionEquality().equals(tracks, other.tracks);
 
   @override
   int get hashCode => Object.hash(status, tracks);

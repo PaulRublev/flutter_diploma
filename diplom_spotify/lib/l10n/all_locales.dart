@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AllLocales {
-  AllLocales();
+  const AllLocales();
 
   static final all = [
     const Locale('en', 'US'),

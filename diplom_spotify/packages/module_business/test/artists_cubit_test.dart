@@ -12,17 +12,17 @@ void main() {
 
   group('ArtistsCubit - initial state: ', () {
     setUp(() {
-      artistsCubit = ArtistsCubit(networkService: MockNetworkService());
+      artistsCubit = ArtistsCubit(networkService: const MockNetworkService());
     });
     test('state is ArtistsState.loading', () {
-      expect(artistsCubit.state, ArtistsState.loading());
+      expect(artistsCubit.state, const ArtistsState.loading());
     });
   });
 
   group('Test getInitialArtists(): ', () {
-    final artist = Artist(id: 'id', name: 'name', blurbs: []);
+    const artist = Artist(id: 'id', name: 'name', blurbs: []);
     setUp(() {
-      networkService = MockNetworkService(artists: [artist]);
+      networkService = const MockNetworkService(artists: [artist]);
       artistsCubit = ArtistsCubit(networkService: networkService);
     });
     blocTest(
@@ -30,26 +30,26 @@ void main() {
       build: () => artistsCubit,
       act: (cubit) => cubit.getInitialArtists(),
       expect: () => [
-        ArtistsState.loading(),
-        ArtistsState.success([artist]),
+        const ArtistsState.loading(),
+        const ArtistsState.success([artist]),
       ],
     );
     blocTest(
       'ensure second call still returns only one item',
       build: () => artistsCubit,
-      seed: () => ArtistsState.success([artist, artist]),
+      seed: () => const ArtistsState.success([artist, artist]),
       act: (cubit) => cubit.getInitialArtists(),
       expect: () => [
-        ArtistsState.loading(),
-        ArtistsState.success([artist]),
+        const ArtistsState.loading(),
+        const ArtistsState.success([artist]),
       ],
     );
   });
 
   group('Test subsequent calls: ', () {
-    final artist = Artist(id: 'id', name: 'name', blurbs: []);
+    const artist = Artist(id: 'id', name: 'name', blurbs: []);
     setUp(() {
-      networkService = MockNetworkService(artists: [artist]);
+      networkService = const MockNetworkService(artists: [artist]);
       artistsCubit = ArtistsCubit(networkService: networkService);
     });
 
@@ -58,24 +58,24 @@ void main() {
       build: () => artistsCubit,
       act: (cubit) => cubit.getArtists(),
       expect: () => [
-        ArtistsState.success([artist]),
+        const ArtistsState.success([artist]),
       ],
     );
 
     blocTest(
       'emits [ArtistsState.success] when getArtists with seed',
       build: () => artistsCubit,
-      seed: () => ArtistsState.success([artist]),
+      seed: () => const ArtistsState.success([artist]),
       act: (cubit) => cubit.getArtists(),
       expect: () => [
-        ArtistsState.success([artist, artist]),
+        const ArtistsState.success([artist, artist]),
       ],
     );
   });
 
   group('Test error: ', () {
     setUp(() {
-      networkService = MockNetworkService(isGetSucceeded: false);
+      networkService = const MockNetworkService(isGetSucceeded: false);
       artistsCubit = ArtistsCubit(networkService: networkService);
     });
 
@@ -84,8 +84,8 @@ void main() {
       build: () => artistsCubit,
       act: (cubit) => cubit.getInitialArtists(),
       expect: () => [
-        ArtistsState.loading(),
-        ArtistsState.failure([]),
+        const ArtistsState.loading(),
+        const ArtistsState.failure([]),
       ],
     );
 
@@ -94,7 +94,7 @@ void main() {
       build: () => artistsCubit,
       act: (cubit) => cubit.getArtists(),
       expect: () => [
-        ArtistsState.failure([]),
+        const ArtistsState.failure([]),
       ],
     );
   });

@@ -9,10 +9,10 @@ class ArtistsCubit extends Cubit<ArtistsState> {
   ArtistsCubit({NetworkService? networkService})
       : _networkService =
             networkService ?? ServiceProvider.instance.networkService,
-        super(ArtistsState.loading());
+        super(const ArtistsState.loading());
 
   Future<void> getInitialArtists({String? searchValue}) async {
-    emit(ArtistsState.loading());
+    emit(const ArtistsState.loading());
     try {
       final List<Artist> tmpArtists = [];
       tmpArtists.addAll(await _networkService.getArtists(searchValue, 0));

@@ -12,15 +12,16 @@ void main() {
 
   group('TopTracksCubit - initial state: ', () {
     setUp(() {
-      topTracksCubit = TopTracksCubit(networkService: MockNetworkService());
+      topTracksCubit =
+          TopTracksCubit(networkService: const MockNetworkService());
     });
     test('state is TopTracksState.loading', () {
-      expect(topTracksCubit.state, TopTracksState.loading());
+      expect(topTracksCubit.state, const TopTracksState.loading());
     });
   });
 
   group('Test getInitialTopTracks(): ', () {
-    final track = NapsterTrack(
+    const track = NapsterTrack(
       id: 'id',
       name: 'name',
       albumName: 'albumName',
@@ -28,7 +29,7 @@ void main() {
       previewURL: 'previewURL',
     );
     setUp(() {
-      networkService = MockNetworkService(topTracks: [track]);
+      networkService = const MockNetworkService(topTracks: [track]);
       topTracksCubit = TopTracksCubit(networkService: networkService);
     });
     blocTest(
@@ -36,31 +37,31 @@ void main() {
       build: () => topTracksCubit,
       act: (cubit) => cubit.getInitialTopTracks(''),
       expect: () => [
-        TopTracksState.loading(),
-        TopTracksState.success([track]),
+        const TopTracksState.loading(),
+        const TopTracksState.success([track]),
       ],
     );
     blocTest(
       'ensure second call still returns only one item',
       build: () => topTracksCubit,
-      seed: () => TopTracksState.success([track, track]),
+      seed: () => const TopTracksState.success([track, track]),
       act: (cubit) => cubit.getInitialTopTracks(''),
       expect: () => [
-        TopTracksState.loading(),
-        TopTracksState.success([track]),
+        const TopTracksState.loading(),
+        const TopTracksState.success([track]),
       ],
     );
   });
 
   group('Test subsequent calls: ', () {
-    final track1 = NapsterTrack(
+    const track1 = NapsterTrack(
       id: 'id1',
       name: 'name',
       albumName: 'albumName',
       albumId: 'albumId',
       previewURL: 'previewURL',
     );
-    final track2 = NapsterTrack(
+    const track2 = NapsterTrack(
       id: 'id2',
       name: 'name',
       albumName: 'albumName',
@@ -68,7 +69,7 @@ void main() {
       previewURL: 'previewURL',
     );
     setUp(() {
-      networkService = MockNetworkService(topTracks: [track1]);
+      networkService = const MockNetworkService(topTracks: [track1]);
       topTracksCubit = TopTracksCubit(networkService: networkService);
     });
     blocTest(
@@ -76,24 +77,24 @@ void main() {
       build: () => topTracksCubit,
       act: (cubit) => cubit.getTopTracks(''),
       expect: () => [
-        TopTracksState.waiting([]),
-        TopTracksState.success([track1]),
+        const TopTracksState.waiting([]),
+        const TopTracksState.success([track1]),
       ],
     );
     blocTest(
       'emits [TopTracksState.success] when getTopTracks with seed',
       build: () => topTracksCubit,
-      seed: () => TopTracksState.success([track2]),
+      seed: () => const TopTracksState.success([track2]),
       act: (cubit) => cubit.getTopTracks(''),
       expect: () => [
-        TopTracksState.waiting([track2]),
-        TopTracksState.success([track2, track1]),
+        const TopTracksState.waiting([track2]),
+        const TopTracksState.success([track2, track1]),
       ],
     );
   });
 
   group('Test error: ', () {
-    final track = NapsterTrack(
+    const track = NapsterTrack(
       id: 'id',
       name: 'name',
       albumName: 'albumName',
@@ -101,7 +102,7 @@ void main() {
       previewURL: 'previewURL',
     );
     setUp(() {
-      networkService = MockNetworkService(isGetSucceeded: false);
+      networkService = const MockNetworkService(isGetSucceeded: false);
       topTracksCubit = TopTracksCubit(networkService: networkService);
     });
     blocTest(
@@ -109,18 +110,18 @@ void main() {
       build: () => topTracksCubit,
       act: (cubit) => cubit.getInitialTopTracks(''),
       expect: () => [
-        TopTracksState.loading(),
-        TopTracksState.failure([]),
+        const TopTracksState.loading(),
+        const TopTracksState.failure([]),
       ],
     );
     blocTest(
       'emits [TopTracksState.failure] when getTopTracks',
       build: () => topTracksCubit,
-      seed: () => TopTracksState.success([track]),
+      seed: () => const TopTracksState.success([track]),
       act: (cubit) => cubit.getTopTracks(''),
       expect: () => [
-        TopTracksState.waiting([track]),
-        TopTracksState.failure([track]),
+        const TopTracksState.waiting([track]),
+        const TopTracksState.failure([track]),
       ],
     );
   });

@@ -3,7 +3,7 @@ class Artist {
   final String name;
   final List<dynamic> blurbs;
 
-  Artist({
+  const Artist({
     required this.name,
     required this.blurbs,
     required this.id,

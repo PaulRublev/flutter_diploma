@@ -11,7 +11,7 @@ class TracklistCubit extends Cubit<TracklistState> {
             networkService ?? ServiceProvider.instance.networkService,
         _firebaseService =
             firebaseService ?? ServiceProvider.instance.firebaseService,
-        super(TracklistState.loading());
+        super(const TracklistState.loading());
 
   final NetworkService _networkService;
   final FirebaseService _firebaseService;

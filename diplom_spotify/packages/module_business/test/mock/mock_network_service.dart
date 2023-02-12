@@ -6,7 +6,7 @@ class MockNetworkService implements NetworkService {
   final bool isGetSucceeded;
   final List<NapsterTrack> topTracks;
 
-  MockNetworkService({
+  const MockNetworkService({
     this.artists = const [],
     this.isGetSucceeded = true,
     this.topTracks = const [],

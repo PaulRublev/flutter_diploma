@@ -7,12 +7,12 @@ class TopTracksCubit extends Cubit<TopTracksState> {
   TopTracksCubit({NetworkService? networkService})
       : _networkService =
             networkService ?? ServiceProvider.instance.networkService,
-        super(TopTracksState.loading());
+        super(const TopTracksState.loading());
 
   final NetworkService _networkService;
 
   Future<void> getInitialTopTracks(String artistId) async {
-    emit(TopTracksState.loading());
+    emit(const TopTracksState.loading());
     try {
       final List<NapsterTrack> tmpTracks = [];
       tmpTracks.addAll(

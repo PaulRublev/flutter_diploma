@@ -7,23 +7,21 @@ enum ArtistsStatus { loading, success, failure, waiting }
 class ArtistsState {
   final ArtistsStatus status;
   final List<Artist> artists;
-  final bool Function(dynamic e1, dynamic e2) deepEquals =
-      const DeepCollectionEquality().equals;
 
-  ArtistsState._({
+  const ArtistsState._({
     this.status = ArtistsStatus.loading,
     this.artists = const <Artist>[],
   });
 
-  ArtistsState.loading() : this._();
+  const ArtistsState.loading() : this._();
 
-  ArtistsState.success(List<Artist> artists)
+  const ArtistsState.success(List<Artist> artists)
       : this._(
           status: ArtistsStatus.success,
           artists: artists,
         );
 
-  ArtistsState.failure(List<Artist> artists)
+  const ArtistsState.failure(List<Artist> artists)
       : this._(
           status: ArtistsStatus.failure,
           artists: artists,
@@ -35,7 +33,7 @@ class ArtistsState {
       other is ArtistsState &&
           runtimeType == other.runtimeType &&
           status == other.status &&
-          deepEquals(artists, other.artists);
+          const DeepCollectionEquality().equals(artists, other.artists);
 
   @override
   int get hashCode => Object.hash(status, artists);
