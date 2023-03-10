@@ -58,7 +58,7 @@ class _SliverTracksListState extends State<SliverTracksList> {
                               child: Center(
                                 child: Text(
                                   AppLocalizations.of(context)!.load,
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                               ),
                             ),

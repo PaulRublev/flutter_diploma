@@ -13,7 +13,7 @@ class ArtistAboutPage extends StatelessWidget {
     return Hero(
       tag: artist.id,
       child: Material(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.primary,
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -22,7 +22,7 @@ class ArtistAboutPage extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   artist.name,
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
                 centerTitle: true,
                 background: CachedImage.artist356x237(
@@ -41,7 +41,7 @@ class ArtistAboutPage extends StatelessWidget {
 
                   return Text(
                     artistAbout,
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   );
                 }),
               ),

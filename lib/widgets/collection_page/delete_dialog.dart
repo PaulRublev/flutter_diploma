@@ -20,7 +20,7 @@ class DeleteDialog extends StatelessWidget {
           title: Text(
             AppLocalizations.of(context)!.confirmDelete,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           actions: <Widget>[
             DialogButton(isConfirm: true, maxWidth: constraints.maxWidth),

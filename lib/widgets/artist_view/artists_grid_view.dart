@@ -32,7 +32,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
             children: [
               Text(
                 AppLocalizations.of(context)!.somethingWrong,
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               IconButton(
                 onPressed: () {
@@ -63,7 +63,7 @@ class _ArtistsGridViewState extends State<ArtistsGridView>
           return Center(
             child: Text(
               AppLocalizations.of(context)!.notFounded,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           );
         }

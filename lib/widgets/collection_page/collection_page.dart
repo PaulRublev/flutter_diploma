@@ -24,7 +24,7 @@ class _CollectionPageState extends State<CollectionPage>
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: Theme.of(context).textTheme.headline1,
+          style: Theme.of(context).textTheme.displayLarge,
         ),
         actions: [
           IconButton(

@@ -16,13 +16,13 @@ class TrackInfo extends StatelessWidget {
           Text(
             track.albumName,
             maxLines: 1,
-            style: Theme.of(context).textTheme.overline,
+            style: Theme.of(context).textTheme.labelSmall,
           ),
           const Spacer(),
           Text(
             track.name,
             maxLines: 1,
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
         ],
       ),

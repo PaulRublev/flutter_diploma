@@ -32,7 +32,7 @@ class FavoriteButton extends StatelessWidget {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.isInFavorites,
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Icon(
                           Icons.check,
@@ -50,7 +50,7 @@ class FavoriteButton extends StatelessWidget {
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.addToFavorites,
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ),

@@ -35,7 +35,7 @@ class _SearchPageState extends State<SearchPage> {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 label: Text(
                   widget.title,
-                  style: Theme.of(context).textTheme.headline2,
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
                 prefixIcon: Icon(
                   Icons.search,
@@ -46,7 +46,7 @@ class _SearchPageState extends State<SearchPage> {
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                 ),
               ),
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.displayMedium,
               autocorrect: false,
               onChanged: (value) => _onSearchChanged(value, context),
               onEditingComplete: () {

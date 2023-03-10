@@ -34,7 +34,7 @@ final ThemeData _darkThemeData = ThemeData.from(
   ),
   textTheme: const TextTheme(
     /// h_1
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w700,
       height: 0,
@@ -43,7 +43,7 @@ final ThemeData _darkThemeData = ThemeData.from(
     ),
 
     /// 12_px_light
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w300,
       height: 1.26,
@@ -51,7 +51,7 @@ final ThemeData _darkThemeData = ThemeData.from(
     ),
 
     /// 10_px
-    overline: TextStyle(
+    labelSmall: TextStyle(
       fontSize: 10,
       fontWeight: FontWeight.w400,
       height: 0,
@@ -60,7 +60,7 @@ final ThemeData _darkThemeData = ThemeData.from(
     ),
 
     /// 12_px_reg
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       height: 1.4,
@@ -68,7 +68,7 @@ final ThemeData _darkThemeData = ThemeData.from(
     ),
 
     /// h_2_17_px
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       fontSize: 17,
       fontWeight: FontWeight.w400,
       height: 0.99,
@@ -76,14 +76,14 @@ final ThemeData _darkThemeData = ThemeData.from(
     ),
 
     /// 15_px
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.w400,
       height: 1.12,
     ),
 
     /// 17_px_demi
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       fontSize: 17,
       fontWeight: FontWeight.w600,
       height: 1.20,
@@ -94,7 +94,6 @@ final ThemeData _darkThemeData = ThemeData.from(
 final ThemeData themeData = _darkThemeData.copyWith(
   brightness: Brightness.dark,
   primaryColor: _grey,
-  backgroundColor: _black,
   appBarTheme: const AppBarTheme(
     toolbarHeight: 83,
     iconTheme: IconThemeData(

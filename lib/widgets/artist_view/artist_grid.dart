@@ -27,7 +27,7 @@ class ArtistGrid extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           height: 120,
           decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: Column(
@@ -43,7 +43,7 @@ class ArtistGrid extends StatelessWidget {
                 child: Center(
                   child: Text(
                     artist.name,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               ),

@@ -22,7 +22,7 @@ class DialogButton extends StatelessWidget {
             isConfirm
                 ? AppLocalizations.of(context)!.yes
                 : AppLocalizations.of(context)!.no,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ),

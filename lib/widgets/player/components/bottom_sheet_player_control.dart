@@ -35,12 +35,12 @@ class BottomSheetPlayerControl extends StatelessWidget {
             const Spacer(),
             Text(
               currentDuration?.toString().split('.')[0] ?? '-',
-              style: Theme.of(context).textTheme.overline,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             const Spacer(flex: 10),
             Text(
               audioPlayer?.duration?.toString().split('.')[0] ?? '-',
-              style: Theme.of(context).textTheme.overline,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             const Spacer(),
           ],
