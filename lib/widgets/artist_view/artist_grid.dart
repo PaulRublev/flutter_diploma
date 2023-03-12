@@ -1,6 +1,6 @@
-import 'package:diplom_spotify/widgets/artist_view/artist_about_page.dart';
 import 'package:diplom_spotify/widgets/utility_widgets/cached_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:module_model/module_model.dart';
 
 class ArtistGrid extends StatelessWidget {
@@ -13,13 +13,7 @@ class ArtistGrid extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return ArtistAboutPage(artist: artist);
-            },
-          ),
-        );
+        context.go('/about:${artist.id}');
       },
       child: Hero(
         tag: artist.id,

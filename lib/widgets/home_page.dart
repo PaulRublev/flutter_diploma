@@ -1,13 +1,13 @@
 import 'package:diplom_spotify/l10n/app_localizations.dart';
-import 'package:diplom_spotify/widgets/artists_page/artists_page.dart';
-import 'package:diplom_spotify/widgets/collection_page/collection_page.dart';
-import 'package:diplom_spotify/widgets/search_page/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:module_business/module_business.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.child});
+
+  final Widget child;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -53,79 +53,113 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _tabController,
-        children: [
-          HeroControllerScope(
-            controller: MaterialApp.createMaterialHeroController(),
-            child: Navigator(
-              onGenerateRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return BlocProvider<ArtistsCubit>(
-                      create: (_) => ArtistsCubit(),
-                      child: ArtistsPage(title: _textArtists),
-                    );
-                  },
-                );
-              },
-            ),
+      body: widget.child,
+      // TabBarView(
+      //   physics: const NeverScrollableScrollPhysics(),
+      //   controller: _tabController,
+      //   children: [
+      //     HeroControllerScope(
+      //       controller: MaterialApp.createMaterialHeroController(),
+      //       child: Navigator(
+      //         onGenerateRoute: (settings) {
+      //           return MaterialPageRoute(
+      //             builder: (context) {
+      //               return BlocProvider<ArtistsCubit>(
+      //                 create: (_) => ArtistsCubit(),
+      //                 child: ArtistsPage(title: _textArtists),
+      //               );
+      //             },
+      //           );
+      //         },
+      //       ),
+      //     ),
+      //     HeroControllerScope(
+      //       controller: MaterialApp.createMaterialHeroController(),
+      //       child: Navigator(
+      //         onGenerateRoute: (settings) {
+      //           return MaterialPageRoute(
+      //             builder: (context) {
+      //               return BlocProvider(
+      //                 create: (_) => ArtistsCubit(),
+      //                 child: SearchPage(title: _textSearch),
+      //               );
+      //             },
+      //           );
+      //         },
+      //       ),
+      //     ),
+      //     Navigator(
+      //       onGenerateRoute: (settings) {
+      //         return MaterialPageRoute(
+      //           builder: (context) {
+      //             return CollectionPage(title: _textCollection);
+      //           },
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.library_music_rounded),
+            label: _textArtists,
           ),
-          HeroControllerScope(
-            controller: MaterialApp.createMaterialHeroController(),
-            child: Navigator(
-              onGenerateRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return BlocProvider(
-                      create: (_) => ArtistsCubit(),
-                      child: SearchPage(title: _textSearch),
-                    );
-                  },
-                );
-              },
-            ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.search_rounded),
+            label: _textSearch,
           ),
-          Navigator(
-            onGenerateRoute: (settings) {
-              return MaterialPageRoute(
-                builder: (context) {
-                  return CollectionPage(title: _textCollection);
-                },
-              );
-            },
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.favorite_border_rounded),
+            label: _textCollection,
           ),
         ],
-      ),
-      bottomNavigationBar: ValueListenableBuilder(
-        valueListenable: _tabNotifier,
-        builder: (context, index, _) {
-          return BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.library_music_rounded),
-                label: _textArtists,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.search_rounded),
-                label: _textSearch,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.favorite_border_rounded),
-                label: _textCollection,
-              ),
-            ],
-            currentIndex: index,
-            onTap: _onItemTapped,
-          );
-        },
+        currentIndex: _calculateIndex(context),
+        onTap: (value) => _onItemTapped(value, context),
       ),
     );
   }
 
-  void _onItemTapped(int index) {
-    _tabController.index = index;
-    _tabNotifier.value = index;
+  static int _calculateIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).location;
+    if (location.startsWith('/artists')) {
+      return 0;
+    }
+    if (location.startsWith('/search')) {
+      return 1;
+    }
+    if (location.startsWith('/favorite')) {
+      return 2;
+    }
+    return 0;
+  }
+
+  void _onItemTapped(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        GoRouter.of(context).go(
+          Uri(
+            path: '/artists',
+            queryParameters: {'title': _textArtists},
+          ).toString(),
+        );
+        break;
+      case 1:
+        GoRouter.of(context).go(
+          Uri(
+            path: '/search',
+            queryParameters: {'title': _textSearch},
+          ).toString(),
+        );
+        break;
+      case 2:
+        GoRouter.of(context).go(
+          Uri(
+            path: '/favorite',
+            queryParameters: {'title': _textCollection},
+          ).toString(),
+        );
+        break;
+    }
   }
 }
